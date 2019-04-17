@@ -1,0 +1,20 @@
+Package: effectclass
+Type: Package
+Title: Classification and visulation of effects
+Version: 0.1.0
+Authors@R: c(
+  person(
+    "Thierry", "Onkelinx", role = c("aut", "cre"), 
+    email = "thierry.onkelinx@inbo.be", 
+    comment = c(ORCID = "0000-0001-8804-4216")),
+  person(
+    "Research Institute for Nature and Forest",
+    role = c("cph", "fnd"), email = "info@inbo.be"))
+Description: Classify effects by comparing the confidence intervals with thresholds.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Imports:
+  assertthat
