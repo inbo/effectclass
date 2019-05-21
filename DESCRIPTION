@@ -17,4 +17,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Imports:
-  assertthat
+  assertthat,
+  ggplot2
