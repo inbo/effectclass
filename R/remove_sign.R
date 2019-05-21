@@ -12,8 +12,8 @@
 remove_sign <- function(classification) {
   assert_that(
     is.factor(classification),
-    levels(classification) == c("++", "+", "+~", "~", "-~", "-", "--", "?+",
-                                "?-", "?")
+    all.equal(levels(classification),
+              c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?"))
   )
   classification <- gsub("(\\+|-)", "*", as.character(classification))
   factor(
