@@ -28,7 +28,7 @@ classification <- function(lcl, ucl, threshold, reference = 0) {
                 reference < max(threshold))
     threshold <- sort(threshold)
   }
-  classificaton <- ifelse(
+  classification <- ifelse(
     ucl < threshold[2],
     ifelse(
       ucl < reference,
