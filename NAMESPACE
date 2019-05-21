@@ -2,6 +2,7 @@
 
 export(classification)
 export(remove_sign)
+export(scale_point_change)
 export(stat_fan)
 export(stat_point_change)
 importFrom(assertthat,assert_that)
@@ -11,3 +12,4 @@ importFrom(ggplot2,Stat)
 importFrom(ggplot2,aes)
 importFrom(ggplot2,ggproto)
 importFrom(ggplot2,layer)
+importFrom(ggplot2,scale_shape_manual)

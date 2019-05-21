@@ -4,27 +4,7 @@
 #' @inheritParams classification
 #' @export
 #' @importFrom ggplot2 layer
-#' @examples
-#' z <- data.frame(
-#'   effect = factor(
-#'     1:10,
-#'     labels = c("unknown\neffect", "potential\npositive\neffect",
-#'              "potential\nnegative\neffect", "no effect", "positive\neffect",
-#'              "negative\neffect", "moderate\npositive\neffect",
-#'              "moderate\nnegative\neffect", "strong\npositive\neffect",
-#'              "strong\nnegative\neffect")
-#'   ),
-#'   estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
-#'   lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
-#'   ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
-#' )
-#' ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-#'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-#'   geom_errorbar() +
-#'   stat_point_change(threshold = 1, size = 3) +
-#'   scale_shape_manual(values = c(17, 18, 16, 15, 5, 1), drop = FALSE) +
-#'   coord_flip()
-
+#' @template example_point_change
 stat_point_change <- function(mapping = NULL, data = NULL,
                               position = "identity", na.rm = FALSE,
                               show.legend = NA, inherit.aes = TRUE, ...,
@@ -51,3 +31,18 @@ StatPointChange <- ggproto(
   default_aes = aes(shape = stat(classification)),
   required_aes = c("x", "y", "ymin", "ymax")
 )
+
+#' A scale for point changes
+#' @inheritParams ggplot2::scale_shape_manual
+#' @param drop Should unused factor levels be omitted from the scale? The
+#' default, `FALSE`, uses all the levels in the factor; `TRUE` uses the levels
+#' that appear in the data.
+#' @export
+#' @importFrom ggplot2 scale_shape_manual
+#' @template example_point_change
+scale_point_change <- function(
+  ..., values = c("**" = 17, "*~" = 18, "~" = 16, "*" = 15, "?*" = 5, "?" = 1),
+  drop = FALSE
+) {
+  scale_shape_manual(..., values = values, drop = drop)
+}
