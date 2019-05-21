@@ -26,6 +26,8 @@ StatPointChange <- ggproto(
                                           threshold = threshold,
                                           reference = reference)
     data$classification <- remove_sign(data$classification)
+    data$ymin <- NULL
+    data$ymax <- NULL
     return(data)
   },
   default_aes = aes(shape = stat(classification)),

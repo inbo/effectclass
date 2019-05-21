@@ -31,3 +31,64 @@
 #'   stat_point_change(threshold = 1, size = 3) +
 #'   scale_point_change(drop = TRUE) +
 #'   coord_flip()
+#'
+#' # plot indices
+#' set.seed(20190521)
+#' base_year <- 2000
+#' n_year <- 10
+#' z <- data.frame(
+#'   dt = seq_len(n_year),
+#'   change = rnorm(n_year, sd = 0.2),
+#'   sd = rnorm(n_year, mean = 0.1, sd = 0.01)
+#' )
+#' z$index <- cumsum(z$change)
+#' z$lcl <- qnorm(0.025, z$index, z$sd)
+#' z$ucl <- qnorm(0.975, z$index, z$sd)
+#' z$year <- base_year + z$dt
+#' th <- 0.25
+#' ref <- 0
+#' ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
+#'   geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
+#'   geom_errorbar() +
+#'   geom_line() +
+#'   stat_point_change(threshold = th, reference = ref, size = 3) +
+#'   scale_point_change()
+#'
+#' # plot pairwise differences
+#' change_set <- function(z, base_year) {
+#'   n_year <- max(z$dt)
+#'   total_change <- lapply(
+#'     seq_len(n_year) - 1,
+#'     function(i) {
+#'       if (i > 0) {
+#'         y <- tail(z, -i)
+#'       } else {
+#'         y <- z
+#'       }
+#'       data.frame(
+#'         from = base_year + i,
+#'         to = base_year + y$dt,
+#'         total = cumsum(y$change),
+#'         sd = sqrt(cumsum(y$sd ^ 2))
+#'       )
+#'     }
+#'   )
+#'   total_change <- do.call(rbind, total_change)
+#'   total_change <- rbind(
+#'     total_change,
+#'     data.frame(
+#'       from = total_change$to,
+#'       to = total_change$from,
+#'       total = -total_change$total,
+#'       sd = total_change$sd
+#'     )
+#'   )
+#'   total_change$lcl <- qnorm(0.025, total_change$total, total_change$sd)
+#'   total_change$ucl <- qnorm(0.975, total_change$total, total_change$sd)
+#'   return(total_change)
+#' }
+#' ggplot(change_set(z, base_year),
+#'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+#'   stat_point_change(threshold = th, reference = ref, aes(colour = total), size = 3) +
+#'   scale_colour_gradient2() +
+#'   scale_point_change()
