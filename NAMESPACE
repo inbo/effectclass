@@ -3,6 +3,7 @@
 export(classification)
 export(remove_sign)
 export(scale_effect)
+export(simple_classification)
 export(stat_effect)
 export(stat_fan)
 importFrom(assertthat,assert_that)
