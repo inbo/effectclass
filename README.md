@@ -1,8 +1,8 @@
 # effectclass
 
-effectclass helps interpreting effects and visualising uncertainty. 
+The `effectclass` package helps interpreting effects and visualising uncertainty. 
 
-It classifies the effects by comparing a coverage interval with a reference, lower and upper threshold. The result is a 10 scale classification of the effect. You can reduced it to a 4 scale classification. effectclass provides `stat_effect()` and `scale_effect()` to visualise the effects as points with different shapes.
+It classifies the effects by comparing a coverage interval with a reference, lower and upper threshold. The result is a 10 scale classification of the effect. You can reduced it to a 4 scale classification. `effectclass` provides `stat_effect()` and `scale_effect()` to visualise the effects as points with different shapes.
 
 The Bank of England visualises uncertainty by using a fan plot^[Britton, E.; Fisher, P. & J. Whitley (1998). [The Inflation Report Projections: Understanding the Fan Chart](https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1998/the-inflation-report-projections-understanding-the-fan-chart). Bank of England Quarterly Bulletin. Retrieved 2019/05/22.]. Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
 
@@ -43,8 +43,8 @@ library(ggplot2)
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
   geom_errorbar() +
-  stat_point_change(threshold = c(-1, 1), reference = 0, size = 3) +
-  scale_point_change()
+  stat_effect(threshold = c(-1, 1), reference = 0, size = 3) +
+  scale_effect()
 ```
 
 Creating a fan plot
