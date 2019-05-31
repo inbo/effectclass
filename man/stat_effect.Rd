@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_effect.R
 \name{stat_effect}
 \alias{stat_effect}
-\title{Display points with classified change}
+\title{Display points with classified effect}
 \usage{
 stat_effect(mapping = NULL, data = NULL, position = "identity",
   na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...,
@@ -55,7 +55,7 @@ to the paired geom/stat.}
 \item{reference}{the null hypothesis}
 }
 \description{
-Display points with classified change
+Display points with classified effect
 }
 \examples{
 z <- data.frame(

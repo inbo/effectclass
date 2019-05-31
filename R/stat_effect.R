@@ -1,4 +1,4 @@
-#' Display points with classified change
+#' Display points with classified effect
 #'
 #' @inheritParams ggplot2::stat_bin
 #' @inheritParams classification
@@ -20,7 +20,7 @@ stat_effect <- function(mapping = NULL, data = NULL,
 
 #' @importFrom ggplot2 ggproto Stat aes
 StatEffect <- ggproto(
-  "StatPointChange", Stat,
+  "StatEffectChange", Stat,
   compute_group = function(data, scales, threshold, reference = 0) {
     data$classification <- classification(lcl = data$ymin, ucl = data$ymax,
                                           threshold = threshold,
