@@ -16,7 +16,7 @@ is_effectclass.default <- function(x, message = c("none", "warning", "error")) {
 }
 
 #' @export
-#' @importFrom assertthat assert_that is.flag noNA
+#' @importFrom assertthat assert_that is.flag noNA has_attr
 is_effectclass.effectclass <- function(
   x, message = c("none", "warning", "error"))
 {
