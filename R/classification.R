@@ -41,6 +41,13 @@ classification <- function(lcl, ucl, threshold, reference = 0) {
       ifelse(lcl > threshold[1], "?+", "?")
     )
   )
-  factor(classification,
-         levels = c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?"))
+  structure(
+    factor(
+      classification,
+      levels = c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?")
+    ),
+    signed = TRUE,
+    detailed = TRUE,
+    class = c("effectclass", "factor")
+  )
 }

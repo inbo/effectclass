@@ -10,14 +10,30 @@
 #' @export
 #' @importFrom assertthat assert_that
 remove_sign <- function(classification) {
-  assert_that(
-    is.factor(classification),
-    all.equal(levels(classification),
-              c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?"))
-  )
-  classification <- gsub("(\\+|-)", "*", as.character(classification))
-  factor(
-    classification,
-    levels = c("**", "*", "*~", "~", "?*", "?")
-  )
+  is_effectclass(classification, message = "error")
+  if (!attr(classification, "signed")) {
+    return(classification)
+  }
+  new_levels <- gsub("(\\+|-)", "*", as.character(classification))
+  if (attr(classification, "detailed")) {
+    structure(
+      factor(
+        new_levels,
+        levels = c("**", "*", "*~", "~", "?*", "?")
+      ),
+      signed = FALSE,
+      detailed = TRUE,
+      class = c("effectclass", "factor")
+    )
+  } else {
+    structure(
+      factor(
+        new_levels,
+        levels = c("*", "~", "?")
+      ),
+      signed = FALSE,
+      detailed = FALSE,
+      class = c("effectclass", "factor")
+    )
+  }
 }
