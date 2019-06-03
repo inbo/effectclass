@@ -36,12 +36,22 @@ is_effectclass.effectclass <- function(
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
   }
-  if (!is.flag(attr(x, "signed")) && !noNA(attr(x, "signed"))) {
+  if (!is.flag(attr(x, "signed"))) {
     msg <- "the 'signed' attribute must be a single TRUE or FALSE"
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
   }
-  if (!is.flag(attr(x, "detailed")) && !noNA(attr(x, "detailed"))) {
+  if (!noNA(attr(x, "signed"))) {
+    msg <- "the 'signed' attribute must be a single TRUE or FALSE"
+    switch(message, warning = warning(msg), error = stop(msg))
+    return(FALSE)
+  }
+  if (!is.flag(attr(x, "detailed"))) {
+    msg <- "the 'detailed' attribute must be a single TRUE or FALSE"
+    switch(message, warning = warning(msg), error = stop(msg))
+    return(FALSE)
+  }
+  if (!noNA(attr(x, "detailed"))) {
     msg <- "the 'detailed' attribute must be a single TRUE or FALSE"
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
@@ -93,7 +103,7 @@ msg <- "an unsigned, detailed effectclass object requires following levels:
       }
     } else {
       if (length(levels(x)) != 3) {
-        msg <- "a unsigned, coarse effectclass object requires 3 levels"
+        msg <- "an unsigned, coarse effectclass object requires 3 levels"
         switch(message, warning = warning(msg), error = stop(msg))
         return(FALSE)
       }
