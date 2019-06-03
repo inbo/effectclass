@@ -19,3 +19,5 @@ RoxygenNote: 6.1.1
 Imports:
   assertthat,
   ggplot2
+Suggests: 
+    testthat
