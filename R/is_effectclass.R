@@ -1,7 +1,7 @@
 #' Check if an object is a valid effectclass object
 #' @param x the object to test
-#' @param message what to do when the object is not a valid effectclass object. "none": return FALSE with a message. "warning": return FALSE with a `warning()`. "error": return an error.
-#' @return a single TRUE or FALSE value
+#' @param message what to do when the object is not a valid effectclass object. `"none"`: return `FALSE` with a message. `"warning"`: return `FALSE` with a `warning()`. `"error"`: return an error.
+#' @return a single `TRUE` or `FALSE` value
 #' @export
 is_effectclass <- function(x, message = c("none", "warning", "error")) {
   UseMethod("is_effectclass", x)
@@ -18,8 +18,8 @@ is_effectclass.default <- function(x, message = c("none", "warning", "error")) {
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA has_attr
 is_effectclass.effectclass <- function(
-  x, message = c("none", "warning", "error"))
-{
+  x, message = c("none", "warning", "error")
+) {
   message <- match.arg(message)
   if (!inherits(x, "factor")) {
     msg <- "x is not a factor"

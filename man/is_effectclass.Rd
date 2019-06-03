@@ -9,10 +9,10 @@ is_effectclass(x, message = c("none", "warning", "error"))
 \arguments{
 \item{x}{the object to test}
 
-\item{message}{what to do when the object is not a valid effectclass object. "none": return FALSE with a message. "warning": return FALSE with a \code{warning()}. "error": return an error.}
+\item{message}{what to do when the object is not a valid effectclass object. \code{"none"}: return \code{FALSE} with a message. \code{"warning"}: return \code{FALSE} with a \code{warning()}. \code{"error"}: return an error.}
 }
 \value{
-a single TRUE or FALSE value
+a single \code{TRUE} or \code{FALSE} value
 }
 \description{
 Check if an object is a valid effectclass object
