@@ -40,3 +40,31 @@ print.effectclass <- function(x, ...) {
     class = c("effectclass", "factor")
   )
 }
+
+#' Flatten Lists
+#' @export
+#' @inheritParams base::unlist
+#' @seealso base::unlist
+unlist <- function(x, recursive = TRUE, use.names = TRUE) {
+  UseMethod("unlist")
+}
+
+#' @export
+#' @inheritParams base::unlist
+unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) {
+  vapply(x, is_effectclass, TRUE, message = "error")
+  signed <- unique(vapply(x, attr, TRUE, which = "signed"))
+  detailed <- unique(vapply(x, attr, TRUE, which = "detailed"))
+  if (length(signed) > 1) {
+    stop("all elements should be either signed or unsigned")
+  }
+  if (length(detailed) > 1) {
+    stop("all elements should be either detailed or coarse")
+  }
+  structure(
+    factor(vapply(x, as.character, NA_character_), levels = levels(x[[1]])),
+    signed = signed,
+    detailed = detailed,
+    class = c("effectclass", "factor")
+  )
+}
