@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.R
 \name{unlist}
 \alias{unlist}
-\title{Flatten lists}
+\title{Flatten Lists}
 \usage{
 unlist(x, recursive = TRUE, use.names = TRUE)
 }
@@ -15,7 +15,7 @@ unlist(x, recursive = TRUE, use.names = TRUE)
 \item{use.names}{logical.  Should names be preserved?}
 }
 \description{
-Flatten lists
+Flatten Lists
 }
 \seealso{
 base::unlist
