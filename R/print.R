@@ -51,6 +51,12 @@ unlist <- function(x, recursive = TRUE, use.names = TRUE) {
 
 #' @export
 #' @inheritParams base::unlist
+unlist.default <- function(x, recursive = TRUE, use.names = TRUE) {
+  base::unlist(x = x, recursive = recursive, use.names = use.names)
+}
+
+#' @export
+#' @inheritParams base::unlist
 unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) {
   vapply(x, is_effectclass, TRUE, message = "error")
   signed <- unique(vapply(x, attr, TRUE, which = "signed"))
