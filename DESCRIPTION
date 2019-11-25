@@ -20,4 +20,7 @@ Imports:
   assertthat,
   ggplot2
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
