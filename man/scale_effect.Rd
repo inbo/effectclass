@@ -8,7 +8,8 @@ scale_effect(..., values = c(`**` = 17, `*~` = 18, `~` = 16, `*` = 15,
   `?*` = 5, `?` = 1), drop = FALSE)
 }
 \arguments{
-\item{...}{Arguments passed to \code{\link[ggplot2]{scale_shape_manual}} from ggplot2}
+\item{...}{Arguments passed to \code{\link[ggplot2]{scale_shape_manual}} from
+ggplot2.}
 
 \item{values}{a set of aesthetic values to map data values to. If this
 is a named vector, then the values will be matched based on the names.
@@ -16,9 +17,9 @@ If unnamed, values will be matched in order (usually alphabetical) with
 the limits of the scale. Any data values that don't match will be
 given \code{na.value}.}
 
-\item{drop}{Should unused factor levels be omitted from the scale? The
-default, \code{FALSE}, uses all the levels in the factor; \code{TRUE} uses the levels
-that appear in the data.}
+\item{drop}{Should unused factor levels be omitted from the scale?
+The default, \code{FALSE}, uses all the levels in the factor;
+\code{TRUE} uses the levels that appear in the data.}
 }
 \description{
 A scale for effect points

@@ -1,4 +1,5 @@
-#' Classify Effects by Comparing the Confidence Intervals with a Reference and Thresholds
+#' Classify Effects by Comparing the Confidence Intervals with a Reference and
+#' Thresholds
 #' @param lcl A vector of lower confidence limits.
 #' @param ucl A vector of upper confidence limits.
 #' @param threshold A vector of either 1 or 2 thresholds.

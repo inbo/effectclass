@@ -2,18 +2,21 @@
 % Please edit documentation in R/is_effectclass.R
 \name{is_effectclass}
 \alias{is_effectclass}
-\title{Check if an object is a valid effectclass object}
+\title{Check If an Object Is a Valid Effectclass Object}
 \usage{
 is_effectclass(x, message = c("none", "warning", "error"))
 }
 \arguments{
-\item{x}{the object to test}
+\item{x}{The object to test.}
 
-\item{message}{what to do when the object is not a valid effectclass object. \code{"none"}: return \code{FALSE} with a message. \code{"warning"}: return \code{FALSE} with a \code{warning()}. \code{"error"}: return an error.}
+\item{message}{What to do when the object is not a valid effectclass object.
+\code{"none"}: return \code{FALSE} with a message.
+\code{"warning"}: return \code{FALSE} with a \code{warning()}.
+\code{"error"}: return an error.}
 }
 \value{
-a single \code{TRUE} or \code{FALSE} value
+A single \code{TRUE} or \code{FALSE} value.
 }
 \description{
-Check if an object is a valid effectclass object
+Check If an Object Is a Valid Effectclass Object
 }

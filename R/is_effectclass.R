@@ -1,7 +1,10 @@
-#' Check if an object is a valid effectclass object
-#' @param x the object to test
-#' @param message what to do when the object is not a valid effectclass object. `"none"`: return `FALSE` with a message. `"warning"`: return `FALSE` with a `warning()`. `"error"`: return an error.
-#' @return a single `TRUE` or `FALSE` value
+#' Check If an Object Is a Valid Effectclass Object
+#' @param x The object to test.
+#' @param message What to do when the object is not a valid effectclass object.
+#' `"none"`: return `FALSE` with a message.
+#' `"warning"`: return `FALSE` with a `warning()`.
+#' `"error"`: return an error.
+#' @return A single `TRUE` or `FALSE` value.
 #' @export
 is_effectclass <- function(x, message = c("none", "warning", "error")) {
   UseMethod("is_effectclass", x)
@@ -12,6 +15,21 @@ is_effectclass.default <- function(x, message = c("none", "warning", "error")) {
   message <- match.arg(message)
   msg <- "x is not an 'effectclass' object"
   switch(message, warning = warning(msg), error = stop(msg))
+  return(FALSE)
+}
+
+check_attr <- function(x, attribute, message) {
+  if (!has_attr(x, attribute)) {
+    msg <- paste0("x is missing the '", attribute, "' attribute")
+    switch(message, warning = warning(msg), error = stop(msg))
+    return(TRUE)
+  }
+  if (!is.flag(attr(x, attribute)) || !noNA(attr(x, attribute))) {
+    msg <- paste0("the '", attribute,
+                  "' attribute must be a single TRUE or FALSE")
+    switch(message, warning = warning(msg), error = stop(msg))
+    return(TRUE)
+  }
   return(FALSE)
 }
 
@@ -26,94 +44,36 @@ is_effectclass.effectclass <- function(
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
   }
-  if (!has_attr(x, "signed")) {
-    msg <- "x is missing the 'signed' attribute"
+  problems <- check_attr(x = x, attribute = "signed", message = message) ||
+    check_attr(x = x, attribute = "detailed", message = message)
+  if (problems) {
+    return(FALSE)
+  }
+  target_levels <- list(
+    c("*", "~", "?"),
+    c("**", "*", "*~", "~", "?*", "?"),
+    c("+", "~", "-", "?"),
+    c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?")
+  )[[attr(x, "signed") * 2 + attr(x, "detailed") + 1]]
+  if (length(levels(x)) != length(target_levels)) {
+    msg <- sprintf(
+      "%s, %s effectclass object requires %i levels",
+      ifelse(attr(x, "signed"), "a signed", "an unsigned"),
+      ifelse(attr(x, "detailed"), "detailed", "coarse"),
+      length(target_levels)
+    )
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
   }
-  if (!has_attr(x, "detailed")) {
-    msg <- "x is missing the 'detailed' attribute"
+  if (!identical(levels(x), target_levels)) {
+    msg <- sprintf(
+      "%s, %s effectclass object requires following levels:\n%s",
+      ifelse(attr(x, "signed"), "a signed", "an unsigned"),
+      ifelse(attr(x, "detailed"), "detailed", "coarse"),
+      paste0("'", target_levels, "'", collapse = ", ")
+    )
     switch(message, warning = warning(msg), error = stop(msg))
     return(FALSE)
-  }
-  if (!is.flag(attr(x, "signed"))) {
-    msg <- "the 'signed' attribute must be a single TRUE or FALSE"
-    switch(message, warning = warning(msg), error = stop(msg))
-    return(FALSE)
-  }
-  if (!noNA(attr(x, "signed"))) {
-    msg <- "the 'signed' attribute must be a single TRUE or FALSE"
-    switch(message, warning = warning(msg), error = stop(msg))
-    return(FALSE)
-  }
-  if (!is.flag(attr(x, "detailed"))) {
-    msg <- "the 'detailed' attribute must be a single TRUE or FALSE"
-    switch(message, warning = warning(msg), error = stop(msg))
-    return(FALSE)
-  }
-  if (!noNA(attr(x, "detailed"))) {
-    msg <- "the 'detailed' attribute must be a single TRUE or FALSE"
-    switch(message, warning = warning(msg), error = stop(msg))
-    return(FALSE)
-  }
-  if (attr(x, "signed")) {
-    if (attr(x, "detailed")) {
-      if (length(levels(x)) != 10) {
-        msg <- "a signed, detailed effectclass object requires 10 levels"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-      if (!identical(
-        levels(x),
-        c("++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?")
-      )) {
-        msg <- "a signed, detailed effectclass object requires following levels:
-'++', '+', '+~', '~', '-~', '-', '--', '?+', '?-', '?'"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-    } else {
-      if (length(levels(x)) != 4) {
-        msg <- "a signed, coarse effectclass object requires 4 levels"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-      if (!identical(levels(x), c("+", "~", "-", "?"))) {
-        msg <- "a signed, coarse effectclass object requires following levels:
-'+', '~', '-', '?'"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-    }
-  } else {
-    if (attr(x, "detailed")) {
-      if (length(levels(x)) != 6) {
-        msg <- "an unsigned, detailed effectclass object requires 6 levels"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-      if (!identical(
-        levels(x),
-        c("**", "*", "*~", "~", "?*", "?")
-      )) {
-msg <- "an unsigned, detailed effectclass object requires following levels:
-'**', '*', '*~', '~', '?*', '?'"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-    } else {
-      if (length(levels(x)) != 3) {
-        msg <- "an unsigned, coarse effectclass object requires 3 levels"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-      if (!identical(levels(x), c("*", "~", "?"))) {
-msg <- "an unsigned, coarse effectclass object requires following levels:
-'*', '~', '?'"
-        switch(message, warning = warning(msg), error = stop(msg))
-        return(FALSE)
-      }
-    }
   }
   return(TRUE)
 }

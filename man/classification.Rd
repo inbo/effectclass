@@ -2,7 +2,8 @@
 % Please edit documentation in R/classification.R
 \name{classification}
 \alias{classification}
-\title{Classify Effects by Comparing the Confidence Intervals with a Reference and Thresholds}
+\title{Classify Effects by Comparing the Confidence Intervals with a Reference and
+Thresholds}
 \usage{
 classification(lcl, ucl, threshold, reference = 0)
 }
