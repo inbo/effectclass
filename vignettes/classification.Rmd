@@ -205,3 +205,56 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
     axis.title = element_blank()
   )
 ```
+
+## Classification Using `effectclass`
+
+The `effectclass` package provides `classification()` for classifying confidence intervals.
+The function requires a vector of lower bounds of the confidence intervals (`ucl`) and a vector of upper bounds (`ucl`).
+It also requires the lower and upper thresholds (`threshold`) as a two-element vector.
+In case the thresholds are symmetric around the `reference`, you can provide a single value which is the absolute difference between the reference and both thresholds.
+The default `reference` is zero.
+`classification()` returns a ten level factor using the two digits symbols mentioned above.
+The levels range from `strong positive effect` over `no effect` to `strong negative effect`.
+The `potential` and `unknown` levels end the row.
+
+```{r}
+set.seed(20191126)
+n <- 50
+ds <- data.frame(
+  point_estimate = runif(n, min = -2, max = 2),
+  se = runif(n)
+)
+ds$lcl <- qnorm(p = 0.025, mean = ds$point_estimate, sd = ds$se)
+ds$ucl <- qnorm(p = 0.975, mean = ds$point_estimate, sd = ds$se)
+library(effectclass)
+ds$effect <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 1)
+table(ds$effect)
+str(ds$effect)
+```
+
+`coarse_classification()` converts the ten classes into the corresponding four classes.
+The factor has the four single digit levels in a similar order as the ten class factor.
+
+```{r}
+ds$coarse <- coarse_classification(ds$effect)
+str(ds$coarse)
+table(ds$effect, ds$coarse)
+```
+
+In some cases we are not interested in the sign of the effect.
+`remove_sign()` recodes the ten classes into six and the four classes into three.
+It replaces `+` and `-` by `*`.
+
+```{r}
+ds$unsigned_10 <- remove_sign(ds$effect)
+ds$unsigned_4 <- remove_sign(ds$coarse)
+table(ds$effect, ds$unsigned_10)
+table(ds$coarse, ds$unsigned_4)
+table(ds$unsigned_10, ds$unsigned_4)
+```
+
+```{r echo = FALSE}
+ds <- ds[order(ds$effect, -ds$point_estimate), ]
+kable(ds, digits = 2, row.names = FALSE, caption = "Classification of an example data set.")
+```
+
