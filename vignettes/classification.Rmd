@@ -1,0 +1,89 @@
+---
+title: "Standardised Classification of Effects Based on Their Uncertainty"
+author: Thierry Onkelinx
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Standardised Classification of Effects Based on Their Uncertainty}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(ggplot2)
+```
+
+## A Simple, Stable and Transparant Classification of Effects
+
+The `effectclass` package provides a functions to classify effects in a stable and transparant manner.
+We base the classification on the lower and upper bounds of a confidence (or credible) interval, focussing on the uncertaincy rather than the point estimates.
+First, we compare the confidence interval with a reference.
+This reference typically refers to the null hypothesis.
+An effect with confidence interval above the reference is a significant (important) effect.
+Let's call this a `positive effect`.
+Likewise, a `negative effect` has a confidence interval below the reference.
+
+```{r base-effect, fig.cap = "Comparing confidence intervals to the reference.", echo = FALSE}
+ds <- data.frame(
+  effect = factor(1:2, labels = c("positive\neffect", "negative\neffect")
+  ),
+  lcl = c(0.1, -0.5),
+  ucl = c(0.5, -0.1)
+)
+ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
+  geom_errorbar() +
+  geom_hline(yintercept = 0, linetype = 2) +
+  scale_y_continuous(
+    breaks = 0, 
+    labels = "reference"
+  ) +
+  theme(
+    axis.title = element_blank()
+  )
+```
+
+But what when the confidence interval contains the reference?
+Then the width of the confidence interval plays an important role.
+Suppose the confidence interval is wide.
+The value of the effect can range from a strong negative effect over no effect to a strong positive effect.
+Basically, we have no information on the effect.
+On the otherhand, suppose we have a narrow confidence interval.
+The effect stil is either positive or negative, but we know that it won't be a strong positive nor strong negative effect.
+We could define a lower^[below the reference] and upper^[above the reference] threshold and use them to separate confidence intervals that contain the reference.
+If the confidence interval is between both the upper and lower threshold, we can state that the effect does not exide these thresholds.
+We set the thresholds at a level where we can consider the effect to be not relevant so we can call this `no effect`.
+As soon as the confidence interval contains the reference and at least on of the threshold, we consider it an `unknown effect`.
+
+```{r base-effect2, fig.cap = "Comparing confidence intervals to the reference and thresholds.", echo = FALSE}
+ds <- data.frame(
+  effect = factor(1:2, labels = c("no\neffect", "unknown\neffect")
+  ),
+  lcl = c(-0.2, -0.5),
+  ucl = c(0.2, 0.5)
+)
+ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
+  geom_errorbar() +
+  geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
+  scale_y_continuous(
+    breaks = c(-0.25, 0, 0.25), 
+    labels = c("lower\nthreshold", "reference", "upper\nthreshold")
+  ) +
+  theme(
+    axis.title = element_blank()
+  )
+```
+
+Comparing the confidence interval with a reference and two thresholds, gives us four distinct categories.
+The table below lists the rules for each category and suggests a symbol and standardised wording for effects and trends.
+
+| Symbol | Effect          | Trend    | Rules                                  |
+| :----: | --------------- | -------- | -------------------------------------- |
+| `+`    | positive effect | increase | confidence interval above reference    |
+| `-`    | negative effect | decrease | confidence interval below reference    |
+| `~`    | no effect       | stable   | confidence interval between thresholds |
+| `?`    | unknown effect  | unknown  | confidence interval contains reference and at least one threshold |
+
+Table: Summary of the simple classification into four categories.
