@@ -51,9 +51,12 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{threshold}{a vector of either 1 or 2 thresholds. A single threshold will be transformed into \code{c(-abs(threshold), abs(threshold))}.}
+\item{threshold}{A vector of either 1 or 2 thresholds.
+A single threshold will be transformed into
+\code{reference + c(-abs(threshold), abs(threshold))}.}
 
-\item{reference}{the null hypothesis}
+\item{reference}{The null hypothesis.
+Defaults to 0.}
 }
 \description{
 Display points with classified effect
