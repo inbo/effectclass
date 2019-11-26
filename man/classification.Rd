@@ -2,30 +2,40 @@
 % Please edit documentation in R/classification.R
 \name{classification}
 \alias{classification}
-\title{Classify effects by comparing the confidence intervals with a reference and thresholds}
+\title{Classify Effects by Comparing the Confidence Intervals with a Reference and Thresholds}
 \usage{
 classification(lcl, ucl, threshold, reference = 0)
 }
 \arguments{
-\item{lcl}{a vector of lower confidence limits}
+\item{lcl}{A vector of lower confidence limits.}
 
-\item{ucl}{a vector of upper confidence limits}
+\item{ucl}{A vector of upper confidence limits.}
 
-\item{threshold}{a vector of either 1 or 2 thresholds. A single threshold will be transformed into \code{c(-abs(threshold), abs(threshold))}.}
+\item{threshold}{A vector of either 1 or 2 thresholds.
+A single threshold will be transformed into
+\code{reference + c(-abs(threshold), abs(threshold))}.}
 
-\item{reference}{the null hypothesis}
+\item{reference}{The null hypothesis.
+Defaults to 0.}
 }
 \description{
 \itemize{
-\item \code{++} \strong{strong positive effect}: max(threshold) < lcl
-\item \code{+} \strong{positive effect}: reference < lcl < max(threshold) and max(threshold) < ucl
-\item \code{+~} \strong{moderate positive effect}: reference < lcl and ucl < max(threshold)
-\item \code{~} \strong{no effect}: min(threshold) < lcl < reference and reference < ucl < max(threshold)
-\item \code{-~} \strong{moderate negative effect}: min(threshold) < lcl and ucl < reference
-\item \code{-} \strong{negative effect}: lcl < min(threshold) and min(threshold) < ucl < reference
-\item \code{--} \strong{strong negative effect}: ucl < min(threshold)
-\item \code{?+} \strong{potential positive effect}: min(threshold) < lcl < reference and max(threshold) < ucl
-\item \code{?-} \strong{potential negative effect}: lcl < min(threshold) and reference < ucl < max(threshold)
-\item \code{?} \strong{unknown effect}: lcl < min(threshold) and max(threshold) < ucl
+\item \code{++} \strong{strong positive effect}: \code{max(threshold) < lcl}
+\item \code{+} \strong{positive effect}: \code{reference < lcl < max(threshold)} and
+\code{max(threshold) < ucl}
+\item \code{+~} \strong{moderate positive effect}: \code{reference < lcl} and
+\code{ucl < max(threshold)}
+\item \code{~} \strong{no effect}: \code{min(threshold) < lcl < reference} and
+\code{reference < ucl < max(threshold)}
+\item \code{-~} \strong{moderate negative effect}: \code{min(threshold) < lcl} and
+\code{ucl < reference}
+\item \code{-} \strong{negative effect}: \code{lcl < min(threshold)} and
+\code{min(threshold) < ucl < reference}
+\item \code{--} \strong{strong negative effect}: \code{ucl < min(threshold)}
+\item \code{?+} \strong{potential positive effect}: \code{min(threshold) < lcl < reference} and
+\code{max(threshold) < ucl}
+\item \code{?-} \strong{potential negative effect}: \code{lcl < min(threshold)} and
+\code{reference < ucl < max(threshold)}
+\item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} and \code{max(threshold) < ucl}
 }
 }

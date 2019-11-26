@@ -1,19 +1,29 @@
-#' Classify effects by comparing the confidence intervals with a reference and thresholds
-#' @param lcl a vector of lower confidence limits
-#' @param ucl a vector of upper confidence limits
-#' @param threshold a vector of either 1 or 2 thresholds. A single threshold will be transformed into `c(-abs(threshold), abs(threshold))`.
-#' @param reference the null hypothesis
+#' Classify Effects by Comparing the Confidence Intervals with a Reference and Thresholds
+#' @param lcl A vector of lower confidence limits.
+#' @param ucl A vector of upper confidence limits.
+#' @param threshold A vector of either 1 or 2 thresholds.
+#' A single threshold will be transformed into
+#' `reference + c(-abs(threshold), abs(threshold))`.
+#' @param reference The null hypothesis.
+#' Defaults to 0.
 #' @description
-#' - `++` **strong positive effect**: max(threshold) < lcl
-#' - `+` **positive effect**: reference < lcl < max(threshold) and max(threshold) < ucl
-#' - `+~` **moderate positive effect**: reference < lcl and ucl < max(threshold)
-#' - `~` **no effect**: min(threshold) < lcl < reference and reference < ucl < max(threshold)
-#' - `-~` **moderate negative effect**: min(threshold) < lcl and ucl < reference
-#' - `-` **negative effect**: lcl < min(threshold) and min(threshold) < ucl < reference
-#' - `--` **strong negative effect**: ucl < min(threshold)
-#' - `?+` **potential positive effect**: min(threshold) < lcl < reference and max(threshold) < ucl
-#' - `?-` **potential negative effect**: lcl < min(threshold) and reference < ucl < max(threshold)
-#' - `?` **unknown effect**: lcl < min(threshold) and max(threshold) < ucl
+#' - `++` **strong positive effect**: `max(threshold) < lcl`
+#' - `+` **positive effect**: `reference < lcl < max(threshold)` and
+#' `max(threshold) < ucl`
+#' - `+~` **moderate positive effect**: `reference < lcl` and
+#' `ucl < max(threshold)`
+#' - `~` **no effect**: `min(threshold) < lcl < reference` and
+#' `reference < ucl < max(threshold)`
+#' - `-~` **moderate negative effect**: `min(threshold) < lcl` and
+#' `ucl < reference`
+#' - `-` **negative effect**: `lcl < min(threshold)` and
+#' `min(threshold) < ucl < reference`
+#' - `--` **strong negative effect**: `ucl < min(threshold)`
+#' - `?+` **potential positive effect**: `min(threshold) < lcl < reference` and
+#' `max(threshold) < ucl`
+#' - `?-` **potential negative effect**: `lcl < min(threshold)` and
+#' `reference < ucl < max(threshold)`
+#' - `?` **unknown effect**: `lcl < min(threshold)` and `max(threshold) < ucl`
 #' @export
 #' @importFrom assertthat assert_that is.number noNA
 classification <- function(lcl, ucl, threshold, reference = 0) {
@@ -22,7 +32,7 @@ classification <- function(lcl, ucl, threshold, reference = 0) {
               noNA(reference))
   if (length(threshold) == 1) {
     assert_that(-abs(threshold) < reference, reference < abs(threshold))
-    threshold <- c(-1, 1) * abs(threshold)
+    threshold <- reference + c(-1, 1) * abs(threshold)
   } else {
     assert_that(length(threshold) == 2, min(threshold) < reference,
                 reference < max(threshold))
