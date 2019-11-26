@@ -87,3 +87,120 @@ The table below lists the rules for each category and suggests a symbol and stan
 | `?`    | unknown effect  | unknown  | confidence interval contains reference and at least one threshold |
 
 Table: Summary of the simple classification into four categories.
+
+## A Detailed Classification
+
+The upper threshold devides the zone of a `positive effect`.
+Suppose the confidence interval is between the reference and the upper threshold.
+The confidence interval is above the reference so there is a `positive effect`.
+At the same time, the confidence interval is also below the upper threshold which would lead to `no effect` if the confidence interval contains the reference.
+We suggest the term `moderate positive effect` for this situation.
+A confidence interval above the upper threshold is outside of the `no effect` zone.
+We suggest the term `strong positive effect` for this situation.
+We keep the term `positive effect` when the confidence interval is above the reference and contains the upper threshold.
+
+```{r detailed-effect, fig.cap = "Comparing confidence intervals to the reference and thresholds for positive effects.", echo = FALSE}
+ds <- data.frame(
+  effect = factor(
+    1:3, 
+    labels = c(
+      "positive\neffect", "moderate\npositive\neffect", 
+      "strong\npositive\neffect"
+    )
+  ),
+  lcl = c(0.1, 0.1, 0.3),
+  ucl = c(0.5, 0.2, 0.5)
+)
+ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
+  geom_errorbar() +
+  geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
+  scale_y_continuous(
+    breaks = c(-0.25, 0, 0.25), 
+    labels = c("lower\nthreshold", "reference", "upper\nthreshold")
+  ) +
+  theme(
+    axis.title = element_blank()
+  )
+```
+
+We split the `negative effect` in a `strong negative effect`, `moderate negative effect` and `negative effect` using the simular rules as for the `positve effect`.
+Except that we use the lower threshold instead of the upper threshold.
+The `no effect` class remains as is.
+
+When the `unknown effect` case contains the reference and upper threshold but not the lower threshold, we known that we can exclude a `strong negative effect`.
+We classify such an effect as a `potential positive effect`.
+Similarly, when the confidence interval contains the reference and the lower threshold but not the upper threshold, we call it a `potential negative effect`.
+If the confidence interval contains both the lower and upper threshold, we call it an `unknown effect`.
+
+```{r detailed-effect2, fig.cap = "Comparing confidence intervals to the reference and thresholds for unknown effects.", echo = FALSE}
+ds <- data.frame(
+  effect = factor(
+    1:3, 
+    labels = c(
+      "potential positive\neffect", "potential\nnegative\neffect", 
+      "unknown\neffect"
+    )
+  ),
+  lcl = c(-0.1, -0.5, -0.5),
+  ucl = c(0.5, 0.1, 0.5)
+)
+ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
+  geom_errorbar() +
+  geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
+  scale_y_continuous(
+    breaks = c(-0.25, 0, 0.25), 
+    labels = c("lower\nthreshold", "reference", "upper\nthreshold")
+  ) +
+  theme(
+    axis.title = element_blank()
+  )
+```
+
+The table below givens an overview of the ten classes that we can distinct based on the reference, lower and upper threshold.
+Note that four classes get the same symbol and terminology as in the four class classification.
+Those classes have wide confidence intervals and we can't refine the classification.
+The six other classes get a two digit symbol.
+They inherit their first symbol from the four class classification.
+The second digit refines the classification, using the same symbols as a kind of modifier.
+The terminology of these six classes uses in principle their four class classification plus a modifying adjective (`strong` or `moderate`).
+The `unknown` class is an exception.
+Here we use the `potential` adjective in combination with `positive effect` or `negative effect`.
+
+| Symbol | Effect          | Trend    | Rules                                  | Thresholds in the interval |
+| :----: | --------------- | -------- | -------------------------------------- | :-: |
+| `++`    | strong positive effect | strong increase | confidence interval above the upper threshold | 0 |
+| `+`    | positive effect | increase | confidence interval above reference and contains the upper threshold | 1 |
+| `+~`    | moderate positive effect | moderate increase | confidence interval between reference and the upper threshold | 0 |
+| `~`    | no effect       | stable   | confidence interval between thresholds | 1 |
+| `-~`    | moderate negative effect | moderate decrease | confidence interval between reference and the lower threshold | 1 |
+| `-`    | negative effect | decrease | confidence interval below reference and contains the lowwer threshold | 1 |
+| `--`    | strong negative effect | strong decrease | confidence interval below the lower threshold | 0 |
+| `?+`    | potential positive effect  | potential increase  | confidence interval contains reference and the upper threshold | 2 |
+| `?-`    | potential negative effect  | potential decrease  | confidence interval contains reference and the lower threshold | 2 |
+| `?`    | unknown effect  | unknown  | confidence interval contains the lower and upper threshold | 3 |
+
+Table: Summary of the simple classification into ten categories.
+
+```{r detailed-effect3, fig.cap = "Graphical overview of the ten class classification split by the number of thresholds in the confidence interval.", echo = FALSE}
+library(effectclass, warn.conflicts = FALSE)
+ds <- data.frame(
+  thresholds = c( 3,  2,  1,  0,  2,  1,  0, 1, 0, 0),
+  lcl =        c(-5, -5, -5, -5, -2, -2, -2, 1, 1, 3),
+  ucl =        c( 5,  2, -1, -3,  5,  2, -1, 5, 2, 5)
+)
+ds$effect <- classification(ds$lcl, ds$ucl, threshold = 2.5)
+ds$coarse <- coarse_classification(ds$effect)
+ds$thresholds <- sprintf("interval contains\n%i thresholds", ds$thresholds)
+ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
+  geom_errorbar() +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_hline(yintercept = c(-2.5, 2.5), linetype = 3) +
+  facet_wrap(~thresholds, scales = "free_x") +
+  scale_y_continuous(
+    breaks = c(-2.5, 0, 2.5), 
+    labels = c("lower\nthreshold", "reference", "upper\nthreshold")
+  ) +
+  theme(
+    axis.title = element_blank()
+  )
+```
