@@ -34,10 +34,10 @@
 #'   facet_wrap(~category)
 #' ggplot(z, aes(x = year, y = index, link_sd = s)) +
 #'   stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
-stat_fan <- function(mapping = NULL, data = NULL,
-                     position = "identity", na.rm = FALSE, show.legend = NA,
-                     inherit.aes = TRUE, ..., fine = FALSE,
-                     link = c("identity", "log", "logit")) {
+stat_fan <- function(
+  mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, # nolint
+  show.legend = NA, inherit.aes = TRUE, ..., fine = FALSE, # nolint
+  link = c("identity", "log", "logit")) {
   assert_that(is.flag(fine), noNA(fine))
   link <- match.arg(link)
   if (fine) {
@@ -50,7 +50,7 @@ stat_fan <- function(mapping = NULL, data = NULL,
     coverage,
     function(i) {
       layer(
-        stat = StatFan, data = data, mapping = mapping, geom = "ribbon",
+        stat = statfan, data = data, mapping = mapping, geom = "ribbon",
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
         params = list(coverage = i, link = link, na.rm = na.rm, ...,
@@ -62,7 +62,7 @@ stat_fan <- function(mapping = NULL, data = NULL,
 
 #' @importFrom assertthat assert_that
 #' @importFrom ggplot2 ggproto Stat
-StatFan <- ggproto(
+statfan <- ggproto(
   "StatFan", Stat,
   compute_group = function(data, scales, coverage, link) {
     switch(

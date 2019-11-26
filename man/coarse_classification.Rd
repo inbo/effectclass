@@ -2,7 +2,7 @@
 % Please edit documentation in R/coarse_classification.R
 \name{coarse_classification}
 \alias{coarse_classification}
-\title{Use a lower scale classification}
+\title{Use a Lower Scale Classification}
 \usage{
 coarse_classification(classification)
 }
@@ -13,12 +13,13 @@ coarse_classification(classification)
 \code{coarse_classification()} reduces the 10 scales from \code{classification()}
 to the 4 scales below.
 \itemize{
-\item \code{+} \strong{positive effect}: reference < lcl
-\item \code{~} \strong{no effect}: min(threshold) < lcl < reference and reference < ucl < max(threshold)
-\item \code{-} \strong{negative effect}: ucl < reference
-\item \code{?} \strong{unknown effect}: lcl < min(threshold) or max(threshold) < ucl
+\item \code{+} \strong{positive effect}: \code{reference < lcl}
+\item \code{~} \strong{no effect}: \code{min(threshold) < lcl < reference} and
+\code{reference < ucl < max(threshold)}
+\item \code{-} \strong{negative effect}: \code{ucl < reference}
+\item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} or \code{max(threshold) < ucl}
 }
 
-\code{simplify_classification()} reduces the 6 scales from
+\code{coarse_classification()} reduces the 6 scales from
 \code{remove_sign(classification())} into 3 scales.
 }

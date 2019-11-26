@@ -45,19 +45,19 @@ print.effectclass <- function(x, ...) {
 #' @export
 #' @inheritParams base::unlist
 #' @seealso base::unlist
-unlist <- function(x, recursive = TRUE, use.names = TRUE) {
+unlist <- function(x, recursive = TRUE, use.names = TRUE) { # nolint
   UseMethod("unlist")
 }
 
 #' @export
 #' @inheritParams base::unlist
-unlist.default <- function(x, recursive = TRUE, use.names = TRUE) {
+unlist.default <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
   base::unlist(x = x, recursive = recursive, use.names = use.names)
 }
 
 #' @export
 #' @inheritParams base::unlist
-unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) {
+unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
   vapply(x, is_effectclass, TRUE, message = "error")
   signed <- unique(vapply(x, attr, TRUE, which = "signed"))
   detailed <- unique(vapply(x, attr, TRUE, which = "detailed"))
