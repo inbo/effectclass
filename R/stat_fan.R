@@ -14,6 +14,7 @@
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom ggplot2 layer
+#' @family geom
 #' @examples
 #' z <- data.frame(year = 1990:2019, dx = rnorm(30), s = rnorm(30, 1, 0.05))
 #' z$index <- cumsum(z$dx)
