@@ -10,8 +10,8 @@ coarse_classification(classification)
 \item{classification}{The classification}
 }
 \description{
-\code{coarse_classification()} reduces the 10 scales from \code{classification()}
-to the 4 scales below.
+\code{coarse_classification(y)} reduces the 10 scales from
+\code{y <- classification(x)} to the 4 scales below.
 \itemize{
 \item \code{+} \strong{positive effect}: \code{reference < lcl}
 \item \code{~} \strong{no effect}: \code{min(threshold) < lcl < reference} and
@@ -20,6 +20,6 @@ to the 4 scales below.
 \item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} or \code{max(threshold) < ucl}
 }
 
-\code{coarse_classification()} reduces the 6 scales from
-\code{remove_sign(classification())} into 3 scales.
+\code{coarse_classification(y)} reduces the 6 scales from
+\code{y <- remove_sign(classification(x))} into 3 scales.
 }
