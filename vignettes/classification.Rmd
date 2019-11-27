@@ -218,18 +218,14 @@ The levels range from `strong positive effect` over `no effect` to `strong negat
 The `potential` and `unknown` levels end the row.
 
 ```{r}
-set.seed(20191126)
-n <- 50
 ds <- data.frame(
-  point_estimate = runif(n, min = -2, max = 2),
-  se = runif(n)
+  lcl =        c(-5, -5, -5, -5, -2, -2, -2, 1, 1, 4),
+  ucl =        c( 5,  2, -1, -4,  5,  2, -1, 5, 2, 5)
 )
-ds$lcl <- qnorm(p = 0.025, mean = ds$point_estimate, sd = ds$se)
-ds$ucl <- qnorm(p = 0.975, mean = ds$point_estimate, sd = ds$se)
 library(effectclass)
-ds$effect <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 1)
-table(ds$effect)
-str(ds$effect)
+ds$effect <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 3)
+ds <- ds[order(ds$effect), ]
+kable(ds, row.names = FALSE)
 ```
 
 `coarse_classification()` converts the ten classes into the corresponding four classes.
@@ -237,8 +233,7 @@ The factor has the four single digit levels in a similar order as the ten class 
 
 ```{r}
 ds$coarse <- coarse_classification(ds$effect)
-str(ds$coarse)
-table(ds$effect, ds$coarse)
+kable(ds, row.names = FALSE)
 ```
 
 In some cases we are not interested in the sign of the effect.
@@ -248,12 +243,44 @@ It replaces `+` and `-` by `*`.
 ```{r}
 ds$unsigned_10 <- remove_sign(ds$effect)
 ds$unsigned_4 <- remove_sign(ds$coarse)
-table(ds$effect, ds$unsigned_10)
-table(ds$coarse, ds$unsigned_4)
-table(ds$unsigned_10, ds$unsigned_4)
+kable(ds, row.names = FALSE)
 ```
 
-```{r echo = FALSE}
-ds <- ds[order(ds$effect, -ds$point_estimate), ]
-kable(ds, digits = 2, row.names = FALSE, caption = "Classification of an example data set.")
+## Suggestion for Displaying Effects in a Tabular Format
+
+We recommend to publish at least the confidence interval and its classification in a table.
+You could add the point estimate too, but never without the confidence interval.
+Think about a relevant sorting order of the rows in the table.
+The example below displays the effect in decreasing order with uncertain effects at the bottom.
+Note that we first sort on the classification and then on the point estimate.
+We added a `format()` function for your convenience.
+A double hyphen `--` is rendered in Markdown as a so-called em-dash '--'.
+Use the `type = "markdown"` argument of `format()` to convert the classifaction as verbatim text, which preserves the double hyphen when rendering the document.
+The `type = "arrow"` argument replaces `+` by an up arrow, `-` by a down arrow and `~` by a double headed arrow.
+
+```{r}
+set.seed(20191126)
+n <- 50
+ds <- data.frame(
+  effect = paste0(
+    sample(LETTERS, n, replace = TRUE),
+    sample(LETTERS, n, replace = TRUE),
+    sample(LETTERS, n, replace = TRUE)
+  ),
+  point_estimate = runif(n, min = -2, max = 2),
+  se = runif(n)
+)
+ds$lcl <- qnorm(p = 0.025, mean = ds$point_estimate, sd = ds$se)
+ds$ucl <- qnorm(p = 0.975, mean = ds$point_estimate, sd = ds$se)
+ds$estimate <- sprintf("%.2f (%.2f; %.2f)", ds$point_estimate, ds$lcl, ds$ucl)
+ds$class <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 1)
+tab <- ds[order(ds$class, -ds$point_estimate), c("effect", "estimate", "class")]
+tab$markdown <- format(tab$class, type = "markdown")
+tab$arrow <- format(tab$class, type = "arrow")
+kable(
+  tab, 
+  caption = "Example table with effects, their confidences interval and 
+  classification using different formatting styles.", 
+  row.names = FALSE
+)
 ```
