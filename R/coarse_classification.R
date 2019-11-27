@@ -1,16 +1,16 @@
 #' Use a Lower Scale Classification
 #'
 #' @description
-#' `coarse_classification()` reduces the 10 scales from `classification()`
-#' to the 4 scales below.
+#' `coarse_classification(y)` reduces the 10 scales from
+#' `y <- classification(x)` to the 4 scales below.
 #' - `+` **positive effect**: `reference < lcl`
 #' - `~` **no effect**: `min(threshold) < lcl < reference` and
 #' `reference < ucl < max(threshold)`
 #' - `-` **negative effect**: `ucl < reference`
 #' - `?` **unknown effect**: `lcl < min(threshold)` or `max(threshold) < ucl`
 #'
-#' `coarse_classification()` reduces the 6 scales from
-#' `remove_sign(classification())` into 3 scales.
+#' `coarse_classification(y)` reduces the 6 scales from
+#' `y <- remove_sign(classification(x))` into 3 scales.
 #' @inheritParams remove_sign
 #' @export
 #' @importFrom assertthat assert_that
