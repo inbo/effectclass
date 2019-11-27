@@ -19,7 +19,7 @@ library(ggplot2)
 
 ## A Simple, Stable and Transparent Classification of Effects
 
-The `effectclass` package provides a functions to classify effects in a stable and transparent manner.
+The `effectclass` package provides functions to classify effects in a stable and transparent manner.
 We base the classification on the lower and upper bounds of a confidence (or credible) interval, focussing on the uncertainty rather than the point estimates.
 First, we compare the confidence interval with a reference.
 This reference typically refers to the null hypothesis.
@@ -46,7 +46,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   )
 ```
 
-But what when the confidence interval contains the reference?
+But what if the confidence interval contains the reference?
 Then the width of the confidence interval plays an important role.
 Suppose the confidence interval is wide.
 The value of the effect can range from a strong negative effect over no effect to a strong positive effect.
@@ -56,7 +56,7 @@ The effect still is either positive or negative, but we know that it won't be a 
 We could define a lower^[below the reference] and upper^[above the reference] threshold and use them to separate confidence intervals that contain the reference.
 If the confidence interval is between both the upper and lower threshold, we can state that the effect does not exceed these thresholds.
 We set the thresholds at a level where we can consider the effect to be not relevant so we can call this `no effect`.
-As soon as the confidence interval contains the reference and at least on of the threshold, we consider it an `unknown effect`.
+As soon as the confidence interval contains the reference and at least one of the thresholds, we consider it an `unknown effect`.
 
 ```{r base-effect2, fig.cap = "Comparing confidence intervals to the reference and thresholds.", echo = FALSE}
 ds <- data.frame(
@@ -124,7 +124,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   )
 ```
 
-We split the `negative effect` in a `strong negative effect`, `moderate negative effect` and `negative effect` using the similar rules as for the `positve effect`.
+We split the `negative effect` in a `strong negative effect`, `moderate negative effect` and `negative effect` using analogous rules as for the `positve effect`.
 Except that we use the lower threshold instead of the upper threshold.
 The `no effect` class remains as is.
 
@@ -257,4 +257,3 @@ table(ds$unsigned_10, ds$unsigned_4)
 ds <- ds[order(ds$effect, -ds$point_estimate), ]
 kable(ds, digits = 2, row.names = FALSE, caption = "Classification of an example data set.")
 ```
-
