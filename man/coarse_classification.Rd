@@ -23,3 +23,8 @@ coarse_classification(classification)
 \code{coarse_classification(y)} reduces the 6 scales from
 \code{y <- remove_sign(classification(x))} into 3 scales.
 }
+\seealso{
+Other classification: \code{\link{classification}},
+  \code{\link{remove_sign}}
+}
+\concept{classification}

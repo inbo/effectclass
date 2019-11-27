@@ -157,3 +157,7 @@ ggplot(change_set(z, base_year),
   scale_colour_gradient2() +
   scale_effect()
 }
+\seealso{
+Other geom: \code{\link{stat_fan}}
+}
+\concept{geom}

@@ -9,6 +9,7 @@
 #' - `?` **unknown effect**: `?`
 #' @export
 #' @importFrom assertthat assert_that
+#' @family classification
 remove_sign <- function(classification) {
   is_effectclass(classification, message = "error")
   if (!attr(classification, "signed")) {

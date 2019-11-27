@@ -86,3 +86,7 @@ ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan() + geom_line() +
 ggplot(z, aes(x = year, y = index, link_sd = s)) +
   stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
 }
+\seealso{
+Other geom: \code{\link{stat_effect}}
+}
+\concept{geom}

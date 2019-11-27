@@ -6,6 +6,7 @@
 #' `"error"`: return an error.
 #' @return A single `TRUE` or `FALSE` value.
 #' @export
+#' @family utils
 is_effectclass <- function(x, message = c("none", "warning", "error")) {
   UseMethod("is_effectclass", x)
 }

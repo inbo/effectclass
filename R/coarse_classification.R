@@ -14,6 +14,7 @@
 #' @inheritParams remove_sign
 #' @export
 #' @importFrom assertthat assert_that
+#' @family classification
 coarse_classification <- function(classification) {
   is_effectclass(classification, message = "error")
   if (!attr(classification, "detailed")) {

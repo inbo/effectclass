@@ -20,3 +20,7 @@ A single \code{TRUE} or \code{FALSE} value.
 \description{
 Check If an Object Is a Valid Effectclass Object
 }
+\seealso{
+Other utils: \code{\link{unlist}}
+}
+\concept{utils}

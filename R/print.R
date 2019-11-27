@@ -45,6 +45,7 @@ print.effectclass <- function(x, ...) {
 #' @export
 #' @inheritParams base::unlist
 #' @seealso base::unlist
+#' @family utils
 unlist <- function(x, recursive = TRUE, use.names = TRUE) { # nolint
   UseMethod("unlist")
 }

@@ -40,3 +40,8 @@ Defaults to 0.}
 \item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} and \code{max(threshold) < ucl}
 }
 }
+\seealso{
+Other classification: \code{\link{coarse_classification}},
+  \code{\link{remove_sign}}
+}
+\concept{classification}

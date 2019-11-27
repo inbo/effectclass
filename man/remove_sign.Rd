@@ -19,3 +19,8 @@ remove_sign(classification)
 \item \code{?} \strong{unknown effect}: \code{?}
 }
 }
+\seealso{
+Other classification: \code{\link{classification}},
+  \code{\link{coarse_classification}}
+}
+\concept{classification}

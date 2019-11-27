@@ -5,6 +5,7 @@
 #' @export
 #' @importFrom ggplot2 layer
 #' @template example_effect
+#' @family geom
 stat_effect <- function(
   mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, #nolint
   show.legend = NA, inherit.aes = TRUE, ..., threshold, reference = 0 #nolint

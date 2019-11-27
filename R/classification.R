@@ -27,6 +27,7 @@
 #' - `?` **unknown effect**: `lcl < min(threshold)` and `max(threshold) < ucl`
 #' @export
 #' @importFrom assertthat assert_that is.number noNA
+#' @family classification
 classification <- function(lcl, ucl, threshold, reference = 0) {
   assert_that(is.numeric(lcl), is.numeric(ucl), length(lcl) == length(ucl),
               is.numeric(threshold), noNA(threshold), is.number(reference),
