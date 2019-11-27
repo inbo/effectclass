@@ -24,3 +24,5 @@ Suggests:
   knitr,
   rmarkdown
 VignetteBuilder: knitr
+URL: https://effectclass.netlify.com
+BugReports: https://github.com/inbo/effectclas/issues
