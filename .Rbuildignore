@@ -4,3 +4,6 @@
 .travis.yml
 appveyor.yml
 tic.R
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
