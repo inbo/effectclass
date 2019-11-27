@@ -48,6 +48,7 @@ env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
+  - CODECOV_TOKEN="d2895314-fa64-45ee-a561-e36c7ddac966"
 
 notifications:
   email:
