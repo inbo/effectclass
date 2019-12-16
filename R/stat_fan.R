@@ -1,16 +1,21 @@
 #' Display a fan plot
 #'
 #' A fan plot consist of a set of transparent ribbons each representing a
-#' different coverage of the uncertainty around an estimate. The coverages are
-#' based on the assumption of a normal distribution with mean `link(y)` and
-#' standard error `link_sd`.
+#' different coverage of the uncertainty around an estimate.
+#' The coverages are based on the assumption of a normal distribution with mean
+#' `link(y)` and standard error `link_sd`.
 #' @inheritParams ggplot2::stat_bin
-#' @param fine a logical value. `TRUE` displays coverages from 10\% to 90\% in
-#' steps of 10\%. `FALSE` displays coverages from 30\% to 90\% in steps of 30\%.
+#' @param fine a logical value.
+#' `TRUE` displays coverages from 10\% to 90\% in steps of 10\%.
+#' `FALSE` displays coverages from 30\% to 90\% in steps of 30\%.
+#' Defaults to `FALSE`
 #' @param link the link function to apply on the `y` before calculting the
-#' coverage intervals. Note that `link_sd` is the standard error on the link
-#' scale, while `y` is on the natural scale. Defaults to `'identify'` which
-#' implies no transformation. Other options are `'log'` and `'logit'`.
+#' coverage intervals.
+#' Note that `link_sd` is the standard error on the link scale,
+#' while `y` is on the natural scale.
+#' Defaults to `'identify'` which implies no transformation (`link(y) == y`).
+#' Other options are `'log'` and `'logit'`.
+#' @param geom Use a different `geom` than the default `"ribbon"`.
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom ggplot2 layer
@@ -37,7 +42,7 @@
 #'   stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
 stat_fan <- function(
   mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, # nolint
-  show.legend = NA, inherit.aes = TRUE, ..., fine = FALSE, # nolint
+  show.legend = NA, inherit.aes = TRUE, geom = "ribbon", ..., fine = FALSE, # nolint
   link = c("identity", "log", "logit")) {
   assert_that(is.flag(fine), noNA(fine))
   link <- match.arg(link)
@@ -51,7 +56,7 @@ stat_fan <- function(
     coverage,
     function(i) {
       layer(
-        stat = StatFan, data = data, mapping = mapping, geom = "ribbon",
+        stat = StatFan, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
         params = list(coverage = i, link = link, na.rm = na.rm, ...,
@@ -96,5 +101,5 @@ StatFan <- ggproto(
     )
     return(data)
   },
-  required_aes = c("x", "y", "link_sd")
+  required_aes = c("y", "link_sd")
 )
