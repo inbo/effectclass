@@ -51,7 +51,7 @@ stat_fan <- function(
     coverage,
     function(i) {
       layer(
-        stat = statfan, data = data, mapping = mapping, geom = "ribbon",
+        stat = StatFan, data = data, mapping = mapping, geom = "ribbon",
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
         params = list(coverage = i, link = link, na.rm = na.rm, ...,
@@ -61,11 +61,17 @@ stat_fan <- function(
   )
 }
 
+#' @rdname stat_fan
+#' @format NULL
+#' @usage NULL
 #' @importFrom assertthat assert_that
 #' @importFrom ggplot2 ggproto Stat
-statfan <- ggproto(
+#' @export
+StatFan <- ggproto(
   "StatFan", Stat,
-  compute_group = function(data, scales, coverage, link) {
+  compute_group = function(
+    data, scales, coverage = 0.9, link = "identity"
+  ) {
     switch(
       link,
       "identity" = {
