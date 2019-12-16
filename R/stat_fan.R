@@ -60,7 +60,7 @@ stat_fan <- function(
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
         params = list(coverage = i, link = link, na.rm = na.rm, ...,
-                      alpha = alpha)
+                      alpha = alpha, geom = geom)
       )
     }
   )
@@ -75,7 +75,7 @@ stat_fan <- function(
 StatFan <- ggproto(
   "StatFan", Stat,
   compute_group = function(
-    data, scales, coverage = 0.9, link = "identity"
+    data, scales, coverage = 0.9, link = "identity", geom = "ribbon"
   ) {
     switch(
       link,
@@ -93,6 +93,19 @@ StatFan <- ggproto(
         back <- plogis
       }
     )
+    if (geom == "rect" &&
+        !has_name(data, "xmin") &&
+        !has_name(data, "xmax") &&
+        has_name(data, "x")
+    ) {
+      delta <- ifelse(
+        length(unique(data$x)) > 1,
+        min(diff(sort(as.numeric(unique(data$x)))), na.rm = TRUE),
+        1
+      )
+      data$xmin <- as.numeric(data$x) - 0.45 * delta
+      data$xmax <- as.numeric(data$x) + 0.45 * delta
+    }
     data$ymin <- back(
       qnorm(p = 0.5 - coverage / 2, mean = trans(data$y), sd = data$link_sd)
     )
