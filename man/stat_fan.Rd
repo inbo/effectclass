@@ -7,8 +7,9 @@
 \title{Display a fan plot}
 \usage{
 stat_fan(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...,
-  fine = FALSE, link = c("identity", "log", "logit"))
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
+  geom = "ribbon", ..., fine = FALSE, link = c("identity", "log",
+  "logit"))
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -48,24 +49,30 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 
+\item{geom}{Use a different \code{geom} than the default \code{"ribbon"}.}
+
 \item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{fine}{a logical value. \code{TRUE} displays coverages from 10\% to 90\% in
-steps of 10\%. \code{FALSE} displays coverages from 30\% to 90\% in steps of 30\%.}
+\item{fine}{a logical value.
+\code{TRUE} displays coverages from 10\% to 90\% in steps of 10\%.
+\code{FALSE} displays coverages from 30\% to 90\% in steps of 30\%.
+Defaults to \code{FALSE}}
 
 \item{link}{the link function to apply on the \code{y} before calculting the
-coverage intervals. Note that \code{link_sd} is the standard error on the link
-scale, while \code{y} is on the natural scale. Defaults to \code{'identify'} which
-implies no transformation. Other options are \code{'log'} and \code{'logit'}.}
+coverage intervals.
+Note that \code{link_sd} is the standard error on the link scale,
+while \code{y} is on the natural scale.
+Defaults to \code{'identify'} which implies no transformation (\code{link(y) == y}).
+Other options are \code{'log'} and \code{'logit'}.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a
-different coverage of the uncertainty around an estimate. The coverages are
-based on the assumption of a normal distribution with mean \code{link(y)} and
-standard error \code{link_sd}.
+different coverage of the uncertainty around an estimate.
+The coverages are based on the assumption of a normal distribution with mean
+\code{link(y)} and standard error \code{link_sd}.
 }
 \examples{
 z <- data.frame(year = 1990:2019, dx = rnorm(30), s = rnorm(30, 1, 0.05))
