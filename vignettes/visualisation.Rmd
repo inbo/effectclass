@@ -1,0 +1,95 @@
+---
+title: "Visualising Effects"
+author: Thierry Onkelinx
+bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualising Effects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+The vignette [classification]("classification.html") explains how we can classify effects based on their confidence intervals.
+This vignette focusses on visualising effect and their uncertainty.
+The packages provides two `ggplot()` layers (`stat_fan()` and `stat_effect()`) and a scale (`scale_effect()`). 
+
+## `stat_fan()`
+
+The Bank of England visualises uncertainty by using a fan plot [@britton.fisher.ea1998InflationReportProjections].
+Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
+`stat_fan()` creates the intervals based on a Gaussian distribution.
+It uses the `y` aesthetic for the mean and the `link_sd` as the standard error.
+The default setting in `stat_fan()` displays three sets of confidence intervals.
+Setting `fine = TRUE` yields a set of nine confidence intervals.
+
+| opacity | width around the mean | lower | upper |
+| ------: | --------------------: | ----: | ----: |
+| 90%     | 30 %                  |  35 % |   65% |
+| 60%     | 60 %                  |  20 % |   80% |
+| 30%     | 90 %                  |   5 % |   95% |
+
+Table: Definition of the three level intervals
+
+| opacity | width around the mean | lower | upper |
+| ------: | --------------------: | ----: | ----: |
+| 90%     | 10 %                  |  45 % |   55% |
+| 80%     | 20 %                  |  40 % |   60% |
+| 70%     | 30 %                  |  35 % |   65% |
+| 60%     | 40 %                  |  30 % |   70% |
+| 50%     | 50 %                  |  25 % |   75% |
+| 40%     | 60 %                  |  20 % |   80% |
+| 30%     | 70 %                  |  15 % |   85% |
+| 20%     | 80 %                  |  10 % |   90% |
+| 10%     | 90 %                  |   5 % |   95% |
+
+Table: Definition of the nine level intervals
+
+```{r stat-fan-default, fig.cap = "Default plot using stat_fan()."}
+library(effectclass)
+library(ggplot2)
+set.seed(20191216)
+z <- data.frame(year = 1990:2019, dx = rnorm(30, sd = 0.2), s = rnorm(30, 1, 0.05))
+z$index <- exp(cumsum(z$dx))
+ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan()
+```
+
+```{r stat-fan-fine, fig.cap = "Fan plot with nine intervals and line."}
+ggplot(z, aes(x = year, y = index, link_sd = s)) + 
+  stat_fan(fine = TRUE) + geom_line()
+```
+
+Some statistical analyses require a different distribution, e.g. Poisson or binomial.
+These analyses often use a link function between the linear predictor and the mean of the distribution.
+Poisson uses a log link, binomial a logit link.
+The uncertainty around the predictions of the linear predictor (in the link scale) still follows a Gaussian distribution.
+However, we want to display the predictions and their uncertainty in the original scale.
+The `link` argument `stat_fan()` allows the user to specify the required link function.
+`stat_fan()` then assumes that `y` specifies the median in the original scale. 
+Hence the confidence intervals in the link-scale use $link(y)$ as their mean.
+You need to specify the standard error in the link scale, that why we named the argument `link_sd`.
+`stat_fan()` calculates the intervals based on $\mathcal{N}(\mu = link(y), \sigma = link\_sd)$ and backtransforms them to the original scale.
+Having `y` in the original scale in combination with a link function has the benefit that it is easy to reuse the `y` in other geoms.
+
+```{r stat-fan-log, fig.cap = "Plot using stat_fan() with log-link. Note the asymmetric intervals due to the link function."}
+ggplot(z, aes(x = year, y = index, link_sd = s)) + 
+  stat_fan(link = "log") + 
+  geom_line()
+```
+
+`stat_fan()` handles different discrete colours as demontrated in the example below.
+
+```{r stat-fan-colour, fig.cap = "stat_fan() with different colours."}
+z <- expand.grid(year = 1990:2019, category = c("A", "B"))
+z$dx <- rnorm(60, sd = 0.1)
+z$index <- rep(c(0, 2), each = 30) + cumsum(z$dx)
+z$s <- rnorm(60, rep(c(0.5, 1), each = 30), 0.05)
+ggplot(z, aes(x = year, y = index, link_sd = s)) + 
+  stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
+```
+
+## References
