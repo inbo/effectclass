@@ -115,7 +115,7 @@ update_geom_defaults("hline", list(colour = "#356196"))
 update_geom_defaults("point", list(colour = "#356196", size = 2))
 ```
 
-The vignette [classification]("classification.html") explains how we can classify effects based on their confidence intervals.
+The `vignette("classification", package = "effectclass")` explains how we can classify effects based on their confidence intervals.
 This vignette focusses on visualising effect and their uncertainty.
 The packages provides two `ggplot()` layers (`stat_fan()` and `stat_effect()`) and a scale (`scale_effect()`). 
 
@@ -212,7 +212,7 @@ ggplot(timeseries, aes(x = year, y = index, link_sd = s)) +
 
 `stat_effect()` displays a symbol at the location defined by `x` and `y`.
 The symbol is define by comparing `ymin` and `ymax` with the `reference` and the `threshold`.
-It returns the unsigned, six level classification.
+It returns the unsigned, six level classification (see `vignette("classification", package = "effectclass")`).
 We prefer the unsigned classification as it has fewer levels and the plot shows the direction of the effect.
 The shape of the symbols is defined by `scale_effect()`, which displays all six classes even if not every class is present in the data.
 We selected the shapes to reflect the amount of uncertainty.
