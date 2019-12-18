@@ -75,8 +75,13 @@ The coverages are based on the assumption of a normal distribution with mean
 \code{link(y)} and standard error \code{link_sd}.
 }
 \examples{
-z <- data.frame(year = 1990:2019, dx = rnorm(30), s = rnorm(30, 1, 0.05))
-z$index <- cumsum(z$dx)
+set.seed(20191218)
+z <- data.frame(
+  year = 1990:2019,
+  dx = rnorm(30, sd = 0.2),
+  s = rnorm(30, 0.5, 0.01)
+ )
+z$index <- 3 + cumsum(z$dx)
 library(ggplot2)
 ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan()
 ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan() + geom_line()
@@ -85,6 +90,14 @@ ggplot(z, aes(x = year, y = exp(index), link_sd = s)) +
   stat_fan(link = "log") + geom_line()
 ggplot(z, aes(x = year, y = plogis(index), link_sd = s)) +
   stat_fan(link = "logit") + geom_line()
+ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(geom = "rect")
+ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(geom = "bar")
+ggplot(z, aes(x = year, y = index, link_sd = s)) +
+  stat_fan(geom = "errorbar")
+ggplot(z, aes(x = year, y = index, link_sd = s)) +
+  stat_fan(geom = "linerange")
+ggplot(z, aes(x = year, y = index, link_sd = s)) +
+  stat_fan(geom = "pointrange")
 
 z <- expand.grid(year = 1990:2019, category = c("A", "B"))
 z$dx <- rnorm(60, sd = 0.1)
