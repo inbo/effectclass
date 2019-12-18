@@ -110,6 +110,7 @@ update_geom_defaults("ribbon", list(fill = "#356196"))
 update_geom_defaults("rect", list(fill = "#356196"))
 update_geom_defaults("errorbar", list(colour = "#356196"))
 update_geom_defaults("line", list(colour = "#356196"))
+update_geom_defaults("linerange", list(colour = "#356196"))
 update_geom_defaults("hline", list(colour = "#356196"))
 update_geom_defaults("point", list(colour = "#356196", size = 2))
 ```
@@ -248,7 +249,7 @@ ggplot(timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl, link_sd = s))
 ```
 
 When the `x` value is a discrete variable (e.g. model parameters), we cannot use `stat_fan()` as-is.
-In such case we recommend to add `geom = "rect"` to `stat_fan` over using errorbars.
+In such case we recommend to add `geom = "rect"` or `geom = "linerange"` to `stat_fan` over using errorbars.
 
 ```{r lm-effect}
 ## Example taken from help("lm")
@@ -290,12 +291,12 @@ ggplot(
   scale_effect("class")
 ```
 
-```{r effect-fan- errorbar, fig.cap = "Model parameters with multiple errorbars."}
+```{r effect-fan- errorbar, fig.cap = "Model parameters with multiple lineranges."}
 ggplot(
   effect_D90, 
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
-  stat_fan(geom = "errorbar") +
+  stat_fan(geom = "linerange") +
   stat_effect(threshold = c(4.5, 5.5), reference = 5) +
   geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3)) +
   scale_effect("class")
