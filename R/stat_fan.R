@@ -52,6 +52,9 @@ stat_fan <- function(
     coverage <- seq(0.9, 1e-3, by = -0.3)
   }
   alpha <- 0.9 / length(coverage)
+  if (geom == "bar") {
+    coverage <- as.vector(0.5 + outer(coverage / 2, c(-1, 1), "*"))
+  }
   lapply(
     coverage,
     function(i) {
@@ -106,12 +109,18 @@ StatFan <- ggproto(
       data$xmin <- as.numeric(data$x) - 0.45 * delta
       data$xmax <- as.numeric(data$x) + 0.45 * delta
     }
-    data$ymin <- back(
-      qnorm(p = 0.5 - coverage / 2, mean = trans(data$y), sd = data$link_sd)
-    )
-    data$ymax <- back(
-      qnorm(p = 0.5 + coverage / 2, mean = trans(data$y), sd = data$link_sd)
-    )
+    if (geom == "bar") {
+      data$y <- back(
+        qnorm(p = coverage, mean = trans(data$y), sd = data$link_sd)
+      )
+    } else {
+      data$ymin <- back(
+        qnorm(p = 0.5 - coverage / 2, mean = trans(data$y), sd = data$link_sd)
+      )
+      data$ymax <- back(
+        qnorm(p = 0.5 + coverage / 2, mean = trans(data$y), sd = data$link_sd)
+      )
+    }
     return(data)
   },
   required_aes = c("y", "link_sd")
