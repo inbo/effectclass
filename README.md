@@ -13,7 +13,7 @@ The `effectclass` package helps interpreting effects and visualising uncertainty
 
 It classifies the effects by comparing a coverage interval with a reference, lower and upper threshold. The result is a 10 scale classification of the effect. You can reduced it to a 4 scale classification. `effectclass` provides `stat_effect()` and `scale_effect()` to visualise the effects as points with different shapes.
 
-The Bank of England visualises uncertainty by using a fan plot^[Britton, E.; Fisher, P. & J. Whitley (1998). [The Inflation Report Projections: Understanding the Fan Chart](https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1998/the-inflation-report-projections-understanding-the-fan-chart). Bank of England Quarterly Bulletin. Retrieved 2019/05/22.]. Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
+The Bank of England visualises uncertainty by using a fan plot^[Britton, E.; Fisher, P. & J. Whitley (1998). The Inflation Report Projections: Understanding the Fan Chart. Bank of England Quarterly Bulletin. https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1998/the-inflation-report-projections-understanding-the-fan-chart Retrieved 2019-05-22.]. Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
 
 ## Installation
 
