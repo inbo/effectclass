@@ -31,7 +31,7 @@
 classification <- function(lcl, ucl, threshold, reference = 0) {
   assert_that(is.numeric(lcl), is.numeric(ucl), length(lcl) == length(ucl),
               is.numeric(threshold), noNA(threshold), is.number(reference),
-              noNA(reference))
+              noNA(reference), all(lcl <= ucl))
   if (length(threshold) == 1) {
     assert_that(-abs(threshold) < reference, reference < abs(threshold))
     threshold <- reference + c(-1, 1) * abs(threshold)
