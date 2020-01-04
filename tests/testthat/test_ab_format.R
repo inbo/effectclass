@@ -30,11 +30,11 @@ test_that("format works as expected", {
 })
 
 test_that("print works as expected", {
-  z <- classification(lcl = c(-2, -0.5), ucl = c(2, 0.5), threshold = 1)
-  expect_output(print(z), "^\\? ~$")
-  expect_output(print(z, type = "markdown"), "^`\\?` `~`$")
-  expect_output(print(z, type = "arrow"), "^\\? \u2195$")
-  expect_output(print(z, sep = "-"), "^\\?-~$")
+  z <- classification(lcl = c(-2, -0.5), ucl = c(-0.5, 0.5), threshold = 1)
+  expect_output(print(z), "^- ~$")
+  expect_output(print(z, type = "markdown"), "^`-` `~`$")
+  expect_output(print(z, type = "arrow"), "^\u2193 \u2195$")
+  expect_output(print(z, sep = "_"), "^-_~$")
 })
 
 test_that("selection works", {
