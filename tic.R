@@ -13,6 +13,16 @@ if (Sys.getenv("id_rsa") != "" && inherits(ci(), "TravisCI")) {
     add_step(step_build_pkgdown()) %>%
     add_code_step(zip("pkgdown.zip", "docs")) %>%
     add_code_step(
+      print(
+        paste(
+          'curl -H "Content-Type: application/zip"',
+          '-H "Authorization: Bearer $NETLIFY_KEY_PKG"',
+          '--data-binary "@pkgdown.zip"',
+          'https://api.netlify.com/api/v1/sites/$NETLIFY_SITEID_PKG/deploys'
+        )
+      )
+    ) %>%
+    add_code_step(
       system(
         paste(
           'curl -H "Content-Type: application/zip"',
