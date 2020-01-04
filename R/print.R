@@ -62,12 +62,14 @@ unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
   vapply(x, is_effectclass, TRUE, message = "error")
   signed <- unique(vapply(x, attr, TRUE, which = "signed"))
   detailed <- unique(vapply(x, attr, TRUE, which = "detailed"))
-  if (length(signed) > 1) {
-    stop("all elements should be either signed or unsigned")
-  }
-  if (length(detailed) > 1) {
-    stop("all elements should be either detailed or coarse")
-  }
+  assert_that(
+    length(signed) == 1,
+    msg = "all elements should be either signed or unsigned"
+  )
+  assert_that(
+    length(detailed) == 1,
+    msg = "all elements should be either detailed or coarse"
+  )
   structure(
     factor(vapply(x, as.character, NA_character_), levels = levels(x[[1]])),
     signed = signed,

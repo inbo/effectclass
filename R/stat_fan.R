@@ -88,7 +88,7 @@ stat_fan <- function(
 #' @importFrom assertthat assert_that
 #' @importFrom ggplot2 ggproto Stat
 #' @export
-StatFan <- ggproto(
+StatFan <- ggproto( # nolint
   "StatFan", Stat,
   compute_group = function(
     data, scales, coverage = 0.9, link = "identity", geom = "ribbon"
