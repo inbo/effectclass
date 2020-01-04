@@ -1,7 +1,7 @@
 context("classification")
 test_that("classification() works with a single threshold", {
   z <- classification(lcl = -2, ucl = 2, threshold = 1)
-  expect_is(z,"effectclass")
+  expect_is(z, "effectclass")
   expect_identical(as.character(z), "?")
   expect_is(remove_sign(z), "effectclass")
   expect_is(remove_sign(remove_sign(z)), "effectclass")
