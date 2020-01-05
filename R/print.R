@@ -15,7 +15,7 @@ format.effectclass <- function(x, ..., type = c("ascii", "markdown", "arrow")) {
       levels(x) <- gsub("~", "\u2194", levels(x))
     }
   }
-  NextMethod()
+  iconv(as.character(x), from = "UTF8", to = "UTF8")
 }
 
 #' @export
