@@ -158,6 +158,7 @@ ggplot(change_set(z, base_year),
   scale_effect()
 }
 \seealso{
-Other geom: \code{\link{stat_fan}}
+Other ggplot2: \code{\link{scale_effect}},
+  \code{\link{stat_fan}}
 }
-\concept{geom}
+\concept{ggplot2}

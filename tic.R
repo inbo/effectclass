@@ -1,4 +1,4 @@
-add_package_checks()
+do_package_checks()
 
 if (inherits(ci(), "TravisCI")) {
   # pkgdown documentation can be built optionally. Other example criteria:

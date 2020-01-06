@@ -5,7 +5,7 @@
 #' @export
 #' @importFrom ggplot2 layer
 #' @template example_effect
-#' @family geom
+#' @family ggplot2
 stat_effect <- function(
   mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, #nolint
   show.legend = NA, inherit.aes = TRUE, ..., threshold, reference = 0 #nolint
@@ -45,6 +45,7 @@ stateffect <- ggproto(
 #' @export
 #' @importFrom ggplot2 scale_shape_manual
 #' @template example_effect
+#' @family ggplot2
 scale_effect <- function(
   ..., values = c("**" = 17, "*~" = 18, "~" = 16, "*" = 15, "?*" = 5, "?" = 1),
   drop = FALSE

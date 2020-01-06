@@ -19,7 +19,7 @@
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom ggplot2 layer
-#' @family geom
+#' @family ggplot2
 #' @examples
 #' set.seed(20191218)
 #' z <- data.frame(
