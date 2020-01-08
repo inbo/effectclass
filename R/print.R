@@ -1,20 +1,24 @@
 #' @export
-format.effectclass <- function(x, ..., type = c("ascii", "markdown", "arrow")) {
+format.effectclass <- function(x, ..., type = c("ascii", "markdown", "plot")) {
   type <- match.arg(type)
   is_effectclass(x, message = "error")
-  if (type == "markdown") {
-    levels(x) <- sprintf("`%s`", levels(x))
+  if (type == "plot") {
+    type <- paste0(type, attr(x, "signed"), attr(x, "detailed"))
   }
-  if (type == "arrow") {
-    if (attr(x, "signed")) {
-      levels(x) <- gsub("\\+", "\u2191", levels(x))
-      levels(x) <- gsub("-", "\u2193", levels(x))
-      levels(x) <- gsub("~", "\u2195", levels(x))
-    } else {
-      levels(x) <- gsub("\\*", "\u2192", levels(x))
-      levels(x) <- gsub("~", "\u2194", levels(x))
-    }
-  }
+  levels(x) <- switch(
+    type,
+    markdown = sprintf("`%s`", levels(x)),
+    plotTRUETRUE = c(
+      "\u25b2", "\u25b4", "\u25d3", "\u25c9", "\u25d2", "\u25be", "\u25bc",
+      "\u25b3", "\u25bd", "\u25c7"
+    ),
+    plotTRUEFALSE = c("\u25b2", "\u25c9", "\u25bc", "\u25c7"),
+    plotFALSETRUE = c(
+      "\u25b6", "\u25b8", "\u25d3", "\u25c9", "\u25b7", "\u25c7"
+    ),
+    plotFALSEFALSE = c("\u25b6", "\u25c9", "\u25c7"),
+    levels(x)
+  )
   iconv(as.character(x), from = "UTF8", to = "UTF8")
 }
 
