@@ -1,7 +1,7 @@
 Package: effectclass
 Type: Package
 Title: Classification and visulation of effects
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
   person(
     "Thierry", "Onkelinx", role = c("aut", "cre"), 
