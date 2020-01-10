@@ -4,18 +4,25 @@
 \alias{scale_effect}
 \title{A scale for effect points}
 \usage{
-scale_effect(..., values = c(`**` = 17, `*~` = 18, `~` = 16, `*` = 15,
-  `?*` = 5, `?` = 1), drop = FALSE)
+scale_effect(..., detailed = TRUE, signed = TRUE,
+  guide = guide_legend(ncol = 2), drop = FALSE)
 }
 \arguments{
 \item{...}{Arguments passed to \code{\link[ggplot2]{scale_shape_manual}} from
-ggplot2.}
+\code{ggplot2}.
+Note that \code{values} is set by \code{scale_effect()}.}
 
-\item{values}{a set of aesthetic values to map data values to. If this
-is a named vector, then the values will be matched based on the names.
-If unnamed, values will be matched in order (usually alphabetical) with
-the limits of the scale. Any data values that don't match will be
-given \code{na.value}.}
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
+\code{FALSE} a \code{\link{coarse_classification}}.
+Defaults to \code{TRUE}.}
+
+\item{signed}{\code{TRUE} indicates a signed classification;
+\code{FALSE} a classification with \code{\link{remove_sign}}.
+Defaults to \code{TRUE}.}
+
+\item{guide}{A \code{\link[ggplot2]{guide_legend}} specification for the
+legend.
+Defaults to \code{guide_legend(ncol = 2)}.}
 
 \item{drop}{Should unused factor levels be omitted from the scale?
 The default, \code{FALSE}, uses all the levels in the factor;
