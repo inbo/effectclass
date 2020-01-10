@@ -6,7 +6,7 @@
 \usage{
 stat_effect(mapping = NULL, data = NULL, position = "identity",
   na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...,
-  threshold, reference = 0)
+  threshold, reference = 0, detailed = TRUE, signed = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -57,6 +57,14 @@ A single threshold will be transformed into
 
 \item{reference}{The null hypothesis.
 Defaults to 0.}
+
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
+\code{FALSE} a \code{\link{coarse_classification}}.
+Defaults to \code{TRUE}.}
+
+\item{signed}{\code{TRUE} indicates a signed classification;
+\code{FALSE} a classification with \code{\link{remove_sign}}.
+Defaults to \code{TRUE}.}
 }
 \description{
 Display points with classified effect
