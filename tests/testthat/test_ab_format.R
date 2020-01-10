@@ -16,17 +16,17 @@ test_that("format works as expected", {
 
   z <- classification(lcl = 0.5, ucl = 1.5, threshold = 1)
   expect_identical(format(z, type = "markdown"), "`+`")
-  expect_identical(format(z, type = "plot"), enc2utf8("\u25b4"))
+  expect_identical(format(z, type = "plot"), enc2utf8("\u25e5"))
   z <- remove_sign(z)
   expect_identical(format(z, type = "markdown"), "`*`")
-  expect_identical(format(z, type = "plot"), enc2utf8("\u25b8"))
+  expect_identical(format(z, type = "plot"), enc2utf8("\u25e5"))
 
   z <- classification(lcl = -1.5, ucl = -0.5, threshold = 1)
   expect_identical(format(z, type = "markdown"), "`-`")
-  expect_identical(format(z, type = "plot"), enc2utf8("\u25be"))
+  expect_identical(format(z, type = "plot"), enc2utf8("\u25e2"))
   z <- remove_sign(z)
   expect_identical(format(z, type = "markdown"), "`*`")
-  expect_identical(format(z, type = "plot"), enc2utf8("\u25b8"))
+  expect_identical(format(z, type = "plot"), enc2utf8("\u25e5"))
 })
 
 test_that("print works as expected", {
@@ -41,7 +41,6 @@ test_that("selection works", {
   y <- classification(lcl = -0.5, ucl = 0.5, threshold = 1)
   expect_identical(z[2], y)
 })
-
 
 test_that("unlist works", {
   expect_identical(unlist("junk"), "junk")

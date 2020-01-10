@@ -8,15 +8,10 @@ format.effectclass <- function(x, ..., type = c("ascii", "markdown", "plot")) {
   levels(x) <- switch(
     type,
     markdown = sprintf("`%s`", levels(x)),
-    plotTRUETRUE = c(
-      "\u25b2", "\u25b4", "\u25d3", "\u25c9", "\u25d2", "\u25be", "\u25bc",
-      "\u25b3", "\u25bd", "\u25c7"
-    ),
-    plotTRUEFALSE = c("\u25b2", "\u25c9", "\u25bc", "\u25c7"),
-    plotFALSETRUE = c(
-      "\u25b6", "\u25b8", "\u25d3", "\u25c9", "\u25b7", "\u25c7"
-    ),
-    plotFALSEFALSE = c("\u25b6", "\u25c9", "\u25c7"),
+    plotTRUETRUE = detailed_signed_palette,
+    plotTRUEFALSE = coarse_signed_palette,
+    plotFALSETRUE = detailed_unsigned_palette,
+    plotFALSEFALSE = coarse_unsigned_palette,
     levels(x)
   )
   iconv(as.character(x), from = "UTF8", to = "UTF8")
