@@ -7,6 +7,7 @@
 #' @importFrom ggplot2 layer
 #' @template example_effect
 #' @family ggplot2
+#' @seealso \code{\link{classification}}
 stat_effect <- function(
   mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, #nolint
   show.legend = NA, inherit.aes = TRUE, ..., threshold, reference = 0, #nolint
