@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_ci.R
 \name{format_ci}
 \alias{format_ci}
-\title{Format an estimate and confidence interval as text}
+\title{Format an Estimate and Confidence Interval as Text}
 \usage{
 format_ci(estimate, se, lcl, ucl, interval = 0.95, link = c("identity",
   "log", "logit"), max_digit = 4, percent = FALSE, sign = FALSE)
@@ -37,7 +37,10 @@ Defaults to \code{FALSE}.}
 Defaults to \code{FALSE}.}
 }
 \description{
-Format an estimate and confidence interval as text
+The function rounds the estimate, lower and upper confidence interval to the
+same magnitude.
+The magnitude shows the width of the confidence interval with two significant
+digits.
 }
 \examples{
 format_ci(0.512345, 1)
@@ -61,3 +64,4 @@ format_ci(0.512345e-7, 1e-7)
 format_ci(0.512345e-7, 1e-8)
 format_ci(0.512345e-7, 1e-9)
 }
+\concept{display}

@@ -1,5 +1,9 @@
-#' Format an estimate and confidence interval as text
+#' Format an Estimate and Confidence Interval as Text
 #'
+#' The function rounds the estimate, lower and upper confidence interval to the
+#' same magnitude.
+#' The magnitude shows the width of the confidence interval with two significant
+#' digits.
 #' @param estimate The estimate in the `link` scale.
 #' @param se The standard error in the `link` scale.
 #' If missing, you must `lcl` and `ucl`.
@@ -22,6 +26,7 @@
 #' @export
 #' @importFrom assertthat assert_that is.flag is.number noNA
 #' @importFrom stats plogis qnorm
+#' @family display
 #' @examples
 #' format_ci(0.512345, 1)
 #' format_ci(0.512345, 1, interval = 0.9)

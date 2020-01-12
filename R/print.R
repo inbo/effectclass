@@ -1,4 +1,5 @@
 #' @export
+#' @family display
 format.effectclass <- function(x, ..., type = c("ascii", "markdown", "plot")) {
   type <- match.arg(type)
   is_effectclass(x, message = "error")

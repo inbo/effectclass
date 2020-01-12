@@ -26,6 +26,9 @@ reference:
 - title: ggplot2 add-ons
   contents:
   - has_concept("ggplot2")
+- title: Display
+  contents:
+  - has_concept("display")
 - title: Utilities
   contents:
   - has_concept("utils")
