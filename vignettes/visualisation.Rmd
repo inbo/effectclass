@@ -345,5 +345,38 @@ ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
   scale_effect(detailed = FALSE, signed = FALSE)
 ```
 
+## `format_ci()` and `classification()`
+
+When presenting effects in a tabular format we recommend to display the effect with its confidence interval in conjunction with the classification of the effect.
+Sort the rows of the table in a way that provides maximum information.
+E.g. sort first on the the classification and then on the estimate.
+This will place the least informative effects at the bottom of the table.
+The table starts with a gradient from the strongest positive effects, over no effect to the strongest negative effects.
+
+The `effectclass` package provides `format_ci()`, which formats the estimate and its confidence interval as text.
+It automatically rounds the numbers to a sensible magnitude depending on the width of the confidence interval.
+The table below gives an example on how then estimate and its confidence interval gets translated into a classification and formatted text.
+In practice we would only publish the classification and the formatted text.
+
+```{r format-ci, echo = FALSE}
+ds <- expand.grid(
+  estimate = pi * seq(0, 2, by = 0.25),
+  sd = c(1, 11, 0.1, 0.01)
+)
+ds$lcl <- qnorm(0.05, ds$estimate, ds$sd)
+ds$ucl <- qnorm(0.95, ds$estimate, ds$sd)
+ds$classifcation <- classification(
+  ds$lcl, ds$ucl, reference = 3, threshold = c(2, 4)
+)
+ds <- ds[order(ds$classifcation, ds$estimate, ds$ucl), ]
+ds$classifcation <- format(ds$classifcation, type = "markdown")
+ds$formatted <- format_ci(ds$estimate, lcl = ds$lcl, ucl = ds$ucl)
+kable(
+  ds[, -2], 
+  caption = "Different effects, their classification and formatted text",
+  align = "lllcc",
+  row.names = FALSE
+)
+```
 
 ## References
