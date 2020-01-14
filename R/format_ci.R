@@ -6,7 +6,7 @@
 #' digits.
 #' @param estimate The estimate in the `link` scale.
 #' @param se The standard error in the `link` scale.
-#' If missing, you must `lcl` and `ucl`.
+#' If missing, you must provide values for `lcl` and `ucl`.
 #' @param lcl The lower confidence limit.
 #' Ignored when `se` is given.
 #' @param ucl The upper confidence limit.
@@ -83,7 +83,7 @@ format_ci <- function(
       interval < 1
     )
     lcl <- qnorm((1 - interval) / 2, mean = estimate, sd = se)
-    ucl <- qnorm(0.5 + interval / 2, mean = estimate, sd = se)
+    ucl <- qnorm((1 + interval) / 2, mean = estimate, sd = se)
   }
 
   switch(
