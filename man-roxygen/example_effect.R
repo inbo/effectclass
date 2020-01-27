@@ -13,6 +13,7 @@
 #'   ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
 #' )
 #' library(ggplot2)
+#' theme_set(theme_grey(base_family = "sans"))
 #' ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
 #'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
 #'   geom_errorbar() +
