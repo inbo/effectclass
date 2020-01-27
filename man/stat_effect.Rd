@@ -84,22 +84,24 @@ z <- data.frame(
   ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
 )
 library(ggplot2)
+theme_set(theme_grey(base_family = "Helvetica"))
+update_geom_defaults("point", list(size = 5))
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
   geom_errorbar() +
-  stat_effect(threshold = 1, size = 3) +
+  stat_effect(threshold = 1) +
   scale_effect() +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
   geom_errorbar() +
-  stat_effect(threshold = 1, size = 3) +
+  stat_effect(threshold = 1) +
   scale_effect() +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
   geom_errorbar() +
-  stat_effect(threshold = 1, size = 3) +
+  stat_effect(threshold = 1) +
   scale_effect(drop = TRUE) +
   coord_flip()
 
@@ -122,7 +124,7 @@ ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
   geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
   geom_errorbar() +
   geom_line() +
-  stat_effect(threshold = th, reference = ref, size = 3) +
+  stat_effect(threshold = th, reference = ref) +
   scale_effect()
 
 # plot pairwise differences
@@ -160,8 +162,7 @@ change_set <- function(z, base_year) {
 }
 ggplot(change_set(z, base_year),
        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
-  stat_effect(threshold = th, reference = ref, aes(colour = total),
-              size = 3) +
+  stat_effect(threshold = th, reference = ref, aes(colour = total)) +
   scale_colour_gradient2() +
   scale_effect()
 }

@@ -15,7 +15,7 @@ opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ggplot2)
 inbo_colours <- c("#959B38", "#729BB7", "#E87837", "#BDDDD7", "#E4E517", 
                   "#843860", "#C04384", "#C2C444", "#685457")
-theme_inbo <- function(base_size = 12, base_family = "") {
+theme_inbo <- function(base_size = 12, base_family = "Helvetica") {
   rect.bg <- "white"
   legend.bg <- "white"
   panel.bg <- "#F3F3F3"

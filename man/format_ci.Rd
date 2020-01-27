@@ -11,7 +11,7 @@ format_ci(estimate, se, lcl, ucl, interval = 0.95, link = c("identity",
 \item{estimate}{The estimate in the \code{link} scale.}
 
 \item{se}{The standard error in the \code{link} scale.
-If missing, you must \code{lcl} and \code{ucl}.}
+If missing, you must provide values for \code{lcl} and \code{ucl}.}
 
 \item{lcl}{The lower confidence limit.
 Ignored when \code{se} is given.}
