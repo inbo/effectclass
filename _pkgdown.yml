@@ -17,7 +17,7 @@ navbar:
   - icon: fa-twitter fa-lg
     href: https://twitter.com/INBOVlaanderen
   - icon: fa-github fa-lg
-    href: https://github.com/inbo/inbomd
+    href: https://github.com/inbo/effectclass
 
 reference:
 - title: Classification of Effects
