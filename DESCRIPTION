@@ -1,6 +1,6 @@
 Package: effectclass
 Type: Package
-Title: Classification and visulation of effects
+Title: Classification and visualization of effects
 Version: 0.1.3
 Authors@R: c(
   person(
@@ -27,4 +27,4 @@ Suggests:
   rmarkdown
 VignetteBuilder: knitr
 URL: https://effectclass.netlify.com
-BugReports: https://github.com/inbo/effectclas/issues
+BugReports: https://github.com/inbo/effectclass/issues
