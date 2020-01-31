@@ -45,6 +45,8 @@ z <- data.frame(
   lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
   ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
 )
+oldw <- getOption("warn")
+options(warn = -1)
 library(ggplot2)
 theme_set(theme_grey(base_family = "Helvetica"))
 update_geom_defaults("point", list(size = 5))
@@ -127,6 +129,7 @@ ggplot(change_set(z, base_year),
   stat_effect(threshold = th, reference = ref, aes(colour = total)) +
   scale_colour_gradient2() +
   scale_effect()
+options(warn = oldw)
 }
 \seealso{
 Other ggplot2: \code{\link{stat_effect}},
