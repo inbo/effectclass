@@ -33,13 +33,12 @@ classification <- function(lcl, ucl, threshold, reference = 0) {
               is.numeric(threshold), noNA(threshold), is.number(reference),
               noNA(reference), all(lcl <= ucl))
   if (length(threshold) == 1) {
-    assert_that(-abs(threshold) < reference, reference < abs(threshold))
     threshold <- reference + c(-1, 1) * abs(threshold)
-  } else {
-    assert_that(length(threshold) == 2, min(threshold) < reference,
-                reference < max(threshold))
-    threshold <- sort(threshold)
   }
+  assert_that(length(threshold) == 2, min(threshold) < reference,
+              reference < max(threshold))
+  threshold <- sort(threshold)
+
   classification <- ifelse(
     ucl < threshold[2],
     ifelse(
