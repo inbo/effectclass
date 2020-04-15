@@ -34,10 +34,11 @@ classification <- function(lcl, ucl, threshold, reference = 0) {
               noNA(reference), all(lcl <= ucl))
   if (length(threshold) == 1) {
     threshold <- reference + c(-1, 1) * abs(threshold)
+  } else {
+    assert_that(length(threshold) == 2, min(threshold) < reference,
+                reference < max(threshold))
+    threshold <- sort(threshold)
   }
-  assert_that(length(threshold) == 2, min(threshold) < reference,
-              reference < max(threshold))
-  threshold <- sort(threshold)
 
   classification <- ifelse(
     ucl < threshold[2],
