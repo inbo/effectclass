@@ -172,8 +172,8 @@ Here we use the `potential` adjective in combination with `positive effect` or `
 | `++`    | strong positive effect | strong increase | confidence interval above the upper threshold | 0 |
 | `+`    | positive effect | increase | confidence interval above reference and contains the upper threshold | 1 |
 | `+~`    | moderate positive effect | moderate increase | confidence interval between reference and the upper threshold | 0 |
-| `~`    | no effect       | stable   | confidence interval between thresholds | 1 |
-| `-~`    | moderate negative effect | moderate decrease | confidence interval between reference and the lower threshold | 1 |
+| `~`    | no effect       | stable   | confidence interval between thresholds and contains reference | 1 |
+| `-~`    | moderate negative effect | moderate decrease | confidence interval between reference and the lower threshold | 0 |
 | `-`    | negative effect | decrease | confidence interval below reference and contains the lower threshold | 1 |
 | `--`    | strong negative effect | strong decrease | confidence interval below the lower threshold | 0 |
 | `?+`    | potential positive effect  | potential increase  | confidence interval contains reference and the upper threshold | 2 |
