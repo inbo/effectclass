@@ -13,9 +13,23 @@ scale_effect(
 )
 }
 \arguments{
-\item{...}{Arguments passed to \code{\link[ggplot2]{scale_shape_manual}} from
-\code{ggplot2}.
-Note that \code{values} is set by \code{scale_effect()}.}
+\item{...}{
+  Arguments passed on to \code{\link[ggplot2:scale_manual]{ggplot2::scale_shape_manual}}
+  \describe{
+    \item{\code{values}}{a set of aesthetic values to map data values to. The values
+will be matched in order (usually alphabetical) with the limits of the
+scale, or with \code{breaks} if provided. If this is a named vector, then the
+values will be matched based on the names instead. Data values that don't
+match will be given \code{na.value}.}
+    \item{\code{breaks}}{One of:
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks (the scale limits)
+\item A character vector of breaks
+\item A function that takes the limits as input and returns breaks
+as output
+}}
+  }}
 
 \item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
 \code{FALSE} a \code{\link{coarse_classification}}.

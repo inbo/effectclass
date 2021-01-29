@@ -46,7 +46,7 @@ stateffect <- ggproto(
 )
 
 #' A scale for effect points
-#' @inheritParams ggplot2::scale_shape_manual
+#' @inheritDotParams ggplot2::scale_shape_manual
 #'
 #' @param detailed `TRUE` indicates a detailed \code{\link{classification}};
 #' `FALSE` a \code{\link{coarse_classification}}.
