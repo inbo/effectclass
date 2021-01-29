@@ -1,30 +1,33 @@
-Package: effectclass
 Type: Package
+Package: effectclass
 Title: Classification and visualisation of effects
 Version: 0.1.3
-Authors@R: c(
-  person(
-    "Thierry", "Onkelinx", role = c("aut", "cre"), 
-    email = "thierry.onkelinx@inbo.be", 
-    comment = c(ORCID = "0000-0001-8804-4216")),
-  person(
-    "Research Institute for Nature and Forest",
-    role = c("cph", "fnd"), email = "info@inbo.be"))
-Description: Classify effects by comparing the confidence intervals with thresholds.
+Authors@R: 
+    c(person(given = "Thierry",
+             family = "Onkelinx",
+             role = c("aut", "cre"),
+             email = "thierry.onkelinx@inbo.be",
+             comment = c(ORCID = "0000-0001-8804-4216")),
+      person(given = "Research Institute for Nature and Forest",
+             role = c("cph", "fnd"),
+             email = "info@inbo.be"))
+Description: Classify effects by comparing the confidence intervals with
+    thresholds.
 License: GPL-3
+URL: https://effectclass.netlify.com
+BugReports: https://github.com/inbo/effectclass/issues
+Depends:
+    R (>= 2.10)
+Imports:
+    assertthat,
+    ggplot2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-Depends:
-  R (>= 2.10)
-Imports:
-  assertthat,
-  ggplot2
-Suggests: 
-  testthat,
-  knitr,
-  rmarkdown
-VignetteBuilder: knitr
-URL: https://effectclass.netlify.com
-BugReports: https://github.com/inbo/effectclass/issues
