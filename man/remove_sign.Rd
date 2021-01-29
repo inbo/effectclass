@@ -11,16 +11,17 @@ remove_sign(classification)
 }
 \description{
 \itemize{
-\item \code{**} \strong{strong effect}: \code{++} or \code{--}
+\item \verb{**} \strong{strong effect}: \verb{++} or \verb{--}
 \item \code{*} \strong{effect}: \code{+} or \code{-}
-\item \code{*~} \strong{moderate effect}: \code{+~} or \code{-~}
+\item \verb{*~} \strong{moderate effect}: \verb{+~} or \verb{-~}
 \item \code{~} \strong{no effect}: \code{~}
-\item \code{?+} \strong{potential effect}: \code{?+} or \code{?-}
-\item \code{?} \strong{unknown effect}: \code{?}
+\item \verb{?+} \strong{potential effect}: \verb{?+} or \verb{?-}
+\item \verb{?} \strong{unknown effect}: \verb{?}
 }
 }
 \seealso{
-Other classification: \code{\link{classification}},
-  \code{\link{coarse_classification}}
+Other classification: 
+\code{\link{classification}()},
+\code{\link{coarse_classification}()}
 }
 \concept{classification}

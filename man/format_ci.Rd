@@ -4,8 +4,17 @@
 \alias{format_ci}
 \title{Format an Estimate and Confidence Interval as Text}
 \usage{
-format_ci(estimate, se, lcl, ucl, interval = 0.95, link = c("identity",
-  "log", "logit"), max_digit = 4, percent = FALSE, sign = FALSE)
+format_ci(
+  estimate,
+  se,
+  lcl,
+  ucl,
+  interval = 0.95,
+  link = c("identity", "log", "logit"),
+  max_digit = 4,
+  percent = FALSE,
+  sign = FALSE
+)
 }
 \arguments{
 \item{estimate}{The estimate in the \code{link} scale.}
@@ -21,7 +30,7 @@ Ignored when \code{se} is given.}
 
 \item{interval}{The coverage of the confidence interval.
 Only used when \code{se} is given.
-Defaults to \code{0.95} (\code{95\%}).}
+Defaults to \code{0.95} (\verb{95\%}).}
 
 \item{link}{The transformation of \code{estimate}, \code{se}, \code{lcl} and \code{ucl}.
 The appropriate backtransformation is applied before formatting.}
@@ -30,7 +39,7 @@ The appropriate backtransformation is applied before formatting.}
 Defaults to \code{4}.}
 
 \item{percent}{Display the interval as a percentage
-(= muliply by 100 and append \code{\%}).
+(= muliply by 100 and append \verb{\%}).
 Defaults to \code{FALSE}.}
 
 \item{sign}{Always add the sign to the text. (e.g. \code{+1} instead of \code{1}).

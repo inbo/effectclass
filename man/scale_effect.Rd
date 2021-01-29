@@ -4,8 +4,13 @@
 \alias{scale_effect}
 \title{A scale for effect points}
 \usage{
-scale_effect(..., detailed = TRUE, signed = TRUE,
-  guide = guide_legend(ncol = 2), drop = FALSE)
+scale_effect(
+  ...,
+  detailed = TRUE,
+  signed = TRUE,
+  guide = guide_legend(ncol = 2),
+  drop = FALSE
+)
 }
 \arguments{
 \item{...}{Arguments passed to \code{\link[ggplot2]{scale_shape_manual}} from
@@ -35,11 +40,11 @@ A scale for effect points
 z <- data.frame(
   effect = factor(
     1:10,
-    labels = c("unknown\\neffect", "potential\\npositive\\neffect",
-             "potential\\nnegative\\neffect", "no effect", "positive\\neffect",
-             "negative\\neffect", "moderate\\npositive\\neffect",
-             "moderate\\nnegative\\neffect", "strong\\npositive\\neffect",
-             "strong\\nnegative\\neffect")
+    labels = c("unknown\neffect", "potential\npositive\neffect",
+             "potential\nnegative\neffect", "no effect", "positive\neffect",
+             "negative\neffect", "moderate\npositive\neffect",
+             "moderate\nnegative\neffect", "strong\npositive\neffect",
+             "strong\nnegative\neffect")
   ),
   estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
   lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
@@ -132,7 +137,8 @@ ggplot(change_set(z, base_year),
 options(warn = oldw)
 }
 \seealso{
-Other ggplot2: \code{\link{stat_effect}},
-  \code{\link{stat_fan}}
+Other ggplot2: 
+\code{\link{stat_effect}()},
+\code{\link{stat_fan}()}
 }
 \concept{ggplot2}

@@ -20,6 +20,7 @@ Flatten Lists
 \seealso{
 base::unlist
 
-Other utils: \code{\link{is_effectclass}}
+Other utils: 
+\code{\link{is_effectclass}()}
 }
 \concept{utils}
