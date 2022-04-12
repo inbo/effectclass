@@ -29,6 +29,7 @@ match will be given \code{na.value}.}
 \item A function that takes the limits as input and returns breaks
 as output
 }}
+    \item{\code{na.value}}{The aesthetic value to use for missing (\code{NA}) values}
   }}
 
 \item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
