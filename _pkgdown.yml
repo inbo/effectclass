@@ -1,5 +1,4 @@
 destination: docs
-
 navbar:
   title: ~
   type: default
@@ -20,6 +19,10 @@ navbar:
   right:
   - icon: "fa fa-github"
     href: https://github.com/inbo/effectclass
+  - icon: "fa fa-twitter"
+    href: https://twitter.com/INBOVlaanderen
+  - icon: "fa fa-facebook"
+    href: https://www.facebook.com/pg/INBOVlaanderen
 
 reference:
 - title: Classification of Effects
@@ -34,10 +37,6 @@ reference:
 - title: Utilities
   contents:
   - has_concept("utils")
-  - icon: "fa fa-twitter"
-    href: https://twitter.com/INBOVlaanderen
-  - icon: "fa fa-facebook"
-    href: https://www.facebook.com/pg/INBOVlaanderen
 
 authors:
   Thierry Onkelinx:
