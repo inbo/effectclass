@@ -6,7 +6,7 @@
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![Travis-CI Build Status](https://travis-ci.org/inbo/effectclass.svg?branch=master)](https://travis-ci.org/inbo/effectclass)
 [![Build status](https://ci.appveyor.com/api/projects/status/p6uin0vl1kaedm22/branch/master?svg=true)](https://ci.appveyor.com/project/ThierryO/effectclass/branch/master)
-[![codecov](https://codecov.io/gh/inbo/effectclass/branch/master/graph/badge.svg)](https://codecov.io/gh/inbo/effectclass)
+[![codecov](https://codecov.io/gh/inbo/effectclass/branch/master/graph/badge.svg)](https://app.codecov.io/gh/inbo/effectclass)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c39c9cb6-57ce-482a-9f51-b0187226e8b5/deploy-status)](https://app.netlify.com/sites/effectclass/deploys)
 <!-- badges: end -->
 

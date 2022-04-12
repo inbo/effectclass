@@ -1,6 +1,6 @@
 Type: Package
 Package: effectclass
-Title: Classification and visualisation of effects
+Title: Classification and Visualisation of Effects
 Version: 0.1.4
 Authors@R: c(
     person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = c("aut", "cre"),
@@ -10,7 +10,7 @@ Authors@R: c(
 Description: Classify effects by comparing the confidence intervals with
     thresholds.
 License: GPL-3
-URL: https://effectclass.netlify.com
+URL: https://effectclass.netlify.app/
 BugReports: https://github.com/inbo/effectclass/issues
 Depends:
     R (>= 2.10)
@@ -24,6 +24,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-LazyData: true
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

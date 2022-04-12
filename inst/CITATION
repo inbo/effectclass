@@ -1,0 +1,13 @@
+citHeader("To cite `effectclass` in publications please use:")
+# begin checklist entry
+citEntry(
+  entry = "Manual",
+  title = "effectclass: Classification and Visualisation of Effects. Version 0.1.4",
+  author = c(person(given = "Thierry", family = "Onkelinx")),
+  year = 2022,
+  url = "https://effectclass.netlify.app/",
+  abstract = "Classify effects by comparing the confidence intervals with thresholds.",
+  textVersion = "Onkelinx, Thierry (2022) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://effectclass.netlify.app/",
+  keywords = "R package",
+)
+# end checklist entry

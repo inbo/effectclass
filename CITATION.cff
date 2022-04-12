@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+authors:
+- family-names: Onkelinx
+  given-names: Thierry
+  orcid: https://orcid.org/0000-0001-8804-4216
+contact:
+- email: thierry.onkelinx@inbo.be
+  family-names: Onkelinx
+  given-names: Thierry
+- email: info@inbo.be
+  name: Research Institute for Nature and Forest
+title: 'effectclass: Classification and Visualisation of Effects'
+version: 0.1.4
+abstract: Classify effects by comparing the confidence intervals with thresholds.
+license: GPL-3.0
+type: software
+identifiers:
+- type: url
+  value: https://effectclass.netlify.app/
+keywords: R package

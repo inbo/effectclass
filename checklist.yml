@@ -2,4 +2,14 @@ description: Configuration file for checklist::check_pkg()
 package: yes
 allowed:
   warnings: []
-  notes: []
+  notes:
+  - motivation: package not yet on CRAN
+    value: |-
+      checking CRAN incoming feasibility ... NOTE
+      Maintainer: 'Thierry Onkelinx <thierry.onkelinx@inbo.be>'
+
+      New submission
+citation_roles:
+- aut
+- cre
+keywords: R package
