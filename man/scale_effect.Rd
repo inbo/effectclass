@@ -4,13 +4,7 @@
 \alias{scale_effect}
 \title{A scale for effect points}
 \usage{
-scale_effect(
-  ...,
-  detailed = TRUE,
-  signed = TRUE,
-  guide = guide_legend(ncol = 2),
-  drop = FALSE
-)
+scale_effect(..., detailed = TRUE, signed = TRUE, ncol = 1, drop = FALSE)
 }
 \arguments{
 \item{...}{
@@ -40,9 +34,8 @@ Defaults to \code{TRUE}.}
 \code{FALSE} a classification with \code{\link{remove_sign}}.
 Defaults to \code{TRUE}.}
 
-\item{guide}{A \code{\link[ggplot2]{guide_legend}} specification for the
-legend.
-Defaults to \code{guide_legend(ncol = 2)}.}
+\item{ncol}{the number of columns in the legend.
+Default to 1.}
 
 \item{drop}{Should unused factor levels be omitted from the scale?
 The default, \code{FALSE}, uses all the levels in the factor;

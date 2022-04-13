@@ -15,7 +15,8 @@ stat_effect(
   threshold,
   reference = 0,
   detailed = TRUE,
-  signed = TRUE
+  signed = TRUE,
+  shape_colour = TRUE
 )
 }
 \arguments{
@@ -75,6 +76,9 @@ Defaults to \code{TRUE}.}
 \item{signed}{\code{TRUE} indicates a signed classification;
 \code{FALSE} a classification with \code{\link{remove_sign}}.
 Defaults to \code{TRUE}.}
+
+\item{shape_colour}{Colour the background of the labels according to the
+classification.}
 }
 \description{
 Display points with classified effect

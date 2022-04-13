@@ -1,18 +1,11 @@
 #' @export
 #' @family display
-format.effectclass <- function(x, ..., type = c("ascii", "markdown", "plot")) {
+format.effectclass <- function(x, ..., type = c("ascii", "markdown")) {
   type <- match.arg(type)
   is_effectclass(x, message = "error")
-  if (type == "plot") {
-    type <- paste0(type, attr(x, "signed"), attr(x, "detailed"))
-  }
   levels(x) <- switch(
     type,
     markdown = sprintf("`%s`", levels(x)),
-    plotTRUETRUE = detailed_signed_palette,
-    plotTRUEFALSE = coarse_signed_palette,
-    plotFALSETRUE = detailed_unsigned_palette,
-    plotFALSEFALSE = coarse_unsigned_palette,
     levels(x)
   )
   iconv(as.character(x), from = "UTF8", to = "UTF8")

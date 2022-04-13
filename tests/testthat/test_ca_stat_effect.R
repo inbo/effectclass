@@ -13,5 +13,5 @@ test_that("stat_effect works", {
     stat_effect(threshold = 2.5) +
     scale_effect()
   expect_identical(length(p$layers), 1L)
-  expect_s3_class(p$layers[[1]]$geom, "GeomPoint")
+  expect_s3_class(p$layers[[1]]$geom, "GeomLabel")
 })

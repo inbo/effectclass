@@ -255,8 +255,7 @@ The example below displays the effect in decreasing order with uncertain effects
 Note that we first sort on the classification and then on the point estimate.
 We added a `format()` function for your convenience.
 A double hyphen `--` is rendered in Markdown as a so-called em-dash '--'.
-Use the `type = "markdown"` argument of `format()` to convert the classifaction as verbatim text, which preserves the double hyphen when rendering the document.
-The `type = "plot"` argument displays the symbols used on the plots.
+Use the `type = "markdown"` argument of `format()` to convert the classification as verbatim text, which preserves the double hyphen when rendering the document.
 
 ```{r}
 set.seed(20191126)
@@ -276,7 +275,6 @@ ds$estimate <- sprintf("%.2f (%.2f; %.2f)", ds$point_estimate, ds$lcl, ds$ucl)
 ds$class <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 1)
 tab <- ds[order(ds$class, -ds$point_estimate), c("effect", "estimate", "class")]
 tab$markdown <- format(tab$class, type = "markdown")
-tab$plot <- format(tab$class, type = "plot")
 kable(
   tab,
   caption = "Example table with effects, their confidences interval and
