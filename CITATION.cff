@@ -17,5 +17,5 @@ license: GPL-3.0
 type: software
 identifiers:
 - type: url
-  value: https://effectclass.netlify.app/
+  value: https://inbo.github.io/effectclass/
 keywords: R package

@@ -5,9 +5,9 @@ citEntry(
   title = "effectclass: Classification and Visualisation of Effects. Version 0.1.4",
   author = c(person(given = "Thierry", family = "Onkelinx")),
   year = 2022,
-  url = "https://effectclass.netlify.app/",
+  url = "https://inbo.github.io/effectclass/",
   abstract = "Classify effects by comparing the confidence intervals with thresholds.",
-  textVersion = "Onkelinx, Thierry (2022) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://effectclass.netlify.app/",
+  textVersion = "Onkelinx, Thierry (2022) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://inbo.github.io/effectclass/",
   keywords = "R package",
 )
 # end checklist entry
