@@ -16,7 +16,9 @@ stat_effect(
   reference = 0,
   detailed = TRUE,
   signed = TRUE,
-  shape_colour = TRUE
+  shape_colour = TRUE,
+  error = TRUE,
+  error_colour = TRUE
 )
 }
 \arguments{
@@ -78,7 +80,14 @@ Defaults to \code{TRUE}.}
 Defaults to \code{TRUE}.}
 
 \item{shape_colour}{Colour the background of the labels according to the
-classification.}
+classification.
+Defaults to \code{TRUE}.}
+
+\item{error_colour}{Colour the error bars accorings to the classification.
+Defaults to \code{TRUE}.}
+
+\item{errorbar}{Display the uncertainty as error bars.
+Defaults to \code{TRUE}.}
 }
 \description{
 Display points with classified effect

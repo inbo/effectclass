@@ -4,7 +4,7 @@
 \alias{scale_effect}
 \title{A scale for effect points}
 \usage{
-scale_effect(..., detailed = TRUE, signed = TRUE, ncol = 1, drop = FALSE)
+scale_effect(..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE)
 }
 \arguments{
 \item{...}{
@@ -34,12 +34,9 @@ Defaults to \code{TRUE}.}
 \code{FALSE} a classification with \code{\link{remove_sign}}.
 Defaults to \code{TRUE}.}
 
-\item{ncol}{the number of columns in the legend.
-Default to 1.}
+\item{fill}{return \code{\link[ggplot2]{scale_fill_manual}}}
 
-\item{drop}{Should unused factor levels be omitted from the scale?
-The default, \code{FALSE}, uses all the levels in the factor;
-\code{TRUE} uses the levels that appear in the data.}
+\item{colour}{return \code{\link[ggplot2]{scale_colour_manual}}}
 }
 \description{
 A scale for effect points
