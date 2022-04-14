@@ -1,4 +1,4 @@
-#' Remove the sign of a classifaction
+#' Remove the sign of a classification
 #' @param classification The classification
 #' @description
 #' - `**` **strong effect**: `++` or `--`

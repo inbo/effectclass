@@ -33,13 +33,13 @@ Only used when \code{se} is given.
 Defaults to \code{0.95} (\verb{95\%}).}
 
 \item{link}{The transformation of \code{estimate}, \code{se}, \code{lcl} and \code{ucl}.
-The appropriate backtransformation is applied before formatting.}
+The appropriate back transformation is applied before formatting.}
 
 \item{max_digit}{The maximum number of significant digits to display.
 Defaults to \code{4}.}
 
 \item{percent}{Display the interval as a percentage
-(= muliply by 100 and append \verb{\%}).
+(= multiply by 100 and append \verb{\%}).
 Defaults to \code{FALSE}.}
 
 \item{sign}{Always add the sign to the text. (e.g. \code{+1} instead of \code{1}).

@@ -18,8 +18,7 @@ Currently available are \code{"trend"} and \code{"effect"}.}
 \item{lang}{The language.
 Currently available are \code{"en"} (English) and \code{"nl"} (Dutch).
 Defaults to \code{"en"}.
-Please create an issue at https://github.com/inbo/effectclass/issues if you
-have suggestions for more languages.}
+Please contact the maintainer if you have suggestions for more languages.}
 
 \item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
 \code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.

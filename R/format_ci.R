@@ -15,11 +15,11 @@
 #' Only used when `se` is given.
 #' Defaults to `0.95` (`95%`).
 #' @param link The transformation of `estimate`, `se`, `lcl` and `ucl`.
-#' The appropriate backtransformation is applied before formatting.
+#' The appropriate back transformation is applied before formatting.
 #' @param max_digit The maximum number of significant digits to display.
 #' Defaults to `4`.
 #' @param percent Display the interval as a percentage
-#' (= muliply by 100 and append `%`).
+#' (= multiply by 100 and append `%`).
 #' Defaults to `FALSE`.
 #' @param sign Always add the sign to the text. (e.g. `+1` instead of `1`).
 #' Defaults to `FALSE`.

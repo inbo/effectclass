@@ -2,7 +2,7 @@
 % Please edit documentation in R/remove_sign.R
 \name{remove_sign}
 \alias{remove_sign}
-\title{Remove the sign of a classifaction}
+\title{Remove the sign of a classification}
 \usage{
 remove_sign(classification)
 }

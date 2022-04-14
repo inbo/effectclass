@@ -196,7 +196,7 @@ The `link` argument `stat_fan()` allows the user to specify the required link fu
 Hence the confidence intervals in the link-scale use $link(y)$ as their mean.
 You need to specify the standard error in the link scale, that why we named the argument `link_sd`.
 `stat_fan()` calculates the intervals based on $\mathcal{N}(\mu = link(y), \sigma = link\_sd)$ and back transforms them to the original scale.
-Having `y` in the original scale in combination with a link function has the benefit that it is easy to reuse the `y` in other geoms.
+Having `y` in the original scale in combination with a link function has the benefit that it is easy to reuse the `y` in other `geoms`.
 
 ```{r stat-fan-log, fig.cap = "Plot using stat_fan() with log-link. Note the asymmetric intervals due to the link function."}
 ggplot(timeserie, aes(x = year, y = index, link_sd = s)) +
@@ -270,7 +270,7 @@ ggplot(
 ```
 
 When the `x` value is a discrete variable (e.g. model parameters), we cannot use `stat_fan()` as-is.
-In such case we recommend to add `geom = "rect"` or `geom = "linerange"` to `stat_fan` over using errorbars.
+In such case we recommend to add `geom = "rect"` or `geom = "linerange"` to `stat_fan` over using error bars.
 
 ```{r lm-effect}
 ## Example taken from help("lm")

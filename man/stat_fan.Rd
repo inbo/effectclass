@@ -69,7 +69,7 @@ to the paired geom/stat.}
 \code{FALSE} displays coverages from 30\\% to 90\\% in steps of 30\\%.
 Defaults to \code{FALSE}}
 
-\item{link}{the link function to apply on the \code{y} before calculting the
+\item{link}{the link function to apply on the \code{y} before calculating the
 coverage intervals.
 Note that \code{link_sd} is the standard error on the link scale,
 while \code{y} is on the natural scale.

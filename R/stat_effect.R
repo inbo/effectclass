@@ -5,7 +5,7 @@
 #' Defaults to `TRUE`.
 #' @param errorbar Display the uncertainty as error bars.
 #' Defaults to `TRUE`.
-#' @param error_colour Colour the error bars accorings to the classification.
+#' @param error_colour Colour the error bars according to the classification.
 #' Defaults to `TRUE`.
 #' @inheritParams ggplot2::stat_bin
 #' @inheritParams classification
@@ -128,7 +128,7 @@ stateffect_colour <- ggproto(
 #' Defaults to `TRUE`.
 #' @param colour return [ggplot2::scale_colour_manual()]
 #' @param fill return [ggplot2::scale_fill_manual()]
-#' @param labels the labels for the legend
+#' @param labels the labels for the legend.
 #' @param ... Arguments passed to [ggplot2::scale_colour_manual()] and
 #' [ggplot2::scale_fill_manual()].
 #' Note that `values` is set by `scale_effect()`.
@@ -179,8 +179,7 @@ scale_effect <- function(
 #' @param lang The language.
 #' Currently available are `"en"` (English) and `"nl"` (Dutch).
 #' Defaults to `"en"`.
-#' Please create an issue at https://github.com/inbo/effectclass/issues if you
-#' have suggestions for more languages.
+#' Please contact the maintainer if you have suggestions for more languages.
 #' @inheritParams scale_effect
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA

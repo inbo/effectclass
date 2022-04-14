@@ -87,10 +87,10 @@ Defaults to \code{TRUE}.}
 \item{errorbar}{Display the uncertainty as error bars.
 Defaults to \code{TRUE}.}
 
-\item{error_colour}{Colour the error bars accorings to the classification.
+\item{error_colour}{Colour the error bars according to the classification.
 Defaults to \code{TRUE}.}
 
-\item{labels}{the labels for the legend}
+\item{labels}{the labels for the legend.}
 }
 \description{
 Display points with classified effect

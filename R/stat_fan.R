@@ -9,7 +9,7 @@
 #' `TRUE` displays coverages from 10\% to 90\% in steps of 10\%.
 #' `FALSE` displays coverages from 30\% to 90\% in steps of 30\%.
 #' Defaults to `FALSE`
-#' @param link the link function to apply on the `y` before calculting the
+#' @param link the link function to apply on the `y` before calculating the
 #' coverage intervals.
 #' Note that `link_sd` is the standard error on the link scale,
 #' while `y` is on the natural scale.

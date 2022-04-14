@@ -45,7 +45,7 @@ Defaults to \code{TRUE}.}
 
 \item{colour}{return \code{\link[ggplot2:scale_manual]{ggplot2::scale_colour_manual()}}}
 
-\item{labels}{the labels for the legend}
+\item{labels}{the labels for the legend.}
 }
 \description{
 A scale for effect points
