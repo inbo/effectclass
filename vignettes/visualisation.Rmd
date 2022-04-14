@@ -257,7 +257,7 @@ If you do so, we recommend to use the same confidence interval for both the clas
 The widest interval of the three interval version `stat_fan` shows a 90% interval, whereas the nine interval version shows a 95% interval.
 Adding the thresholds helps the interpretations.
 
-```{r stat-effect-fan, fig.cap = "Combination of stat_effect and stat_fan with custom title and subset of classes."}
+```{r stat-effect-fan, fig.cap = "Combination of stat_effect and stat_fan with custom title."}
 ggplot(
   timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl, link_sd = s)
 ) +
@@ -317,7 +317,10 @@ ggplot(
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
   stat_fan(geom = "linerange") +
-  stat_effect(threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE) +
+  stat_effect(
+    threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE,
+    labels = class_labels(type = "effect")
+  ) +
   geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3))
 ```
 

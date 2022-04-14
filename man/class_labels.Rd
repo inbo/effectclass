@@ -4,9 +4,17 @@
 \alias{class_labels}
 \title{Return a standardised set of labels for the classification}
 \usage{
-class_labels(lang = c("en", "nl"), detailed = TRUE, signed = TRUE)
+class_labels(
+  type = c("trend", "effect"),
+  lang = c("en", "nl"),
+  detailed = TRUE,
+  signed = TRUE
+)
 }
 \arguments{
+\item{type}{What type of effect.
+Currently available are \code{"trend"} and \code{"effect"}.}
+
 \item{lang}{The language.
 Currently available are \code{"en"} (English) and \code{"nl"} (Dutch).
 Defaults to \code{"en"}.

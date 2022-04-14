@@ -174,6 +174,8 @@ scale_effect <- function(
 }
 
 #' Return a standardised set of labels for the classification
+#' @param type What type of effect.
+#' Currently available are `"trend"` and `"effect"`.
 #' @param lang The language.
 #' Currently available are `"en"` (English) and `"nl"` (Dutch).
 #' Defaults to `"en"`.
@@ -184,32 +186,49 @@ scale_effect <- function(
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom stats setNames
 #' @family display
-class_labels <- function(lang = c("en", "nl"), detailed = TRUE, signed = TRUE) {
+class_labels <- function(
+  type = c("trend", "effect"), lang = c("en", "nl"), detailed = TRUE,
+  signed = TRUE
+) {
   assert_that(is.flag(detailed), noNA(detailed), is.flag(signed), noNA(signed))
+  type <- match.arg(type)
   lang <- match.arg(lang)
   labels <- data.frame(
     symbol = rep(
       c(
         "++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?", "**", "*", "*~",
         "?*"
-      ), 2
+      ), 2 * 2
     ),
-    order = rep(c(1:10, 1:3, 5), 2),
+    order = rep(c(1:10, 1:3, 5), 2 * 2),
     label = c(
-      # en
-      "strong\nincrease", "increase", "moderate\nincrease", "stable",
-      "moderate\ndecrease",  "decrease", "strong\ndecrease",
-      "potential\nincrease", "potential\ndecrease", "unknown", "strong\ntrend",
-      "trend", "moderate\ntrend", "potential\ntrend",
-      # nl
-      "sterke\ntoename", "toename", "matige\ntoename", "stabiel",
-      "matige\ndaling",  "daling", "sterke\ndaling", "mogelijke\ntoename",
-      "mogelijke\ndaling", "onduidelijke\ntrend", "sterke\ntrend", "trend",
-      "matige\ntrend", "mogelijke\ntrend"
+      # en trend
+      "strong increase", "increase", "moderate increase", "stable",
+      "moderate decrease",  "decrease", "strong decrease",
+      "potential increase", "potential decrease", "unknown", "strong trend",
+      "trend", "moderate trend", "potential trend",
+      # en effect
+      "strong positive effect", "positive effect", "moderate positive effect",
+      "no effect", "moderate negative effect", "negative effect",
+      "strong negative effect", "potential positive effect",
+      "potential negative effect", "unknown effect", "strong effect", "effect",
+      "moderate effect", "potential effect",
+      # nl trend
+      "sterke toename", "toename", "matige toename", "stabiel",
+      "matige daling",  "daling", "sterke daling", "mogelijke toename",
+      "mogelijke daling", "onduidelijke trend", "sterke trend", "trend",
+      "matige trend", "mogelijke trend",
+      # nl effect
+      "sterke positief effect", "positief effect", "matige positief effect",
+      "geen effect", "matige negatief effect",  "negatief effect",
+      "sterk negatief effect", "mogelijke positief effect",
+      "mogelijk negatief effect", "onduidelijke effect", "sterk effect",
+      "effect", "matige effect", "mogelijke effect"
     ),
-    lang = rep(c("en", "nl"), each = 14)
+    lang = rep(c("en", "nl"), each = 2 * 14),
+    type = rep(c("trend", "effect"), each = 14)
   )
-  labels <- labels[labels$lang == lang, ]
+  labels <- labels[labels$type == type & labels$lang == lang, ]
   labels <- labels[!grepl(ifelse(signed, "\\*", "[\\+\\-]"), labels$symbol), ]
   labels <- labels[nchar(labels$symbol) <= detailed + 1, ]
   labels <- labels[order(labels$order), ]
