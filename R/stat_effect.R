@@ -22,7 +22,8 @@ stat_effect <- function(
   na.rm = FALSE, show.legend = NA, # nolint: object_name_linter.
   inherit.aes = TRUE, # nolint: object_name_linter.
   ..., threshold, reference = 0, detailed = TRUE, signed = TRUE,
-  shape_colour = TRUE, error = TRUE, error_colour = TRUE
+  shape_colour = TRUE, error = TRUE, error_colour = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 ) {
   assert_that(is.flag(shape_colour), noNA(shape_colour))
   assert_that(is.flag(error), noNA(error))
@@ -71,7 +72,7 @@ stat_effect <- function(
   }
   scale_layer <- scale_effect(
     ..., detailed = detailed, signed = signed, fill = shape_colour,
-    colour = error_colour
+    colour = error_colour, labels = labels
   )
   list(error_layer, text_layer, scale_layer)
 }
@@ -119,16 +120,17 @@ stateffect_colour <- ggproto(
 #' A scale for effect points
 #' @inheritDotParams ggplot2::scale_shape_manual
 #'
-#' @param detailed `TRUE` indicates a detailed \code{\link{classification}};
-#' `FALSE` a \code{\link{coarse_classification}}.
+#' @param detailed `TRUE` indicates a detailed [classification()];
+#' `FALSE` a [coarse_classification()].
 #' Defaults to `TRUE`.
 #' @param signed `TRUE` indicates a signed classification;
-#' `FALSE` a classification with \code{\link{remove_sign}}.
+#' `FALSE` a classification with [remove_sign()].
 #' Defaults to `TRUE`.
-#' @param colour return \code{\link[ggplot2]{scale_colour_manual}}
-#' @param fill return \code{\link[ggplot2]{scale_fill_manual}}
-#' @param ... Arguments passed to \code{\link[ggplot2]{scale_colour_manual}} and
-#' \code{\link[ggplot2]{scale_fill_manual}}.
+#' @param colour return [ggplot2::scale_colour_manual()]
+#' @param fill return [ggplot2::scale_fill_manual()]
+#' @param labels the labels for the legend
+#' @param ... Arguments passed to [ggplot2::scale_colour_manual()] and
+#' [ggplot2::scale_fill_manual()].
 #' Note that `values` is set by `scale_effect()`.
 #' @export
 #' @importFrom assertthat assert_that has_name is.count is.flag noNA
@@ -136,8 +138,8 @@ stateffect_colour <- ggproto(
 #' @template example_effect
 #' @family ggplot2
 scale_effect <- function(
-  ..., detailed = TRUE, signed = TRUE, fill = TRUE,
-  colour = TRUE
+  ..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 ) {
   assert_that(
     is.flag(detailed), is.flag(signed), is.flag(fill), is.flag(colour),
@@ -157,12 +159,59 @@ scale_effect <- function(
   }
   guide <- guide_legend(override.aes = list(label = names(values)))
   if (fill) {
-    scales <- scale_fill_manual(..., values = values, guide = guide)
+    scales <- scale_fill_manual(
+      ..., values = values, guide = guide, labels = labels
+    )
   } else {
     scales <- NULL
   }
   if (colour) {
-    scales <- list(scales, scale_colour_manual(..., values = values))
+    scales <- list(
+      scales, scale_colour_manual(..., values = values, labels = labels)
+    )
   }
   return(scales)
+}
+
+#' Return a standardised set of labels for the classification
+#' @param lang The language.
+#' Currently available are `"en"` (English) and `"nl"` (Dutch).
+#' Defaults to `"en"`.
+#' Please create an issue at https://github.com/inbo/effectclass/issues if you
+#' have suggestions for more languages.
+#' @inheritParams scale_effect
+#' @export
+#' @importFrom assertthat assert_that is.flag noNA
+#' @importFrom stats setNames
+#' @family display
+class_labels <- function(lang = c("en", "nl"), detailed = TRUE, signed = TRUE) {
+  assert_that(is.flag(detailed), noNA(detailed), is.flag(signed), noNA(signed))
+  lang <- match.arg(lang)
+  labels <- data.frame(
+    symbol = rep(
+      c(
+        "++", "+", "+~", "~", "-~", "-", "--", "?+", "?-", "?", "**", "*", "*~",
+        "?*"
+      ), 2
+    ),
+    order = rep(c(1:10, 1:3, 5), 2),
+    label = c(
+      # en
+      "strong\nincrease", "increase", "moderate\nincrease", "stable",
+      "moderate\ndecrease",  "decrease", "strong\ndecrease",
+      "potential\nincrease", "potential\ndecrease", "unknown", "strong\ntrend",
+      "trend", "moderate\ntrend", "potential\ntrend",
+      # nl
+      "sterke\ntoename", "toename", "matige\ntoename", "stabiel",
+      "matige\ndaling",  "daling", "sterke\ndaling", "mogelijke\ntoename",
+      "mogelijke\ndaling", "onduidelijke\ntrend", "sterke\ntrend", "trend",
+      "matige\ntrend", "mogelijke\ntrend"
+    ),
+    lang = rep(c("en", "nl"), each = 14)
+  )
+  labels <- labels[labels$lang == lang, ]
+  labels <- labels[!grepl(ifelse(signed, "\\*", "[\\+\\-]"), labels$symbol), ]
+  labels <- labels[nchar(labels$symbol) <= detailed + 1, ]
+  labels <- labels[order(labels$order), ]
+  setNames(labels$label, labels$symbol)
 }

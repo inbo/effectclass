@@ -4,7 +4,14 @@
 \alias{scale_effect}
 \title{A scale for effect points}
 \usage{
-scale_effect(..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE)
+scale_effect(
+  ...,
+  detailed = TRUE,
+  signed = TRUE,
+  fill = TRUE,
+  colour = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
+)
 }
 \arguments{
 \item{...}{
@@ -26,17 +33,19 @@ as output
     \item{\code{na.value}}{The aesthetic value to use for missing (\code{NA}) values}
   }}
 
-\item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
-\code{FALSE} a \code{\link{coarse_classification}}.
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
+\code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.
 Defaults to \code{TRUE}.}
 
 \item{signed}{\code{TRUE} indicates a signed classification;
-\code{FALSE} a classification with \code{\link{remove_sign}}.
+\code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
 Defaults to \code{TRUE}.}
 
-\item{fill}{return \code{\link[ggplot2]{scale_fill_manual}}}
+\item{fill}{return \code{\link[ggplot2:scale_manual]{ggplot2::scale_fill_manual()}}}
 
-\item{colour}{return \code{\link[ggplot2]{scale_colour_manual}}}
+\item{colour}{return \code{\link[ggplot2:scale_manual]{ggplot2::scale_colour_manual()}}}
+
+\item{labels}{the labels for the legend}
 }
 \description{
 A scale for effect points

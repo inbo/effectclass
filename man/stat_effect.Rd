@@ -18,7 +18,8 @@ stat_effect(
   signed = TRUE,
   shape_colour = TRUE,
   error = TRUE,
-  error_colour = TRUE
+  error_colour = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 )
 }
 \arguments{
@@ -71,12 +72,12 @@ A single threshold will be transformed into
 \item{reference}{The null hypothesis.
 Defaults to 0.}
 
-\item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
-\code{FALSE} a \code{\link{coarse_classification}}.
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
+\code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.
 Defaults to \code{TRUE}.}
 
 \item{signed}{\code{TRUE} indicates a signed classification;
-\code{FALSE} a classification with \code{\link{remove_sign}}.
+\code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
 Defaults to \code{TRUE}.}
 
 \item{shape_colour}{Colour the background of the labels according to the
@@ -85,6 +86,8 @@ Defaults to \code{TRUE}.}
 
 \item{error_colour}{Colour the error bars accorings to the classification.
 Defaults to \code{TRUE}.}
+
+\item{labels}{the labels for the legend}
 
 \item{errorbar}{Display the uncertainty as error bars.
 Defaults to \code{TRUE}.}

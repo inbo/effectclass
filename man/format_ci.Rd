@@ -73,4 +73,8 @@ format_ci(0.512345e-7, 1e-7)
 format_ci(0.512345e-7, 1e-8)
 format_ci(0.512345e-7, 1e-9)
 }
+\seealso{
+Other display: 
+\code{\link{class_labels}()}
+}
 \concept{display}
