@@ -22,13 +22,13 @@ stat_effect <- function(
   na.rm = FALSE, show.legend = NA, # nolint: object_name_linter.
   inherit.aes = TRUE, # nolint: object_name_linter.
   ..., threshold, reference = 0, detailed = TRUE, signed = TRUE,
-  shape_colour = TRUE, error = TRUE, error_colour = TRUE,
+  shape_colour = TRUE, errorbar = TRUE, error_colour = TRUE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 ) {
   assert_that(is.flag(shape_colour), noNA(shape_colour))
-  assert_that(is.flag(error), noNA(error))
+  assert_that(is.flag(errorbar), noNA(errorbar))
   dots <- list(...)
-  if (error) {
+  if (errorbar) {
     assert_that(is.flag(error_colour), noNA(error_colour))
     if (error_colour) {
       error_layer <- layer(

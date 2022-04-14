@@ -21,19 +21,16 @@
 #'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
 #'   geom_errorbar() +
 #'   stat_effect(threshold = 1) +
-#'   scale_effect() +
 #'   coord_flip()
 #' ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
 #'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
 #'   geom_errorbar() +
 #'   stat_effect(threshold = 1) +
-#'   scale_effect() +
 #'   coord_flip()
 #' ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
 #'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
 #'   geom_errorbar() +
 #'   stat_effect(threshold = 1) +
-#'   scale_effect(drop = TRUE) +
 #'   coord_flip()
 #'
 #' # plot indices
@@ -55,8 +52,7 @@
 #'   geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
 #'   geom_errorbar() +
 #'   geom_line() +
-#'   stat_effect(threshold = th, reference = ref) +
-#'   scale_effect()
+#'   stat_effect(threshold = th, reference = ref)
 #'
 #' # plot pairwise differences
 #' change_set <- function(z, base_year) {
@@ -94,6 +90,5 @@
 #' ggplot(change_set(z, base_year),
 #'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
 #'   stat_effect(threshold = th, reference = ref, aes(colour = total)) +
-#'   scale_colour_gradient2() +
-#'   scale_effect()
+#'   scale_colour_gradient2()
 #' options(warn = oldw)
