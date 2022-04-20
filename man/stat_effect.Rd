@@ -19,6 +19,7 @@ stat_effect(
   shape_colour = TRUE,
   errorbar = TRUE,
   error_colour = TRUE,
+  size = 6,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 )
 }

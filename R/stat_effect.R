@@ -22,7 +22,7 @@ stat_effect <- function(
   na.rm = FALSE, show.legend = NA, # nolint: object_name_linter.
   inherit.aes = TRUE, # nolint: object_name_linter.
   ..., threshold, reference = 0, detailed = TRUE, signed = TRUE,
-  shape_colour = TRUE, errorbar = TRUE, error_colour = TRUE,
+  shape_colour = TRUE, errorbar = TRUE, error_colour = TRUE, size = 6,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 ) {
   assert_that(is.flag(shape_colour), noNA(shape_colour))
@@ -50,31 +50,38 @@ stat_effect <- function(
     error_layer <- NULL
   }
   if (shape_colour) {
-    text_layer <- layer(
-      stat = stateffect_fill, data = data, mapping = mapping, geom = "label",
+    point_layer <- layer(
+      stat = stateffect_colour, data = data, mapping = mapping, geom = "point",
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
       params = list(
         threshold = threshold, reference = reference, na.rm = na.rm,
-        detailed = detailed, signed = signed,
-        colour = ifelse(has_name(dots, "colour"), dots$colour, "white"),
-        label.r = unit(0.5, "lines")
+        detailed = detailed, signed = signed, size = size
       )
     )
   } else {
-    text_layer <- layer(
-      stat = stateffect, data = data, mapping = mapping, geom = "label",
+    point_layer <- layer(
+      stat = stateffect, data = data, mapping = mapping, geom = "point",
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
       params = list(
         threshold = threshold, reference = reference, na.rm = na.rm,
-        detailed = detailed, signed = signed, label.r = unit(0.5, "lines")
+        detailed = detailed, signed = signed, size = size
       )
     )
   }
-  scale_layer <- scale_effect(
-    ..., detailed = detailed, signed = signed, fill = shape_colour,
-    colour = error_colour, labels = labels
+  text_layer <- layer(
+    stat = stateffect, data = data, mapping = mapping, geom = "text",
+    position = position, show.legend = TRUE, inherit.aes = inherit.aes,
+    params = list(
+      threshold = threshold, reference = reference,
+      detailed = detailed, signed = signed, size = 0.6 * size, na.rm = na.rm,
+      colour = ifelse(has_name(dots, "colour"), dots$colour, "white")
+    )
   )
-  list(error_layer, text_layer, scale_layer)
+  scale_layer <- scale_effect(
+    ..., detailed = detailed, signed = signed, fill = FALSE,
+    colour = error_colour || shape_colour, labels = labels
+  )
+  list(error_layer, point_layer, text_layer, scale_layer)
 }
 
 #' @importFrom assertthat assert_that is.flag noNA
@@ -167,7 +174,10 @@ scale_effect <- function(
   }
   if (colour) {
     scales <- list(
-      scales, scale_colour_manual(..., values = values, labels = labels)
+      scales,
+      scale_colour_manual(
+        ..., guide = guide, values = values, labels = labels
+      )
     )
   }
   return(scales)
