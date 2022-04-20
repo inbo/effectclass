@@ -247,9 +247,7 @@ timeserie$ucl <- qnorm(0.95, timeserie$index, timeserie$s)
 reference <- 1
 thresholds <- reference + c(-1, 1) * 0.3
 ggplot(timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl)) +
-  geom_errorbar() +
-  stat_effect(reference = reference, threshold = thresholds) +
-  geom_hline(yintercept = c(reference, thresholds), linetype = c(2, 3, 3))
+  stat_effect(reference = reference, threshold = thresholds)
 ```
 
 It is possible to combine `stat_fan()` and `stat_effect()`.
@@ -265,8 +263,7 @@ ggplot(
   stat_effect(
     name = "my title", reference = reference, threshold = thresholds,
     errorbar = FALSE
-  ) +
-  geom_hline(yintercept = c(reference, thresholds), linetype = c(2, 3, 3))
+  )
 ```
 
 When the `x` value is a discrete variable (e.g. model parameters), we cannot use `stat_fan()` as-is.
@@ -298,8 +295,7 @@ ggplot(
   stat_fan(geom = "rect") +
   stat_effect(
     name = "class", threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE
-  ) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3))
+  )
 ```
 
 ```{r effect-errorbar, fig.cap = "Model parameters with single errorbars."}
@@ -307,8 +303,7 @@ ggplot(
   effect_d90,
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
-  stat_effect(threshold = c(4.5, 5.5), reference = 5) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3))
+  stat_effect(threshold = c(4.5, 5.5), reference = 5)
 ```
 
 ```{r effect-fan-errorbar, fig.cap = "Model parameters with multiple lineranges."}
@@ -320,8 +315,7 @@ ggplot(
   stat_effect(
     threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE,
     labels = class_labels(type = "effect")
-  ) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3))
+  )
 ```
 
 ```{r effect-detailed-signed, fig.cap = "Symbols for a detailed and signed classification."}
@@ -333,29 +327,21 @@ ds$lcl <- qnorm(0.05, ds$mean, ds$sd)
 ds$ucl <- qnorm(0.95, ds$mean, ds$sd)
 ds$effect <- classification(ds$lcl, ds$ucl, 1)
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
   stat_effect(threshold = 1)
 ```
 
 ```{r effect-detailed-unsigned, fig.cap = "Symbols for a detailed and unsigned classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
   stat_effect(threshold = 1, signed = FALSE)
 ```
 
 ```{r effect-coarse-signed, fig.cap = "Symbols for a coarse and signed classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
   stat_effect(threshold = 1, detailed = FALSE)
 ```
 
 ```{r effect-coarse-unsigned, fig.cap = "Symbols for a coarse and unsigned classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
   stat_effect(threshold = 1, detailed = FALSE, signed = FALSE)
 ```
 

@@ -55,10 +55,7 @@ Adding a classification to a plot
 ``` r
 library(ggplot2)
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = c(-1, 1), reference = 0, size = 3) +
-  scale_effect()
+  stat_effect(threshold = c(-1, 1), reference = 0, size = 3)
 ```
 
 Creating a fan plot

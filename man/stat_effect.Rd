@@ -20,7 +20,8 @@ stat_effect(
   errorbar = TRUE,
   error_colour = TRUE,
   size = 6,
-  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed),
+  ref_line = c("all", "ref", "none")
 )
 }
 \arguments{
@@ -91,7 +92,15 @@ Defaults to \code{TRUE}.}
 \item{error_colour}{Colour the error bars according to the classification.
 Defaults to \code{TRUE}.}
 
+\item{size}{Size of the symbols.}
+
 \item{labels}{the labels for the legend.}
+
+\item{ref_line}{Which reference lines to display.
+\code{"all"} displays a dashed horizontal line at the \code{reference} and a dotted
+horizontal line at the \code{threshold}.
+\code{"ref"} displays a dashed horizontal line at the \code{reference}.
+\verb{"non}e"` displays no horizontal lines.}
 }
 \description{
 Display points with classified effect
@@ -116,19 +125,13 @@ library(ggplot2)
 theme_set(theme_grey(base_family = "Helvetica"))
 update_geom_defaults("point", list(size = 5))
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
   stat_effect(threshold = 1) +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = 1) +
+  stat_effect(threshold = 1, ref_line = "none") +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = 1) +
+  stat_effect(threshold = 1, errorbar = FALSE) +
   coord_flip()
 
 # plot indices
@@ -147,8 +150,6 @@ z$year <- base_year + z$dt
 th <- 0.25
 ref <- 0
 ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
-  geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
-  geom_errorbar() +
   geom_line() +
   stat_effect(threshold = th, reference = ref)
 
@@ -187,8 +188,17 @@ change_set <- function(z, base_year) {
 }
 ggplot(change_set(z, base_year),
        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
-  stat_effect(threshold = th, reference = ref, aes(colour = total)) +
+  stat_effect(
+    threshold = th, reference = ref, aes(colour = total), ref_line = "none",
+    errorbar = FALSE, shape_colour = FALSE
+  ) +
   scale_colour_gradient2()
+ggplot(change_set(z, base_year),
+       aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+  stat_effect(
+    threshold = th, reference = ref, ref_line = "none",
+    errorbar = FALSE
+  )
 options(warn = oldw)
 }
 \seealso{

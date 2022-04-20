@@ -12,6 +12,10 @@ test_that("stat_effect works", {
   ) +
     stat_effect(threshold = 2.5) +
     scale_effect()
-  expect_identical(length(p$layers), 2L)
-  expect_s3_class(p$layers[[1]]$geom, "GeomErrorbar")
+  expect_identical(length(p$layers), 5L)
+  expect_s3_class(p$layers[[1]]$geom, "GeomHline")
+  expect_s3_class(p$layers[[2]]$geom, "GeomHline")
+  expect_s3_class(p$layers[[3]]$geom, "GeomErrorbar")
+  expect_s3_class(p$layers[[4]]$geom, "GeomPoint")
+  expect_s3_class(p$layers[[5]]$geom, "GeomText")
 })

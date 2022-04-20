@@ -18,19 +18,13 @@
 #' theme_set(theme_grey(base_family = "Helvetica"))
 #' update_geom_defaults("point", list(size = 5))
 #' ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-#'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-#'   geom_errorbar() +
 #'   stat_effect(threshold = 1) +
 #'   coord_flip()
 #' ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-#'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-#'   geom_errorbar() +
-#'   stat_effect(threshold = 1) +
+#'   stat_effect(threshold = 1, ref_line = "none") +
 #'   coord_flip()
 #' ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-#'   geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-#'   geom_errorbar() +
-#'   stat_effect(threshold = 1) +
+#'   stat_effect(threshold = 1, errorbar = FALSE) +
 #'   coord_flip()
 #'
 #' # plot indices
@@ -49,8 +43,6 @@
 #' th <- 0.25
 #' ref <- 0
 #' ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
-#'   geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
-#'   geom_errorbar() +
 #'   geom_line() +
 #'   stat_effect(threshold = th, reference = ref)
 #'
@@ -89,6 +81,15 @@
 #' }
 #' ggplot(change_set(z, base_year),
 #'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
-#'   stat_effect(threshold = th, reference = ref, aes(colour = total)) +
+#'   stat_effect(
+#'     threshold = th, reference = ref, aes(colour = total), ref_line = "none",
+#'     errorbar = FALSE, shape_colour = FALSE
+#'   ) +
 #'   scale_colour_gradient2()
+#' ggplot(change_set(z, base_year),
+#'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+#'   stat_effect(
+#'     threshold = th, reference = ref, ref_line = "none",
+#'     errorbar = FALSE
+#'   )
 #' options(warn = oldw)

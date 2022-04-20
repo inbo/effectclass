@@ -7,12 +7,18 @@
 #' Defaults to `TRUE`.
 #' @param error_colour Colour the error bars according to the classification.
 #' Defaults to `TRUE`.
+#' @param size Size of the symbols.
+#' @param ref_line Which reference lines to display.
+#' `"all"` displays a dashed horizontal line at the `reference` and a dotted
+#' horizontal line at the `threshold`.
+#' `"ref"` displays a dashed horizontal line at the `reference`.
+#' `"non`e"` displays no horizontal lines.
 #' @inheritParams ggplot2::stat_bin
 #' @inheritParams classification
 #' @inheritParams scale_effect
 #' @export
 #' @importFrom assertthat assert_that has_name is.flag noNA
-#' @importFrom ggplot2 geom_errorbar layer
+#' @importFrom ggplot2 geom_errorbar geom_hline layer
 #' @importFrom grid unit
 #' @template example_effect
 #' @family ggplot2
@@ -23,10 +29,12 @@ stat_effect <- function(
   inherit.aes = TRUE, # nolint: object_name_linter.
   ..., threshold, reference = 0, detailed = TRUE, signed = TRUE,
   shape_colour = TRUE, errorbar = TRUE, error_colour = TRUE, size = 6,
-  labels = class_labels(lang = "en", detailed = detailed, signed = signed)
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed),
+  ref_line = c("all", "ref", "none")
 ) {
   assert_that(is.flag(shape_colour), noNA(shape_colour))
   assert_that(is.flag(errorbar), noNA(errorbar))
+  ref_line <- match.arg(ref_line)
   dots <- list(...)
   if (errorbar) {
     assert_that(is.flag(error_colour), noNA(error_colour))
@@ -55,7 +63,7 @@ stat_effect <- function(
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
       params = list(
         threshold = threshold, reference = reference, na.rm = na.rm,
-        detailed = detailed, signed = signed, size = size
+        detailed = detailed, signed = signed, size = size, error = errorbar
       )
     )
   } else {
@@ -64,7 +72,7 @@ stat_effect <- function(
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
       params = list(
         threshold = threshold, reference = reference, na.rm = na.rm,
-        detailed = detailed, signed = signed, size = size
+        detailed = detailed, signed = signed, size = size, error = errorbar
       )
     )
   }
@@ -74,19 +82,33 @@ stat_effect <- function(
     params = list(
       threshold = threshold, reference = reference,
       detailed = detailed, signed = signed, size = 0.6 * size, na.rm = na.rm,
-      colour = ifelse(has_name(dots, "colour"), dots$colour, "white")
+      colour = ifelse(has_name(dots, "colour"), dots$colour, "white"),
+      error = errorbar
     )
   )
   scale_layer <- scale_effect(
     ..., detailed = detailed, signed = signed, fill = FALSE,
-    colour = error_colour || shape_colour, labels = labels
+    colour = shape_colour || (errorbar && error_colour), labels = labels
   )
-  list(error_layer, point_layer, text_layer, scale_layer)
+  if (ref_line == "all" && length(threshold) == 1) {
+    threshold <- reference + c(-1, 1) * abs(threshold)
+  }
+  ref_layer <- switch(
+    ref_line,
+    "all" = list(
+      geom_hline(yintercept = reference, linetype = 2),
+      geom_hline(yintercept = threshold, linetype = 3)
+    ),
+    "ref" = geom_hline(yintercept = reference, linetype = 2),
+    list()
+  )
+  list(ref_layer, error_layer, point_layer, text_layer, scale_layer)
 }
 
 #' @importFrom assertthat assert_that is.flag noNA
 compute_group_stateffect <- function(
-  data, scales, threshold, reference = 0, detailed = TRUE, signed = TRUE, ...
+  data, scales, threshold, reference = 0, detailed = TRUE, signed = TRUE,
+  error = TRUE, ...
 ) {
   assert_that(is.flag(detailed), noNA(detailed))
   assert_that(is.flag(signed), noNA(signed))
@@ -100,6 +122,10 @@ compute_group_stateffect <- function(
   if (!signed) {
     data$classification <- remove_sign(data$classification)
   }
+  if (!error) {
+    data$ymin <- NULL
+    data$ymax <- NULL
+  }
   return(data)
 }
 
@@ -107,13 +133,6 @@ compute_group_stateffect <- function(
 stateffect <- ggproto(
   "StatEffectChange", Stat, compute_group = compute_group_stateffect,
   default_aes = aes(label = stat(classification)),
-  required_aes = c("x", "y", "ymin", "ymax")
-)
-
-#' @importFrom ggplot2 ggproto Stat aes
-stateffect_fill <- ggproto(
-  "StatEffectChange", Stat, compute_group = compute_group_stateffect,
-  default_aes = aes(label = stat(classification), fill = stat(classification)),
   required_aes = c("x", "y", "ymin", "ymax")
 )
 
