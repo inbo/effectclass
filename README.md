@@ -24,7 +24,7 @@ You can install the released version of effectclass from [GitHub](https://github
 # installation requires the "remotes" package
 # install.package("remotes")
 
-remotes::install_github("inbo/effectclass"))
+remotes::install_github("inbo/effectclass")
 ```
 
 ## Example
