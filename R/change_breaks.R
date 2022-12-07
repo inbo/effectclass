@@ -7,7 +7,7 @@ change_pretty <- function(log_x) {
   log(1 + sign(original) * nice * 10 ^ scale)
 }
 
-#' Logaritmic breaks for changes
+#' Logarithmic breaks for changes
 #'
 #' Breaks a set of pretty breaks for changes.
 #' @param n the number of breaks on either side of the reference
@@ -26,15 +26,17 @@ change_breaks <- function(n = 2) {
   }
 }
 
-#' Display logaritmic changes as percentage
+#' Display logarithmic changes as percentage
+#' @param x the logarithmic changes
 #' @export
 change_labels <- function(x) {
+  assert_that(is.numeric(x))
   percent <- 100 * exp(x) - 100
-  if (all(percent == 0)) {
+  if (!any(abs(percent) > 1e-8)) {
     return(sprintf(paste0("%+.0f%%"), percent))
   }
-  smallest <- min(abs(percent[percent != 0]))
-  magnitude <- abs(floor(log10(smallest)))
+  smallest <- min(abs(percent[abs(percent) > 1e-8]), na.rm = TRUE)
+  magnitude <- -floor(log10(smallest))
   magnitude <- magnitude + as.integer(smallest * 10 ^ magnitude < 2)
-  sprintf(paste0("%+.", magnitude, "f%%"), percent)
+  sprintf(paste0("%+.", pmax(magnitude, 0), "f%%"), percent)
 }

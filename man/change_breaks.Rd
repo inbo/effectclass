@@ -2,7 +2,7 @@
 % Please edit documentation in R/change_breaks.R
 \name{change_breaks}
 \alias{change_breaks}
-\title{Logaritmic breaks for changes}
+\title{Logarithmic breaks for changes}
 \usage{
 change_breaks(n = 2)
 }

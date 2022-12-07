@@ -2,10 +2,13 @@
 % Please edit documentation in R/change_breaks.R
 \name{change_labels}
 \alias{change_labels}
-\title{Display logaritmic changes as percentage}
+\title{Display logarithmic changes as percentage}
 \usage{
 change_labels(x)
 }
+\arguments{
+\item{x}{the logarithmic changes}
+}
 \description{
-Display logaritmic changes as percentage
+Display logarithmic changes as percentage
 }
