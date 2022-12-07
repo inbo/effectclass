@@ -38,4 +38,8 @@ test_that("unlist works", {
   expect_identical(unlist("junk"), "junk")
   z <- classification(lcl = c(-2, -0.5), ucl = c(2, 0.5), threshold = 1)
   expect_identical(unlist(z), z)
+  expect_identical(unlist(list(z, z)), c(z, z))
+  expect_identical(unlist(list(z, list(z))), c(z, z))
+  expect_error(unlist(list(z, "bla")))
+  expect_error(unlist(list(z, list("bla"))))
 })
