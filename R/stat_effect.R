@@ -155,16 +155,20 @@ stateffect_colour <- ggproto(
 #' @param colour return [ggplot2::scale_colour_manual()]
 #' @param fill return [ggplot2::scale_fill_manual()]
 #' @param labels the labels for the legend.
+#' @param drop Drop unused levels.
+#' This is always `FALSE`.
+#' Changing this argument has no effect.
+#' We provide the argument to avoid errors in case the user sets the argument.
 #' @param ... Arguments passed to [ggplot2::scale_colour_manual()] and
 #' [ggplot2::scale_fill_manual()].
-#' Note that `values` is set by `scale_effect()`.
+#' Note that `values` and `drop` are set by `scale_effect()`.
 #' @export
 #' @importFrom assertthat assert_that has_name is.count is.flag noNA
 #' @importFrom ggplot2 guide_legend scale_colour_manual scale_fill_manual
 #' @template example_effect
 #' @family ggplot2
 scale_effect <- function(
-  ..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE,
+  ..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE, drop = FALSE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 ) {
   assert_that(
@@ -186,7 +190,7 @@ scale_effect <- function(
   guide <- guide_legend(override.aes = list(label = names(values)))
   if (fill) {
     scales <- scale_fill_manual(
-      ..., values = values, guide = guide, labels = labels
+      ..., values = values, guide = guide, labels = labels, drop = FALSE
     )
   } else {
     scales <- NULL
@@ -195,7 +199,7 @@ scale_effect <- function(
     scales <- list(
       scales,
       scale_colour_manual(
-        ..., guide = guide, values = values, labels = labels
+        ..., guide = guide, values = values, labels = labels, drop = FALSE
       )
     )
   }
