@@ -2,7 +2,6 @@ on:
   push:
     branches-ignore:
       - main
-      - master
       - ghpages
 
 name: "check package"
@@ -12,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: "check package"
     env:
+      GITHUB_TOKEN: ${{ github.token }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
+    permissions:
+      contents: read
     steps:
-      - uses: inbo/actions/check_pkg@master
-        with:
-          token: ${{ secrets.PAT }}
+      - uses: inbo/actions/check_pkg@token
