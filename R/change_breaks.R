@@ -13,6 +13,8 @@ change_pretty <- function(log_x) {
 #' @param n the number of breaks on either side of the reference
 #' @export
 #' @importFrom assertthat assert_that is.count
+#' @importFrom utils head tail
+#' @family utils
 change_breaks <- function(n = 2) {
   assert_that(is.count(n))
   n_default <- n
@@ -29,6 +31,7 @@ change_breaks <- function(n = 2) {
 #' Display logarithmic changes as percentage
 #' @param x the logarithmic changes
 #' @export
+#' @family utils
 change_labels <- function(x) {
   assert_that(is.numeric(x))
   percent <- 100 * exp(x) - 100

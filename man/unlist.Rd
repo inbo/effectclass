@@ -21,6 +21,8 @@ Flatten Lists
 base::unlist
 
 Other utils: 
+\code{\link{change_breaks}()},
+\code{\link{change_labels}()},
 \code{\link{is_effectclass}()}
 }
 \concept{utils}

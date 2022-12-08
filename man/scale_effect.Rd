@@ -10,6 +10,7 @@ scale_effect(
   signed = TRUE,
   fill = TRUE,
   colour = TRUE,
+  drop = FALSE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
 )
 }
@@ -44,6 +45,11 @@ Defaults to \code{TRUE}.}
 \item{fill}{return \code{\link[ggplot2:scale_manual]{ggplot2::scale_fill_manual()}}}
 
 \item{colour}{return \code{\link[ggplot2:scale_manual]{ggplot2::scale_colour_manual()}}}
+
+\item{drop}{Drop unused levels.
+This is always \code{FALSE}.
+Changing this argument has no effect.
+We provide the argument to avoid errors in case the user sets the argument.}
 
 \item{labels}{the labels for the legend.}
 }

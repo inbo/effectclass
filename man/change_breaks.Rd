@@ -12,3 +12,10 @@ change_breaks(n = 2)
 \description{
 Breaks a set of pretty breaks for changes.
 }
+\seealso{
+Other utils: 
+\code{\link{change_labels}()},
+\code{\link{is_effectclass}()},
+\code{\link{unlist}()}
+}
+\concept{utils}

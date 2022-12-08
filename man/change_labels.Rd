@@ -12,3 +12,10 @@ change_labels(x)
 \description{
 Display logarithmic changes as percentage
 }
+\seealso{
+Other utils: 
+\code{\link{change_breaks}()},
+\code{\link{is_effectclass}()},
+\code{\link{unlist}()}
+}
+\concept{utils}
