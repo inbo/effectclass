@@ -2,20 +2,18 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '6 0 15 * *'
+      - master
+permissions:
+  contents: write
 
-name: "check package on main"
+name: "check package on main with checklist"
 
 jobs:
   check-package:
     runs-on: ubuntu-latest
     name: "check package"
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-    permissions:
-      contents: write
-      pages: write
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: inbo/actions/check_pkg@token
+      - uses: inbo/actions/check_pkg@main

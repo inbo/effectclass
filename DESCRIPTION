@@ -23,9 +23,10 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
+Config/checklist/communities: inbo
+Config/checklist/keywords: classification; effect size; uncertainty;
+    visualisation
 Encoding: UTF-8
 Language: en-GB
-Config/checklist/communities: inbo
-Config/checklist/keywords: classification; effect size; uncertainty; visualisation
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
