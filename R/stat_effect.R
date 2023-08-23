@@ -18,7 +18,8 @@
 #' @inheritParams scale_effect
 #' @export
 #' @importFrom assertthat assert_that has_name is.flag noNA
-#' @importFrom ggplot2 geom_errorbar geom_hline layer
+#' @importFrom ggplot2 geom_errorbar geom_hline layer scale_colour_manual
+#' scale_fill_manual
 #' @importFrom grid unit
 #' @template example_effect
 #' @family ggplot2
