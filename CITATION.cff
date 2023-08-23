@@ -4,6 +4,7 @@ title: 'effectclass: Classification and Visualisation of Effects'
 authors:
 - given-names: Thierry
   family-names: Onkelinx
+  affiliation: Research Institute for Nature and Forest (INBO)
   orcid: 0000-0001-8804-4216
 keywords:
 - classification
@@ -13,6 +14,7 @@ keywords:
 contact:
 - given-names: Thierry
   family-names: Onkelinx
+  affiliation: Research Institute for Nature and Forest (INBO)
   orcid: 0000-0001-8804-4216
 doi: ~
 license: GPL-3.0
