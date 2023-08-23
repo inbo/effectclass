@@ -13,7 +13,8 @@ format_ci(
   link = c("identity", "log", "logit"),
   max_digit = 4,
   percent = FALSE,
-  sign = FALSE
+  sign = FALSE,
+  change = FALSE
 )
 }
 \arguments{
@@ -44,6 +45,12 @@ Defaults to \code{FALSE}.}
 
 \item{sign}{Always add the sign to the text. (e.g. \code{+1} instead of \code{1}).
 Defaults to \code{FALSE}.}
+
+\item{change}{Display interval as a change.
+Subtract \code{1} after applying the \code{link} and before applying \code{percent}.
+Use it to display \verb{0.9 (0.85; 0.95)} as \verb{-10\% (-15\%; -5\%)}.
+Defaults to \code{FALSE}.
+Implies \code{sign == TRUE}.}
 }
 \description{
 The function rounds the estimate, lower and upper confidence interval to the
@@ -68,10 +75,13 @@ format_ci(-0.1, lcl = -0.1999, ucl = 0.1234)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, percent = TRUE)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, sign = TRUE)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, percent = TRUE, sign = TRUE)
+format_ci(-0.1, lcl = -0.1999, ucl = 0.1234)
 format_ci(0.512345e-6, 1e-6)
 format_ci(0.512345e-7, 1e-7)
 format_ci(0.512345e-7, 1e-8)
 format_ci(0.512345e-7, 1e-9)
+format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = FALSE)
+format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = TRUE)
 }
 \seealso{
 Other display: 
