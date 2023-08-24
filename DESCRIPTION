@@ -16,7 +16,8 @@ Depends:
     R (>= 4.1.0)
 Imports:
     assertthat,
-    ggplot2
+    ggplot2,
+    plotly
 Suggests: 
     knitr,
     rmarkdown,

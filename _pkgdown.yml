@@ -30,6 +30,9 @@ reference:
 - title: ggplot2 add-ons
   contents:
   - has_concept("ggplot2")
+- title: plotly add-ons
+  contents:
+  - has_concept("plotly")
 - title: Display
   contents:
   - has_concept("display")
