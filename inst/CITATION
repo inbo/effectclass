@@ -7,7 +7,7 @@ bibentry(
   year = 2023,
   url = "https://inbo.github.io/effectclass/",
   abstract = "Classify effects by comparing the confidence intervals with thresholds.",
-  textVersion = "Onkelinx, Thierry (2023) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://github.com/inbo/effectclass/; https://inbo.github.io/effectclass/",
+  textVersion = "Onkelinx, Thierry (2023) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://inbo.github.io/effectclass/",
   keywords = "classification; effect size; uncertainty; visualisation",
 )
 # end checklist entry

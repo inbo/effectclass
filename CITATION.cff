@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
-title: 'effectclass: Classification and Visualisation of Effects'
+title: "effectclass: Classification and Visualisation of Effects"
 authors:
 - given-names: Thierry
   family-names: Onkelinx
@@ -20,7 +20,7 @@ doi: ~
 license: GPL-3.0
 repository-code: https://github.com/inbo/effectclass/
 type: software
-abstract: Classify effects by comparing the confidence intervals with thresholds.
+abstract: "Classify effects by comparing the confidence intervals with thresholds."
 identifiers:
 - type: url
   value: https://inbo.github.io/effectclass/
