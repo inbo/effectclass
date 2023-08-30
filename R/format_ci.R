@@ -31,7 +31,7 @@
 #' @export
 #' @importFrom assertthat assert_that is.flag is.number noNA
 #' @importFrom stats plogis qnorm
-#' @family display
+#' @family display functions
 #' @examples
 #' format_ci(0.512345, 1)
 #' format_ci(0.512345, 1, interval = 0.9)

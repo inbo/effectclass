@@ -18,6 +18,9 @@ navbar:
   right:
   - icon: "fa fa-github"
     href: https://github.com/inbo/effectclass
+  - icon: "fa fa-mastodon"
+    href: https://fosstodon.org/%40ThierryO
+    rel: me
   - icon: "fa fa-twitter"
     href: https://twitter.com/INBOVlaanderen
   - icon: "fa fa-facebook"
@@ -26,16 +29,16 @@ navbar:
 reference:
 - title: Classification of Effects
   contents:
-  - has_concept("classification")
+  - has_concept("classification functions")
 - title: ggplot2 add-ons
   contents:
-  - has_concept("ggplot2")
+  - has_concept("ggplot2 add-ons")
 - title: plotly add-ons
   contents:
-  - has_concept("plotly")
+  - has_concept("plotly add-ons")
 - title: Display
   contents:
-  - has_concept("display")
+  - has_concept("display functions")
 - title: Utilities
   contents:
   - has_concept("utils")

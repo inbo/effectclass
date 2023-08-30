@@ -24,8 +24,8 @@ coarse_classification(classification)
 \code{y <- remove_sign(classification(x))} into 3 scales.
 }
 \seealso{
-Other classification: 
+Other classification functions: 
 \code{\link{classification}()},
 \code{\link{remove_sign}()}
 }
-\concept{classification}
+\concept{classification functions}

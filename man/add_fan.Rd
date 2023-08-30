@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_fan.R
 \name{add_fan}
 \alias{add_fan}
-\title{Add a fan plot to a \code{plotly} figure.}
+\title{Add a fan plot to a \code{plotly} object}
 \usage{
 add_fan(
   p,
@@ -73,7 +73,7 @@ p |>
   add_fan(sd = ~s, max_prob = 0.95, link = "log")
 }
 \seealso{
-Other plotly: 
+Other plotly add-ons: 
 \code{\link{add_classification}()}
 }
-\concept{plotly}
+\concept{plotly add-ons}

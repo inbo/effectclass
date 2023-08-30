@@ -41,8 +41,8 @@ Defaults to 0.}
 }
 }
 \seealso{
-Other classification: 
+Other classification functions: 
 \code{\link{coarse_classification}()},
 \code{\link{remove_sign}()}
 }
-\concept{classification}
+\concept{classification functions}

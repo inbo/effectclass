@@ -84,7 +84,7 @@ format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = FALSE)
 format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = TRUE)
 }
 \seealso{
-Other display: 
+Other display functions: 
 \code{\link{class_labels}()}
 }
-\concept{display}
+\concept{display functions}

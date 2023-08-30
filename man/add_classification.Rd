@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_classification.R
 \name{add_classification}
 \alias{add_classification}
-\title{Add a point symbol with classification}
+\title{Add a point symbol with classification to a \code{plotly} object}
 \usage{
 add_classification(
   p,
@@ -52,7 +52,8 @@ A single threshold will be transformed into
 Defaults to 0.}
 
 \item{prob}{The coverage of the confidence interval when calculated from the
-mean \code{y} and standard error \code{sd}.}
+mean \code{y} and standard error \code{sd}.
+Note that the function assumes a normal distribution at the \code{link} scale.}
 
 \item{link}{the link between the natural scale and the link scale.
 Defaults to \code{"identity"}.}
@@ -60,10 +61,10 @@ Defaults to \code{"identity"}.}
 \item{size}{Size of the point symbol.}
 }
 \description{
-Add a point symbol with classification
+See \code{classification()} for an explication on how the classification is done.
 }
 \seealso{
-Other plotly: 
+Other plotly add-ons: 
 \code{\link{add_fan}()}
 }
-\concept{plotly}
+\concept{plotly add-ons}

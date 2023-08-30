@@ -102,7 +102,7 @@ Defaults to \code{TRUE}.}
 \code{"all"} displays a dashed horizontal line at the \code{reference} and a dotted
 horizontal line at the \code{threshold}.
 \code{"ref"} displays a dashed horizontal line at the \code{reference}.
-\verb{"non}e"` displays no horizontal lines.}
+\code{"none"} displays no horizontal lines.}
 }
 \description{
 Display points with classified effect
@@ -206,8 +206,8 @@ options(warn = oldw)
 \seealso{
 \code{\link{classification}}
 
-Other ggplot2: 
+Other ggplot2 add-ons: 
 \code{\link{scale_effect}()},
 \code{\link{stat_fan}()}
 }
-\concept{ggplot2}
+\concept{ggplot2 add-ons}

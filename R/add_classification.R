@@ -1,11 +1,14 @@
-#' Add a point symbol with classification
+#' Add a point symbol with classification to a `plotly` object
+#'
+#' See `classification()` for an explication on how the classification is done.
 #' @inheritParams plotly::add_trace
 #' @inheritParams add_fan
 #' @inheritParams classification
 #' @param prob The coverage of the confidence interval when calculated from the
 #' mean `y` and standard error `sd`.
+#' Note that the function assumes a normal distribution at the `link` scale.
 #' @param size Size of the point symbol.
-#' @family plotly
+#' @family plotly add-ons
 #' @export
 #' @importFrom assertthat assert_that has_name is.flag is.number noNA
 #' @importFrom plotly add_trace

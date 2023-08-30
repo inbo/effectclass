@@ -153,8 +153,8 @@ ggplot(change_set(z, base_year),
 options(warn = oldw)
 }
 \seealso{
-Other ggplot2: 
+Other ggplot2 add-ons: 
 \code{\link{stat_effect}()},
 \code{\link{stat_fan}()}
 }
-\concept{ggplot2}
+\concept{ggplot2 add-ons}

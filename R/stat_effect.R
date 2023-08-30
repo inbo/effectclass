@@ -12,7 +12,7 @@
 #' `"all"` displays a dashed horizontal line at the `reference` and a dotted
 #' horizontal line at the `threshold`.
 #' `"ref"` displays a dashed horizontal line at the `reference`.
-#' `"non`e"` displays no horizontal lines.
+#' `"none"` displays no horizontal lines.
 #' @inheritParams ggplot2::stat_bin
 #' @inheritParams classification
 #' @inheritParams scale_effect
@@ -22,7 +22,7 @@
 #' scale_fill_manual
 #' @importFrom grid unit
 #' @template example_effect
-#' @family ggplot2
+#' @family ggplot2 add-ons
 #' @seealso \code{\link{classification}}
 stat_effect <- function(
   mapping = NULL, data = NULL, position = "identity",
@@ -167,7 +167,7 @@ stateffect_colour <- ggproto(
 #' @importFrom assertthat assert_that has_name is.count is.flag noNA
 #' @importFrom ggplot2 guide_legend scale_colour_manual scale_fill_manual
 #' @template example_effect
-#' @family ggplot2
+#' @family ggplot2 add-ons
 scale_effect <- function(
   ..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE, drop = FALSE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed)
@@ -218,7 +218,7 @@ scale_effect <- function(
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom stats setNames
-#' @family display
+#' @family display functions
 class_labels <- function(
   type = c("trend", "effect"), lang = c("en", "nl"), detailed = TRUE,
   signed = TRUE

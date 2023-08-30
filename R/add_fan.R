@@ -1,4 +1,4 @@
-#' Add a fan plot to a `plotly` figure.
+#' Add a fan plot to a `plotly` object
 #'
 #' A fan plot consist of a set of transparent ribbons each representing a
 #' different coverage of the uncertainty around an estimate.
@@ -31,7 +31,7 @@
 #'   add_fan(sd = ~s, step = 0.3, fillcolor = "green")
 #' p |>
 #'   add_fan(sd = ~s, max_prob = 0.95, link = "log")
-#' @family plotly
+#' @family plotly add-ons
 #' @export
 #' @importFrom assertthat assert_that is.flag is.number noNA
 #' @importFrom plotly add_polygons

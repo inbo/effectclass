@@ -20,8 +20,8 @@ remove_sign(classification)
 }
 }
 \seealso{
-Other classification: 
+Other classification functions: 
 \code{\link{classification}()},
 \code{\link{coarse_classification}()}
 }
-\concept{classification}
+\concept{classification functions}

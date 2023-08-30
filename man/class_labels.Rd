@@ -32,7 +32,7 @@ Defaults to \code{TRUE}.}
 Return a standardised set of labels for the classification
 }
 \seealso{
-Other display: 
+Other display functions: 
 \code{\link{format_ci}()}
 }
-\concept{display}
+\concept{display functions}
