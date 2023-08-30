@@ -74,6 +74,7 @@ p |>
 }
 \seealso{
 Other plotly add-ons: 
-\code{\link{add_classification}()}
+\code{\link{add_classification}()},
+\code{\link{reference_shape}()}
 }
 \concept{plotly add-ons}
