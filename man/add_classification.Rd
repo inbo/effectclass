@@ -18,7 +18,9 @@ add_classification(
   reference = 0,
   prob = 0.95,
   link = c("identity", "log", "logit"),
-  size = 20
+  size = 20,
+  detailed = TRUE,
+  signed = TRUE
 )
 }
 \arguments{
@@ -59,9 +61,57 @@ Note that the function assumes a normal distribution at the \code{link} scale.}
 Defaults to \code{"identity"}.}
 
 \item{size}{Size of the point symbol.}
+
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
+\code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.
+Defaults to \code{TRUE}.}
+
+\item{signed}{\code{TRUE} indicates a signed classification;
+\code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
+Defaults to \code{TRUE}.}
 }
 \description{
 See \code{classification()} for an explication on how the classification is done.
+}
+\examples{
+z <- data.frame(
+  effect = factor(
+    1:10,
+    labels = c("unknown\neffect", "potential\npositive\neffect",
+             "potential\nnegative\neffect", "no effect", "positive\neffect",
+             "negative\neffect", "moderate\npositive\neffect",
+             "moderate\nnegative\neffect", "strong\npositive\neffect",
+             "strong\nnegative\neffect")
+  ),
+  estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
+  lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
+  ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
+)
+library(plotly)
+z$error_up <- z$ucl - z$estimate
+z$error_down <- z$estimate - z$lcl
+plot_ly(
+  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
+  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
+) |>
+  add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1)
+plot_ly(
+  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
+  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
+) |>
+  add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE)
+plot_ly(
+  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
+  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
+) |>
+  add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1, signed = FALSE)
+plot_ly(
+  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
+  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
+) |>
+  add_classification(
+    lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
+  )
 }
 \seealso{
 Other plotly add-ons: 

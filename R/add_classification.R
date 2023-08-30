@@ -4,11 +4,14 @@
 #' @inheritParams plotly::add_trace
 #' @inheritParams add_fan
 #' @inheritParams classification
+#' @inheritParams stat_effect
 #' @param prob The coverage of the confidence interval when calculated from the
 #' mean `y` and standard error `sd`.
 #' Note that the function assumes a normal distribution at the `link` scale.
 #' @param size Size of the point symbol.
 #' @family plotly add-ons
+#' @template example_effect_data
+#' @template example_effect_plotly
 #' @export
 #' @importFrom assertthat assert_that has_name is.flag is.number noNA
 #' @importFrom plotly add_trace
@@ -16,9 +19,12 @@
 add_classification <- function(
   p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl, ucl,
   threshold, reference = 0, prob = 0.95, link = c("identity", "log", "logit"),
-  size = 20
+  size = 20, detailed = TRUE, signed = TRUE
 ) {
-  assert_that(is.flag(inherit), noNA(inherit))
+  assert_that(
+    is.flag(inherit), noNA(inherit), is.flag(detailed), noNA(detailed),
+    is.flag(signed), noNA(signed)
+  )
   link <- match.arg(link)
   if (inherit) {
     x <- coalesce(x, p$x$attrs[[1]][["x"]])
@@ -59,12 +65,23 @@ add_classification <- function(
   data$classification <- classification(
     lcl = lcl_1, ucl = ucl_1, threshold = threshold, reference = reference
   )
+  if (!detailed) {
+    data$classification <- coarse_classification(data$classification)
+  }
+  if (!signed) {
+    data$classification <- remove_sign(data$classification)
+  }
+  marker_color <- switch(
+    paste0(detailed, signed),
+    TRUETRUE = detailed_signed_palette, TRUEFALSE = detailed_unsigned_palette,
+    FALSETRUE = coarse_signed_palette, FALSEFALSE = coarse_unsigned_palette
+  )
   p |>
     add_trace(
       x = x, y = y, color = ~classification, text = ~classification,
       data = data, inherit = FALSE, showlegend = FALSE,
       type = "scatter", mode = "markers+text",
-      marker = list(size = size, color = detailed_signed_palette),
+      marker = list(size = size, color = marker_color),
       textfont = list(size = 0.6 * size, color = "white")
     )
 }

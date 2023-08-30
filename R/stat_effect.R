@@ -21,7 +21,8 @@
 #' @importFrom ggplot2 geom_errorbar geom_hline layer scale_colour_manual
 #' scale_fill_manual
 #' @importFrom grid unit
-#' @template example_effect
+#' @template example_effect_data
+#' @template example_effect_ggplot2
 #' @family ggplot2 add-ons
 #' @seealso \code{\link{classification}}
 stat_effect <- function(
@@ -166,7 +167,8 @@ stateffect_colour <- ggproto(
 #' @export
 #' @importFrom assertthat assert_that has_name is.count is.flag noNA
 #' @importFrom ggplot2 guide_legend scale_colour_manual scale_fill_manual
-#' @template example_effect
+#' @template example_effect_data
+#' @template example_effect_ggplot2
 #' @family ggplot2 add-ons
 scale_effect <- function(
   ..., detailed = TRUE, signed = TRUE, fill = TRUE, colour = TRUE, drop = FALSE,
