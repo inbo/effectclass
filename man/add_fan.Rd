@@ -72,4 +72,8 @@ p |>
 p |>
   add_fan(sd = ~s, max_prob = 0.95, link = "log")
 }
+\seealso{
+Other plotly: 
+\code{\link{add_classification}()}
+}
 \concept{plotly}
