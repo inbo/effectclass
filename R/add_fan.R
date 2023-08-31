@@ -16,7 +16,7 @@
 #' positive integer values `i` resulting in a positive coverage.
 #' Defaults to `0.05`.
 #' @param fillcolor The fill colour of the fan.
-#' Defaults to `"blue"`.
+#' Defaults to a greyish blue.
 #' @examples
 #' set.seed(20191218)
 #' z <- data.frame(

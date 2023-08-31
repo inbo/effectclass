@@ -13,7 +13,7 @@ add_fan(
   link = c("identity", "log", "logit"),
   max_prob = 0.9,
   step = 0.05,
-  fillcolor = "blue",
+  fillcolor = coarse_unsigned_palette[2],
   data = NULL,
   inherit = TRUE
 )
@@ -45,7 +45,7 @@ positive integer values \code{i} resulting in a positive coverage.
 Defaults to \code{0.05}.}
 
 \item{fillcolor}{The fill colour of the fan.
-Defaults to \code{"blue"}.}
+Defaults to a greyish blue.}
 
 \item{data}{A data frame (optional) or \link[crosstalk:SharedData]{crosstalk::SharedData} object.}
 
