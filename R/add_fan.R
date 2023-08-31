@@ -17,20 +17,8 @@
 #' Defaults to `0.05`.
 #' @param fillcolor The fill colour of the fan.
 #' Defaults to a greyish blue.
-#' @examples
-#' set.seed(20191218)
-#' z <- data.frame(
-#'   year = 1990:2019, dx = rnorm(30, sd = 0.2), s = rnorm(30, 0.5, 0.01)
-#' )
-#' z$index <- 3 + cumsum(z$dx)
-#' library(plotly)
-#' p <- plot_ly(z, x = ~year, y = ~index)
-#' p |>
-#'   add_fan(sd = ~s)
-#' p |>
-#'   add_fan(sd = ~s, step = 0.3, fillcolor = "green")
-#' p |>
-#'   add_fan(sd = ~s, max_prob = 0.95, link = "log")
+#' @template example_effect_data
+#' @template example_effect_plotly
 #' @family plotly add-ons
 #' @export
 #' @importFrom assertthat assert_that is.flag is.number is.string noNA

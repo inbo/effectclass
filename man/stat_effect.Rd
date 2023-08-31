@@ -108,19 +108,38 @@ horizontal line at the \code{threshold}.
 Display points with classified effect
 }
 \examples{
+# All possible classes
 z <- data.frame(
-  effect = factor(
-    1:10,
-    labels = c("unknown\neffect", "potential\npositive\neffect",
-             "potential\nnegative\neffect", "no effect", "positive\neffect",
-             "negative\neffect", "moderate\npositive\neffect",
-             "moderate\nnegative\neffect", "strong\npositive\neffect",
-             "strong\nnegative\neffect")
-  ),
-  estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
-  lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
-  ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
+  estimate = c(-0.7, 0, 0.7, 2, 1, 0.5, 0, -0.5, -1, -2),
+  sd = c(rep(0.8, 3), rep(0.3, 7))
 )
+z$lcl <- qnorm(0.05, z$estimate, z$sd)
+z$ucl <- qnorm(0.95, z$estimate, z$sd)
+classification(z$lcl, z$ucl, threshold = 1) -> z$effect
+c(
+  "?" = "unknown\neffect", "?+" = "potential\npositive\neffect",
+  "?-" = "potential\nnegative\neffect", "~" = "no effect",
+  "+" = "positive\neffect", "-" = "negative\neffect",
+  "+~" = "moderate\npositive\neffect", "-~" = "moderate\nnegative\neffect",
+  "++" = "strong\npositive\neffect", "--" = "strong\nnegative\neffect"
+)[as.character(z$effect)] -> z$x
+z$x <- factor(z$x, z$x)
+
+# Simulated trend
+set.seed(20190521)
+base_year <- 2000
+n_year <- 20
+trend <- data.frame(
+  dt = seq_len(n_year),
+  change = rnorm(n_year, sd = 0.2),
+  sd = rnorm(n_year, mean = 0.1, sd = 0.01)
+)
+trend$index <- cumsum(trend$change)
+trend$lcl <- qnorm(0.025, trend$index, trend$sd)
+trend$ucl <- qnorm(0.975, trend$index, trend$sd)
+trend$year <- base_year + trend$dt
+th <- 0.25
+ref <- 0
 oldw <- getOption("warn")
 options(warn = -1)
 library(ggplot2)
@@ -137,21 +156,7 @@ ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
   coord_flip()
 
 # plot indices
-set.seed(20190521)
-base_year <- 2000
-n_year <- 10
-z <- data.frame(
-  dt = seq_len(n_year),
-  change = rnorm(n_year, sd = 0.2),
-  sd = rnorm(n_year, mean = 0.1, sd = 0.01)
-)
-z$index <- cumsum(z$change)
-z$lcl <- qnorm(0.025, z$index, z$sd)
-z$ucl <- qnorm(0.975, z$index, z$sd)
-z$year <- base_year + z$dt
-th <- 0.25
-ref <- 0
-ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
+ggplot(trend, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
   geom_line() +
   stat_effect(threshold = th, reference = ref)
 
@@ -167,10 +172,8 @@ change_set <- function(z, base_year) {
         y <- z
       }
       data.frame(
-        from = base_year + i,
-        to = base_year + y$dt,
-        total = cumsum(y$change),
-        sd = sqrt(cumsum(y$sd ^ 2))
+        from = base_year + i, to = base_year + y$dt,
+        total = cumsum(y$change), sd = sqrt(cumsum(y$sd ^ 2))
       )
     }
   )
@@ -178,28 +181,27 @@ change_set <- function(z, base_year) {
   total_change <- rbind(
     total_change,
     data.frame(
-      from = total_change$to,
-      to = total_change$from,
-      total = -total_change$total,
-      sd = total_change$sd
+      from = total_change$to, to = total_change$from,
+      total = -total_change$total, sd = total_change$sd
     )
   )
   total_change$lcl <- qnorm(0.025, total_change$total, total_change$sd)
   total_change$ucl <- qnorm(0.975, total_change$total, total_change$sd)
   return(total_change)
 }
-ggplot(change_set(z, base_year),
-       aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+head(trend, 10) |>
+  change_set(base_year) |>
+  ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
   stat_effect(
     threshold = th, reference = ref, aes(colour = total), ref_line = "none",
     errorbar = FALSE, shape_colour = FALSE
   ) +
   scale_colour_gradient2()
-ggplot(change_set(z, base_year),
-       aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+head(trend, 10) |>
+  change_set(base_year) |>
+  ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
   stat_effect(
-    threshold = th, reference = ref, ref_line = "none",
-    errorbar = FALSE
+    threshold = th, reference = ref, ref_line = "none", errorbar = FALSE
   )
 options(warn = oldw)
 }

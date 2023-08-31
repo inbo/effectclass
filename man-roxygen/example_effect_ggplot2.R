@@ -15,21 +15,7 @@
 #'   coord_flip()
 #'
 #' # plot indices
-#' set.seed(20190521)
-#' base_year <- 2000
-#' n_year <- 10
-#' z <- data.frame(
-#'   dt = seq_len(n_year),
-#'   change = rnorm(n_year, sd = 0.2),
-#'   sd = rnorm(n_year, mean = 0.1, sd = 0.01)
-#' )
-#' z$index <- cumsum(z$change)
-#' z$lcl <- qnorm(0.025, z$index, z$sd)
-#' z$ucl <- qnorm(0.975, z$index, z$sd)
-#' z$year <- base_year + z$dt
-#' th <- 0.25
-#' ref <- 0
-#' ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
+#' ggplot(trend, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
 #'   geom_line() +
 #'   stat_effect(threshold = th, reference = ref)
 #'
@@ -45,10 +31,8 @@
 #'         y <- z
 #'       }
 #'       data.frame(
-#'         from = base_year + i,
-#'         to = base_year + y$dt,
-#'         total = cumsum(y$change),
-#'         sd = sqrt(cumsum(y$sd ^ 2))
+#'         from = base_year + i, to = base_year + y$dt,
+#'         total = cumsum(y$change), sd = sqrt(cumsum(y$sd ^ 2))
 #'       )
 #'     }
 #'   )
@@ -56,27 +40,26 @@
 #'   total_change <- rbind(
 #'     total_change,
 #'     data.frame(
-#'       from = total_change$to,
-#'       to = total_change$from,
-#'       total = -total_change$total,
-#'       sd = total_change$sd
+#'       from = total_change$to, to = total_change$from,
+#'       total = -total_change$total, sd = total_change$sd
 #'     )
 #'   )
 #'   total_change$lcl <- qnorm(0.025, total_change$total, total_change$sd)
 #'   total_change$ucl <- qnorm(0.975, total_change$total, total_change$sd)
 #'   return(total_change)
 #' }
-#' ggplot(change_set(z, base_year),
-#'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+#' head(trend, 10) |>
+#'   change_set(base_year) |>
+#'   ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
 #'   stat_effect(
 #'     threshold = th, reference = ref, aes(colour = total), ref_line = "none",
 #'     errorbar = FALSE, shape_colour = FALSE
 #'   ) +
 #'   scale_colour_gradient2()
-#' ggplot(change_set(z, base_year),
-#'        aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+#' head(trend, 10) |>
+#'   change_set(base_year) |>
+#'   ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
 #'   stat_effect(
-#'     threshold = th, reference = ref, ref_line = "none",
-#'     errorbar = FALSE
+#'     threshold = th, reference = ref, ref_line = "none", errorbar = FALSE
 #'   )
 #' options(warn = oldw)

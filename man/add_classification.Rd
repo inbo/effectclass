@@ -74,60 +74,67 @@ Defaults to \code{TRUE}.}
 See \code{classification()} for an explication on how the classification is done.
 }
 \examples{
+# All possible classes
 z <- data.frame(
-  effect = factor(
-    1:10,
-    labels = c("unknown\neffect", "potential\npositive\neffect",
-             "potential\nnegative\neffect", "no effect", "positive\neffect",
-             "negative\neffect", "moderate\npositive\neffect",
-             "moderate\nnegative\neffect", "strong\npositive\neffect",
-             "strong\nnegative\neffect")
-  ),
-  estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
-  lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
-  ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
+  estimate = c(-0.7, 0, 0.7, 2, 1, 0.5, 0, -0.5, -1, -2),
+  sd = c(rep(0.8, 3), rep(0.3, 7))
 )
+z$lcl <- qnorm(0.05, z$estimate, z$sd)
+z$ucl <- qnorm(0.95, z$estimate, z$sd)
+classification(z$lcl, z$ucl, threshold = 1) -> z$effect
+c(
+  "?" = "unknown\neffect", "?+" = "potential\npositive\neffect",
+  "?-" = "potential\nnegative\neffect", "~" = "no effect",
+  "+" = "positive\neffect", "-" = "negative\neffect",
+  "+~" = "moderate\npositive\neffect", "-~" = "moderate\nnegative\neffect",
+  "++" = "strong\npositive\neffect", "--" = "strong\nnegative\neffect"
+)[as.character(z$effect)] -> z$x
+z$x <- factor(z$x, z$x)
+
+# Simulated trend
+set.seed(20190521)
+base_year <- 2000
+n_year <- 20
+trend <- data.frame(
+  dt = seq_len(n_year),
+  change = rnorm(n_year, sd = 0.2),
+  sd = rnorm(n_year, mean = 0.1, sd = 0.01)
+)
+trend$index <- cumsum(trend$change)
+trend$lcl <- qnorm(0.025, trend$index, trend$sd)
+trend$ucl <- qnorm(0.975, trend$index, trend$sd)
+trend$year <- base_year + trend$dt
+th <- 0.25
+ref <- 0
 library(plotly)
-z$error_up <- z$ucl - z$estimate
-z$error_down <- z$estimate - z$lcl
-plot_ly(
-  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
-  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
-) |>
+plot_ly(z, x = ~x, y = ~estimate) |>
+  add_fan(sd = ~sd) |>
   add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1) |>
-  layout(
-    shapes = reference_shape(threshold = 1, horizontal = FALSE)
-  )
-plot_ly(
-  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
-  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
-) |>
+  layout(shapes = reference_shape(threshold = 1))
+plot_ly(z, x = ~x, y = ~estimate) |>
+  add_fan(sd = ~sd, step = 0.1) |>
   add_classification(
-  lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE
- ) |>
-  layout(
-    shapes = reference_shape(threshold = 1, horizontal = FALSE)
-  )
-plot_ly(
-  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
-  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
-) |>
+    lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE
+   ) |>
+  layout(shapes = reference_shape(threshold = 1))
+plot_ly(z, x = ~x, y = ~estimate) |>
+  add_fan(sd = ~sd, step = 0.2) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, signed = FALSE
-   ) |>
-  layout(
-    shapes = reference_shape(threshold = 1, horizontal = FALSE)
-  )
-plot_ly(
-  z, y = ~effect, x = ~estimate, type = "scatter", mode = "none",
-  error_x = list(type = "data", array = ~error_up, arrayminus = ~error_down)
-) |>
+  ) |>
+  layout(shapes = reference_shape(threshold = 1))
+plot_ly(z, x = ~x, y = ~estimate) |>
+  add_fan(sd = ~sd, step = 0.3) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
   ) |>
-  layout(
-    shapes = reference_shape(threshold = 1, horizontal = FALSE)
-  )
+  layout(shapes = reference_shape(threshold = 1))
+
+# trend
+plot_ly(data = trend, x = ~year, y = ~index) |>
+  add_fan(sd = ~sd) |>
+  add_classification(sd = ~sd, threshold = th) |>
+  layout(shapes = reference_shape(threshold = th, reference = ref))
 }
 \seealso{
 Other plotly add-ons: 
