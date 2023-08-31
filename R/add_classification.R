@@ -17,9 +17,9 @@
 #' @importFrom plotly add_trace
 #' @importFrom stats qnorm
 add_classification <- function(
-  p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl, ucl,
-  threshold, reference = 0, prob = 0.95, link = c("identity", "log", "logit"),
-  size = 20, detailed = TRUE, signed = TRUE
+  p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl = NULL,
+  ucl = NULL, threshold, reference = 0, prob = 0.95, size = 20,
+  link = c("identity", "log", "logit"), detailed = TRUE, signed = TRUE
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.flag(detailed), noNA(detailed),
@@ -76,12 +76,15 @@ add_classification <- function(
     TRUETRUE = detailed_signed_palette, TRUEFALSE = detailed_unsigned_palette,
     FALSETRUE = coarse_signed_palette, FALSEFALSE = coarse_unsigned_palette
   )
-  p |>
-    add_trace(
-      x = x, y = y, color = ~classification, text = ~classification,
-      data = data, inherit = FALSE, showlegend = FALSE,
-      type = "scatter", mode = "markers+text",
-      marker = list(size = size, color = marker_color),
-      textfont = list(size = 0.6 * size, color = "white")
-    )
+  for (i in sort(unique(data$classification))) {
+    p |>
+      add_trace(
+        x = x, y = y, text = i, data = data[data$classification == i, ],
+        inherit = FALSE, showlegend = FALSE, type = "scatter",
+        mode = "markers+text",
+        marker = list(size = size, color = marker_color[i]),
+        textfont = list(size = 0.6 * size, color = "white")
+      ) -> p
+  }
+  p
 }

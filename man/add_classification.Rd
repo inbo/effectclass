@@ -12,13 +12,13 @@ add_classification(
   data = NULL,
   inherit = TRUE,
   sd,
-  lcl,
-  ucl,
+  lcl = NULL,
+  ucl = NULL,
   threshold,
   reference = 0,
   prob = 0.95,
-  link = c("identity", "log", "logit"),
   size = 20,
+  link = c("identity", "log", "logit"),
   detailed = TRUE,
   signed = TRUE
 )
@@ -57,10 +57,10 @@ Defaults to 0.}
 mean \code{y} and standard error \code{sd}.
 Note that the function assumes a normal distribution at the \code{link} scale.}
 
+\item{size}{Size of the point symbol.}
+
 \item{link}{the link between the natural scale and the link scale.
 Defaults to \code{"identity"}.}
-
-\item{size}{Size of the point symbol.}
 
 \item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
 \code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.
