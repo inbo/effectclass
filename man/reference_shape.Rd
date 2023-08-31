@@ -6,7 +6,13 @@
 Returns a list shapes you can pass to the \code{shapes} argument of
 \code{plotly::layout()}}
 \usage{
-reference_shape(threshold, reference = 0, colour = "black", horizontal = TRUE)
+reference_shape(
+  threshold,
+  reference = 0,
+  colour = "black",
+  line = FALSE,
+  horizontal = TRUE
+)
 }
 \arguments{
 \item{threshold}{A vector of either 1 or 2 thresholds.
@@ -18,6 +24,9 @@ Defaults to 0.}
 
 \item{colour}{The colour for the references.
 Defaults to \code{"black"}.}
+
+\item{line}{display the \code{threshold} as a line (\code{TRUE}) or a ribbon (\code{FALSE}).
+Defaults to \code{FALSE}.}
 
 \item{horizontal}{Display horizontal reference when \code{TRUE} (default).
 Display vertical reference when \code{FALSE}.}
@@ -70,7 +79,7 @@ plot_ly(z, x = ~x, y = ~estimate) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE
    ) |>
-  layout(shapes = reference_shape(threshold = 1))
+  layout(shapes = reference_shape(threshold = 1, line = TRUE))
 plot_ly(z, x = ~x, y = ~estimate) |>
   add_fan(sd = ~sd, step = 0.2) |>
   add_classification(
@@ -82,7 +91,7 @@ plot_ly(z, x = ~x, y = ~estimate) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
   ) |>
-  layout(shapes = reference_shape(threshold = 1))
+  layout(shapes = reference_shape(threshold = 1, line = TRUE))
 
 # trend
 plot_ly(data = trend, x = ~year, y = ~index) |>
