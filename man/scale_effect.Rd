@@ -59,7 +59,7 @@ A scale for effect points
 \examples{
 # All possible classes
 z <- data.frame(
-  estimate = c(-0.7, 0, 0.7, 2, 1, 0.5, 0, -0.5, -1, -2),
+  estimate = c(-0.5, 0, 0.5, 1.5, 1, 0.5, 0, -0.5, -1, -1.5),
   sd = c(rep(0.8, 3), rep(0.3, 7))
 )
 z$lcl <- qnorm(0.05, z$estimate, z$sd)
