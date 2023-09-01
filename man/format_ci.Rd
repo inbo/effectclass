@@ -82,6 +82,8 @@ format_ci(0.512345e-7, 1e-8)
 format_ci(0.512345e-7, 1e-9)
 format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = FALSE)
 format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = TRUE)
+format_ci(0, lcl = 0, ucl = 0)
+format_ci(1, lcl = 1, ucl = 1)
 }
 \seealso{
 Other display functions: 

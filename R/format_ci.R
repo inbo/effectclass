@@ -56,6 +56,8 @@
 #' format_ci(0.512345e-7, 1e-9)
 #' format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = FALSE)
 #' format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = TRUE)
+#' format_ci(0, lcl = 0, ucl = 0)
+#' format_ci(1, lcl = 1, ucl = 1)
 format_ci <- function(
   estimate, se, lcl, ucl, interval = 0.95, link = c("identity", "log", "logit"),
   max_digit = 4, percent = FALSE, sign = FALSE, change = FALSE
@@ -105,7 +107,9 @@ format_ci <- function(
   }
 
   ci_magnitude <- floor(log10(ucl - lcl)) - 2
+  ci_magnitude[is.infinite(ci_magnitude)] <- 0
   ci_range <- floor(log10(pmax(abs(ucl), abs(lcl))))
+  ci_range[is.infinite(ci_range)] <- 0
   check_one <- pmax(abs(ucl), abs(lcl)) / 10 ^ ci_range < 2
   signif_digit <- pmin(max_digit, ci_range - ci_magnitude) + check_one
   magnitude <- ci_range - signif_digit + 1
