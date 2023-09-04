@@ -17,6 +17,10 @@
 #' Defaults to `0.05`.
 #' @param fillcolor The fill colour of the fan.
 #' Defaults to a greyish blue.
+#' @param hoverinfo Which hoverinfo to display.
+#' Defaults to `"text"`.
+#' When no `"text"` variable is specified, the function displays a formatted
+#' confidence interval.
 #' @template example_effect_data
 #' @template example_effect_plotly
 #' @family plotly add-ons
@@ -26,7 +30,7 @@
 add_fan <- function(
   p, x = NULL, y = NULL, ..., sd, link = c("identity", "log", "logit"),
   max_prob = 0.9, step = 0.05, fillcolor = coarse_unsigned_palette[2],
-  data = NULL, inherit = TRUE
+  data = NULL, inherit = TRUE, text = NULL, hoverinfo = "text"
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.string(fillcolor), noNA(fillcolor),
@@ -36,6 +40,7 @@ add_fan <- function(
   if (inherit) {
     x <- coalesce(x, p$x$attrs[[1]][["x"]])
     y <- coalesce(y, p$x$attrs[[1]][["y"]])
+    text <- coalesce(text, p$x$attrs[[1]][["text"]])
     data <- coalesce(data, p$x$visdat[[1]]())
   }
   stopifnot(
@@ -43,11 +48,13 @@ add_fan <- function(
       !is.null(x) && !is.null(y) && !is.null(data)
   )
   dots <- list(...)
+  if (is.null(text)) {
+    text <- ~hoverinfo
+  }
   for (prob in seq(max_prob, 1e-6, by = -step)) {
-    if (prob < max_prob) {
-      dots$hoverinfo <- "none"
-    }
+    dots$hoverinfo <- ifelse(prob < max_prob, "none", hoverinfo)
     dots$x <- x
+    dots$text <- text
     dots$ymin <- ~lcl
     dots$ymax <- ~ucl
     dots$showlegend <- FALSE
@@ -97,5 +104,6 @@ error_ribbon <- function(
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
   data$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
   data$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
+  data$hoverinfo <- format_ci(y_1, lcl = data$lcl, ucl = data$ucl)
   return(data)
 }

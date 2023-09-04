@@ -15,7 +15,9 @@ add_fan(
   step = 0.05,
   fillcolor = coarse_unsigned_palette[2],
   data = NULL,
-  inherit = TRUE
+  inherit = TRUE,
+  text = NULL,
+  hoverinfo = "text"
 )
 }
 \arguments{
@@ -50,6 +52,13 @@ Defaults to a greyish blue.}
 \item{data}{A data frame (optional) or \link[crosstalk:SharedData]{crosstalk::SharedData} object.}
 
 \item{inherit}{inherit attributes from \code{\link[plotly:plot_ly]{plot_ly()}}?}
+
+\item{text}{textual labels.}
+
+\item{hoverinfo}{Which hoverinfo to display.
+Defaults to \code{"text"}.
+When no \code{"text"} variable is specified, the function displays a formatted
+confidence interval.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a
@@ -74,7 +83,9 @@ c(
   "++" = "strong\npositive\neffect", "--" = "strong\nnegative\neffect"
 )[as.character(z$effect)] -> z$x
 z$x <- factor(z$x, z$x)
-z$display <- format_ci(z$estimate, lcl = z$lcl, ucl = z$ucl)
+z$display <- paste(
+  "estimate:", format_ci(z$estimate, lcl = z$lcl, ucl = z$ucl)
+)
 
 # Simulated trend
 set.seed(20190521)
@@ -89,19 +100,22 @@ trend$index <- cumsum(trend$change)
 trend$lcl <- qnorm(0.025, trend$index, trend$sd)
 trend$ucl <- qnorm(0.975, trend$index, trend$sd)
 trend$year <- base_year + trend$dt
-trend$display <- format_ci(trend$index, lcl = trend$lcl, ucl = trend$ucl)
+trend$display <- paste(
+  "index:", format_ci(trend$index, lcl = trend$lcl, ucl = trend$ucl)
+)
 th <- 0.25
 ref <- 0
 library(plotly)
 plot_ly(z, x = ~x, y = ~estimate) |>
-  add_fan(sd = ~sd, text = ~display, hoverinfo = "text") |>
+  add_fan(sd = ~sd, text = ~display) |>
   add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1) |>
   layout(
+    hovermode = "x unified",
     shapes = reference_shape(threshold = 1),
     annotations = reference_text(threshold = 1)
   )
 plot_ly(z, x = ~x, y = ~estimate) |>
-  add_fan(sd = ~sd, step = 0.1, text = ~display, hoverinfo = "text") |>
+  add_fan(sd = ~sd, step = 0.1, text = ~display) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE
    ) |>
@@ -110,23 +124,26 @@ plot_ly(z, x = ~x, y = ~estimate) |>
     annotations = reference_text(threshold = 1)
    )
 plot_ly(z, x = ~x, y = ~estimate) |>
-  add_fan(sd = ~sd, step = 0.2, text = ~display, hoverinfo = "text") |>
+  add_fan(sd = ~sd, step = 0.2, hoverinfo = "none") |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, signed = FALSE
   ) |>
   layout(shapes = reference_shape(threshold = 1))
 plot_ly(z, x = ~x, y = ~estimate) |>
-  add_fan(sd = ~sd, step = 0.3, text = ~display, hoverinfo = "text") |>
+  add_fan(sd = ~sd, step = 0.3) |>
   add_classification(
     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
   ) |>
-  layout(shapes = reference_shape(threshold = 1, line = TRUE))
+  layout(
+    shapes = reference_shape(threshold = 1, line = TRUE)
+  )
 
 # trend
 plot_ly(data = trend, x = ~year, y = ~index) |>
   add_fan(sd = ~sd, text = ~display, hoverinfo = "text") |>
   add_classification(sd = ~sd, threshold = th) |>
   layout(
+    hovermode = "x unified",
     shapes = reference_shape(threshold = th, reference = ref),
     annotations = reference_text(threshold = th, reference = ref)
   )
