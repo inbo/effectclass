@@ -26,7 +26,8 @@
 #' plot_ly(z, x = ~x, y = ~estimate) |>
 #'   add_fan(sd = ~sd, step = 0.3) |>
 #'   add_classification(
-#'     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
+#'     lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE,
+#'     text = ~display
 #'   ) |>
 #'   layout(
 #'     shapes = reference_shape(threshold = 1, line = TRUE)
@@ -37,7 +38,7 @@
 #'   add_fan(sd = ~sd, text = ~display, hoverinfo = "text") |>
 #'   add_classification(sd = ~sd, threshold = th) |>
 #'   layout(
-#'     hovermode = "x unified",
+#'     hovermode = "x unified", hoverdistance = 1,
 #'     shapes = reference_shape(threshold = th, reference = ref),
 #'     annotations = reference_text(threshold = th, reference = ref)
 #'   )

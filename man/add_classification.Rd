@@ -20,7 +20,10 @@ add_classification(
   size = 20,
   link = c("identity", "log", "logit"),
   detailed = TRUE,
-  signed = TRUE
+  signed = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed),
+  text = NULL,
+  hoverinfo = "text"
 )
 }
 \arguments{
@@ -69,6 +72,16 @@ Defaults to \code{TRUE}.}
 \item{signed}{\code{TRUE} indicates a signed classification;
 \code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
 Defaults to \code{TRUE}.}
+
+\item{labels}{a vector of labels for the classification hoverinfo.
+See \code{class_labels()} for inspiration.}
+
+\item{text}{textual labels.}
+
+\item{hoverinfo}{Which hoverinfo to display.
+Defaults to \code{"text"}.
+When no \code{"text"} variable is specified, the function displays a formatted
+confidence interval.}
 }
 \description{
 See \code{classification()} for an explication on how the classification is done.
@@ -139,7 +152,8 @@ plot_ly(z, x = ~x, y = ~estimate) |>
 plot_ly(z, x = ~x, y = ~estimate) |>
   add_fan(sd = ~sd, step = 0.3) |>
   add_classification(
-    lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE
+    lcl = ~lcl, ucl = ~ucl, threshold = 1, detailed = FALSE, signed = FALSE,
+    text = ~display
   ) |>
   layout(
     shapes = reference_shape(threshold = 1, line = TRUE)
@@ -150,7 +164,7 @@ plot_ly(data = trend, x = ~year, y = ~index) |>
   add_fan(sd = ~sd, text = ~display, hoverinfo = "text") |>
   add_classification(sd = ~sd, threshold = th) |>
   layout(
-    hovermode = "x unified",
+    hovermode = "x unified", hoverdistance = 1,
     shapes = reference_shape(threshold = th, reference = ref),
     annotations = reference_text(threshold = th, reference = ref)
   )

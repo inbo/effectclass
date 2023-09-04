@@ -9,6 +9,8 @@
 #' mean `y` and standard error `sd`.
 #' Note that the function assumes a normal distribution at the `link` scale.
 #' @param size Size of the point symbol.
+#' @param labels a vector of labels for the classification hoverinfo.
+#' See `class_labels()` for inspiration.
 #' @family plotly add-ons
 #' @template example_effect_data
 #' @template example_effect_plotly
@@ -19,7 +21,9 @@
 add_classification <- function(
   p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl = NULL,
   ucl = NULL, threshold, reference = 0, prob = 0.95, size = 20,
-  link = c("identity", "log", "logit"), detailed = TRUE, signed = TRUE
+  link = c("identity", "log", "logit"), detailed = TRUE, signed = TRUE,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed),
+  text = NULL, hoverinfo = "text"
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.flag(detailed), noNA(detailed),
@@ -29,6 +33,7 @@ add_classification <- function(
   if (inherit) {
     x <- coalesce(x, p$x$attrs[[1]][["x"]])
     y <- coalesce(y, p$x$attrs[[1]][["y"]])
+    text <- coalesce(text, p$x$attrs[[1]][["text"]])
     data <- coalesce(data, p$x$visdat[[1]]())
   }
   stopifnot(
@@ -71,6 +76,17 @@ add_classification <- function(
   if (!signed) {
     data$classification <- remove_sign(data$classification)
   }
+  if (is.null(text)) {
+    assert_that(
+      all(levels(data$classification) %in% names(labels)),
+      msg = sprintf(
+        "`label` must have each of these names: %s",
+        paste(levels(data$classification), sep = ", ")
+      )
+    )
+    text <- ~hoverinfo
+    data$hoverinfo <- labels[as.character(data$classification)]
+  }
   marker_color <- switch(
     paste0(detailed, signed),
     TRUETRUE = detailed_signed_palette, TRUEFALSE = detailed_unsigned_palette,
@@ -78,11 +94,15 @@ add_classification <- function(
   )
   for (i in sort(unique(data$classification))) {
     p |>
-      add_trace(
+      add_markers(
+        x = x, y = y, text = text, hoverinfo = hoverinfo,
+        data = data[data$classification == i, ],
+        inherit = FALSE, showlegend = FALSE,
+        marker = list(size = size, color = marker_color[i])
+      ) |>
+      add_text(
         x = x, y = y, text = i, data = data[data$classification == i, ],
-        inherit = FALSE, showlegend = FALSE, type = "scatter",
-        mode = "markers+text",
-        marker = list(size = size, color = marker_color[i]),
+        inherit = FALSE, showlegend = FALSE, hoverinfo = "none",
         textfont = list(size = 0.6 * size, color = "white")
       ) -> p
   }
