@@ -89,5 +89,7 @@ error_ribbon <- function(
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
   lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
   ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
-  data.frame(x = data[[x[[2]]]], lcl = lcl, ucl = ucl, prob = prob)
+  data.frame(
+    x = data[[x[[2]]]], lcl = lcl, ucl = ucl, prob = rep(prob, length(lcl))
+  )
 }
