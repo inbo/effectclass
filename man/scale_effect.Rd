@@ -73,6 +73,7 @@ c(
   "++" = "strong\npositive\neffect", "--" = "strong\nnegative\neffect"
 )[as.character(z$effect)] -> z$x
 z$x <- factor(z$x, z$x)
+z$display <- format_ci(z$estimate, lcl = z$lcl, ucl = z$ucl)
 
 # Simulated trend
 set.seed(20190521)
@@ -87,6 +88,7 @@ trend$index <- cumsum(trend$change)
 trend$lcl <- qnorm(0.025, trend$index, trend$sd)
 trend$ucl <- qnorm(0.975, trend$index, trend$sd)
 trend$year <- base_year + trend$dt
+trend$display <- format_ci(trend$index, lcl = trend$lcl, ucl = trend$ucl)
 th <- 0.25
 ref <- 0
 oldw <- getOption("warn")

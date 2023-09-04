@@ -42,15 +42,24 @@ add_fan <- function(
     "Please provide `x`, `y` and `data`" =
       !is.null(x) && !is.null(y) && !is.null(data)
   )
+  dots <- list(...)
   for (prob in seq(max_prob, 1e-6, by = -step)) {
-    p |>
-      add_ribbons(
-        x = x, ymin = ~lcl, ymax = ~ucl, showlegend = FALSE, opacity = step,
-        inherit = TRUE, line = list(width = 0), fillcolor = fillcolor, ...,
-        data = error_ribbon(
-          data = data, y = y, sd = sd, prob = prob, link = link
-        )
-      ) -> p
+    if (prob < max_prob) {
+      dots$hoverinfo <- "none"
+    }
+    dots$x <- x
+    dots$ymin <- ~lcl
+    dots$ymax <- ~ucl
+    dots$showlegend <- FALSE
+    dots$opacity <- step
+    dots$inherit <- TRUE
+    dots$line <- list(width = 0)
+    dots$fillcolor <- fillcolor
+    dots$p <- p
+    dots$data <- error_ribbon(
+      data = data, y = y, sd = sd, prob = prob, link = link
+    )
+    p <- do.call(add_ribbons, dots)
   }
   p
 }
