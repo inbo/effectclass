@@ -45,10 +45,10 @@ add_fan <- function(
   for (prob in seq(max_prob, 1e-6, by = -step)) {
     p |>
       add_ribbons(
-        x = ~x, ymin = ~lcl, ymax = ~ucl, showlegend = FALSE, opacity = step,
-        inherit = FALSE, line = list(width = 0), fillcolor = fillcolor, ...,
+        x = x, ymin = ~lcl, ymax = ~ucl, showlegend = FALSE, opacity = step,
+        inherit = TRUE, line = list(width = 0), fillcolor = fillcolor, ...,
         data = error_ribbon(
-          data = data, x = x, y = y, sd = sd, prob = prob, link = link
+          data = data, y = y, sd = sd, prob = prob, link = link
         )
       ) -> p
   }
@@ -69,13 +69,12 @@ is_blank <- function(x) {
 #' @importFrom assertthat assert_that has_name is.number
 #' @importFrom stats plogis qlogis qnorm
 error_ribbon <- function(
-    data, x, y, sd, prob = 0.95, link = c("identity", "log", "logit")
+  data, y, sd, prob = 0.95, link = c("identity", "log", "logit")
 ) {
   assert_that(
-    inherits(data, "data.frame"), inherits(x, "formula"),
-    inherits(y, "formula"), inherits(sd, "formula"),
-    has_name(data, as.character(c(x[[2]], y[[2]], sd[[2]]))),
-    is.number(prob), 0 < prob, prob < 1
+    inherits(data, "data.frame"), inherits(y, "formula"),
+    inherits(sd, "formula"), is.number(prob), 0 < prob, prob < 1,
+    has_name(data, as.character(c(y[[2]], sd[[2]])))
   )
   stopifnot(
     "`y` is not numeric" = is.numeric(data[[y[[2]]]]),
@@ -87,9 +86,7 @@ error_ribbon <- function(
   y_1 <- switch(link, identity = y_1, log = log(y_1), logit = qlogis(y_1))
   lcl <- qnorm(0.5 - prob / 2, mean = y_1, sd = sd_1)
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
-  lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
-  ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
-  data.frame(
-    x = data[[x[[2]]]], lcl = lcl, ucl = ucl, prob = rep(prob, length(lcl))
-  )
+  data$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
+  data$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
+  return(data)
 }
