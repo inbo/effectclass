@@ -104,6 +104,6 @@ error_ribbon <- function(
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
   data$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
   data$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
-  data$hoverinfo <- format_ci(y_1, lcl = data$lcl, ucl = data$ucl)
+  data$hoverinfo <- format_ci(data[[y[[2]]]], lcl = data$lcl, ucl = data$ucl)
   return(data)
 }
