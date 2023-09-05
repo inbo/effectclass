@@ -97,13 +97,13 @@ add_classification <- function(
       add_markers(
         x = x, y = y, text = text, hoverinfo = hoverinfo,
         data = data[data$classification == i, ],
-        inherit = FALSE, showlegend = FALSE,
-        marker = list(size = size, color = marker_color[i])
+        inherit = TRUE, showlegend = FALSE,
+        marker = list(size = size, color = marker_color[i]), ...
       ) |>
       add_text(
         x = x, y = y, text = i, data = data[data$classification == i, ],
-        inherit = FALSE, showlegend = FALSE, hoverinfo = "none",
-        textfont = list(size = 0.6 * size, color = "white")
+        inherit = TRUE, showlegend = FALSE, hoverinfo = "none",
+        textfont = list(size = 0.6 * size, color = "white"), ...
       ) -> p
   }
   p
