@@ -73,12 +73,12 @@ Defaults to \code{TRUE}.}
 \code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
 Defaults to \code{TRUE}.}
 
-\item{labels}{a vector of labels for the classification hoverinfo.
+\item{labels}{a vector of labels for the classification hover information.
 See \code{class_labels()} for inspiration.}
 
 \item{text}{textual labels.}
 
-\item{hoverinfo}{Which hoverinfo to display.
+\item{hoverinfo}{Which hover information to display.
 Defaults to \code{"text"}.
 When no \code{"text"} variable is specified, the function displays a formatted
 confidence interval.}

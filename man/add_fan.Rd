@@ -55,7 +55,7 @@ Defaults to a greyish blue.}
 
 \item{text}{textual labels.}
 
-\item{hoverinfo}{Which hoverinfo to display.
+\item{hoverinfo}{Which hover information to display.
 Defaults to \code{"text"}.
 When no \code{"text"} variable is specified, the function displays a formatted
 confidence interval.}

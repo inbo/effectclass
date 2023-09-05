@@ -17,7 +17,7 @@
 #' Defaults to `0.05`.
 #' @param fillcolor The fill colour of the fan.
 #' Defaults to a greyish blue.
-#' @param hoverinfo Which hoverinfo to display.
+#' @param hoverinfo Which hover information to display.
 #' Defaults to `"text"`.
 #' When no `"text"` variable is specified, the function displays a formatted
 #' confidence interval.

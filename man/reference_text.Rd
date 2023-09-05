@@ -9,7 +9,7 @@ Returns a list text you can pass to the \code{annotations} argument of
 reference_text(
   threshold,
   reference = 0,
-  offset = 0.1 * (reference + threshold),
+  offset,
   text = c("reference", "important decrease", "important increase")
 )
 }
@@ -20,6 +20,14 @@ A single threshold will be transformed into
 
 \item{reference}{The null hypothesis.
 Defaults to 0.}
+
+\item{offset}{An numeric vector with the offset between \code{text} and the lines.
+In units of the \code{y} variable.
+Defaults to 10\% of the difference between reference and threshold.}
+
+\item{text}{A character vector with three elements with the text to display
+on the reference line, bottom threshold line and upper threshold line.
+Defaults to \code{c("reference", "important decrease", "important increase")}.}
 }
 \description{
 Create \code{plotly}reference text

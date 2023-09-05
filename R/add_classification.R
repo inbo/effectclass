@@ -9,14 +9,14 @@
 #' mean `y` and standard error `sd`.
 #' Note that the function assumes a normal distribution at the `link` scale.
 #' @param size Size of the point symbol.
-#' @param labels a vector of labels for the classification hoverinfo.
+#' @param labels a vector of labels for the classification hover information.
 #' See `class_labels()` for inspiration.
 #' @family plotly add-ons
 #' @template example_effect_data
 #' @template example_effect_plotly
 #' @export
 #' @importFrom assertthat assert_that has_name is.flag is.number noNA
-#' @importFrom plotly add_trace
+#' @importFrom plotly add_markers add_text
 #' @importFrom stats qnorm
 add_classification <- function(
   p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl = NULL,
