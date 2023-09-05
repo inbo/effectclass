@@ -1,12 +1,3 @@
-change_pretty <- function(log_x) {
-  original <- exp(log_x) - 1
-  scale <- floor(log10(abs(original)))
-  scale[is.infinite(scale)] <- 1
-  scaled <- round(abs(original / 10 ^ scale), 2)
-  nice <- ifelse(scaled >= 2, ceiling(scaled), ceiling(scaled * 10) / 10)
-  log(1 + sign(original) * nice * 10 ^ scale)
-}
-
 #' Logarithmic breaks for changes
 #'
 #' Breaks a set of pretty breaks for changes.
@@ -22,9 +13,30 @@ change_breaks <- function(n = 2) {
     if (length(x) == 0) {
       return(numeric(0))
     }
-    extreme <- max(abs(x))
-    positive <- change_pretty(seq(0, extreme, length = n + 1))
-    c(change_pretty(rev(-tail(positive, -1))), positive)
+    abs(x) |>
+      max() |>
+      exp() -> extreme
+    magnitude <- log10(extreme)
+    (10 ^ seq(0, magnitude, by = 1)) |>
+      outer(1:9) |>
+      as.vector() |>
+      c(
+        3 / 2, 4 / 3, 5 / 3, 5 / 4, 10 / 9, 20 / 19, 25 / 24, 50 / 49, 100 / 99,
+        200 / 199, 500 / 499, 1000 / 999, 2000 / 1999, 5000 / 4999, 1e4 / 9999
+      ) |>
+      sort() -> candidate
+    candidate[candidate <= extreme] |>
+      c(
+        head(candidate[candidate > extreme], 1)
+      ) -> candidate
+    rel_position <- log(candidate) / max(log(candidate))
+    seq(0, 1, length = n + 1) |>
+      outer(rel_position, "-") -> delta
+    selected <- candidate[apply(delta ^ 2, 1, which.min)]
+    rev(1 / selected) |>
+      head(-1) |>
+      c(selected) |>
+      log()
   }
 }
 
