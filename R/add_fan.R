@@ -58,7 +58,7 @@ add_fan <- function(
     dots$ymin <- ~lcl
     dots$ymax <- ~ucl
     dots$showlegend <- FALSE
-    dots$opacity <- step
+    dots$opacity <- 1 - prob / (prob + step)
     dots$inherit <- TRUE
     dots$line <- list(width = 0)
     dots$fillcolor <- fillcolor
