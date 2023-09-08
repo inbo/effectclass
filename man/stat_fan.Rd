@@ -15,8 +15,9 @@ stat_fan(
   inherit.aes = TRUE,
   geom = "ribbon",
   ...,
-  fine = FALSE,
-  link = c("identity", "log", "logit")
+  link = c("identity", "log", "logit"),
+  max_prob = 0.9,
+  step = 0.05
 )
 }
 \arguments{
@@ -66,17 +67,20 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
-\item{fine}{a logical value.
-\code{TRUE} displays coverages from 10\\% to 90\\% in steps of 10\\%.
-\code{FALSE} displays coverages from 30\\% to 90\\% in steps of 30\\%.
-Defaults to \code{FALSE}}
-
 \item{link}{the link function to apply on the \code{y} before calculating the
 coverage intervals.
 Note that \code{link_sd} is the standard error on the link scale,
 while \code{y} is on the natural scale.
 Defaults to \code{'identify'} which implies no transformation (\code{link(y) == y}).
 Other options are \code{'log'} and \code{'logit'}.}
+
+\item{max_prob}{The coverage of the widest band.
+Defaults to \code{0.9}.}
+
+\item{step}{the step size between consecutive bands.
+The function adds all bands with coverage \code{max_prob - i * step} for all
+positive integer values \code{i} resulting in a positive coverage.
+Defaults to \code{0.05}.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a
@@ -95,7 +99,7 @@ z$index <- 3 + cumsum(z$dx)
 library(ggplot2)
 ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan()
 ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan() + geom_line()
-ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(fine = TRUE)
+ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(step = 0.3)
 ggplot(z, aes(x = year, y = exp(index), link_sd = s)) +
   stat_fan(link = "log") + geom_line()
 ggplot(z, aes(x = year, y = plogis(index), link_sd = s)) +

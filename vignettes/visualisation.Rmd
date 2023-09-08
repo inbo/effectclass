@@ -181,9 +181,9 @@ timeserie$index <- exp(cumsum(timeserie$dx))
 ggplot(timeserie, aes(x = year, y = index, link_sd = s)) + stat_fan()
 ```
 
-```{r stat-fan-fine, fig.cap = "Fan plot with nine intervals and line."}
+```{r stat-fan-fine, fig.cap = "Fan plot with three intervals and line."}
 ggplot(timeserie, aes(x = year, y = index, link_sd = s)) +
-  stat_fan(fine = TRUE) + geom_line()
+  stat_fan(step = 0.3) + geom_line()
 ```
 
 Some statistical analyses require a different distribution, e.g. Poisson or binomial.

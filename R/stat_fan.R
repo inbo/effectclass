@@ -5,10 +5,7 @@
 #' The coverages are based on the assumption of a normal distribution with mean
 #' `link(y)` and standard error `link_sd`.
 #' @inheritParams ggplot2::stat_bin
-#' @param fine a logical value.
-#' `TRUE` displays coverages from 10\% to 90\% in steps of 10\%.
-#' `FALSE` displays coverages from 30\% to 90\% in steps of 30\%.
-#' Defaults to `FALSE`
+#' @inheritParams add_fan
 #' @param link the link function to apply on the `y` before calculating the
 #' coverage intervals.
 #' Note that `link_sd` is the standard error on the link scale,
@@ -31,7 +28,7 @@
 #' library(ggplot2)
 #' ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan()
 #' ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan() + geom_line()
-#' ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(fine = TRUE)
+#' ggplot(z, aes(x = year, y = index, link_sd = s)) + stat_fan(step = 0.3)
 #' ggplot(z, aes(x = year, y = exp(index), link_sd = s)) +
 #'   stat_fan(link = "log") + geom_line()
 #' ggplot(z, aes(x = year, y = plogis(index), link_sd = s)) +
@@ -55,16 +52,11 @@
 #'   stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
 stat_fan <- function(
   mapping = NULL, data = NULL, position = "identity", na.rm = FALSE, # nolint
-  show.legend = NA, inherit.aes = TRUE, geom = "ribbon", ..., fine = FALSE, # nolint
-  link = c("identity", "log", "logit")) {
-  assert_that(is.flag(fine), noNA(fine))
+  show.legend = NA, inherit.aes = TRUE, geom = "ribbon", ..., # nolint
+  link = c("identity", "log", "logit"), max_prob = 0.9, step = 0.05
+) {
   link <- match.arg(link)
-  if (fine) {
-    coverage <- seq(0.9, 1e-3, by = -0.1)
-  } else {
-    coverage <- seq(0.9, 1e-3, by = -0.3)
-  }
-  alpha <- 0.9 / length(coverage)
+  coverage <- seq(max_prob, 1e-3, by = -step)
   if (geom == "bar") {
     coverage <- as.vector(0.5 + outer(coverage / 2, c(-1, 1), "*"))
   }
@@ -75,8 +67,10 @@ stat_fan <- function(
         stat = StatFan, data = data, mapping = mapping, geom = geom,
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
-        params = list(coverage = i, link = link, na.rm = na.rm, ...,
-                      alpha = alpha, geom = geom)
+        params = list(
+          coverage = i, link = link, na.rm = na.rm, ..., geom = geom,
+          alpha = 1 - i / (i + step)
+        )
       )
     }
   )
