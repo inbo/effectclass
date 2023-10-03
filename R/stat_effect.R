@@ -250,8 +250,8 @@ class_labels <- function(
       "moderate effect", "potential effect",
       # nl trend
       "sterke toename", "toename", "matige toename", "stabiel",
-      "matige daling",  "daling", "sterke daling", "mogelijke toename",
-      "mogelijke daling", "onduidelijke trend", "sterke trend", "trend",
+      "matige afname",  "afname", "sterke afname", "mogelijke toename",
+      "mogelijke afname", "onduidelijke trend", "sterke trend", "trend",
       "matige trend", "mogelijke trend",
       # nl effect
       "sterke positief effect", "positief effect", "matige positief effect",
