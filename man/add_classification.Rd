@@ -16,14 +16,16 @@ add_classification(
   ucl = NULL,
   threshold,
   reference = 0,
-  prob = 0.95,
+  prob = 0.9,
   size = 20,
   link = c("identity", "log", "logit"),
   detailed = TRUE,
   signed = TRUE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed),
   text = NULL,
-  hoverinfo = "text"
+  hoverinfo = "text",
+  ref_label = "reference",
+  ref_colour = "#C04384"
 )
 }
 \arguments{
@@ -82,6 +84,12 @@ See \code{class_labels()} for inspiration.}
 Defaults to \code{"text"}.
 When no \code{"text"} variable is specified, the function displays a formatted
 confidence interval.}
+
+\item{ref_label}{The label for the reference point.
+Will be used for the points where \code{is.na(sd)} or both \code{is.na(lcl)} and
+\code{is.na(ucl)}.}
+
+\item{ref_colour}{The colour for the reference point.}
 }
 \description{
 See \code{classification()} for an explication on how the classification is done.

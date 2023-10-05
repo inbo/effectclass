@@ -11,6 +11,10 @@
 #' @param size Size of the point symbol.
 #' @param labels a vector of labels for the classification hover information.
 #' See `class_labels()` for inspiration.
+#' @param ref_label The label for the reference point.
+#' Will be used for the points where `is.na(sd)` or both `is.na(lcl)` and
+#' `is.na(ucl)`.
+#' @param ref_colour The colour for the reference point.
 #' @family plotly add-ons
 #' @template example_effect_data
 #' @template example_effect_plotly
@@ -20,14 +24,15 @@
 #' @importFrom stats qnorm
 add_classification <- function(
   p, x = NULL, y = NULL, ..., data = NULL, inherit = TRUE, sd, lcl = NULL,
-  ucl = NULL, threshold, reference = 0, prob = 0.95, size = 20,
+  ucl = NULL, threshold, reference = 0, prob = 0.9, size = 20,
   link = c("identity", "log", "logit"), detailed = TRUE, signed = TRUE,
   labels = class_labels(lang = "en", detailed = detailed, signed = signed),
-  text = NULL, hoverinfo = "text"
+  text = NULL, hoverinfo = "text", ref_label = "reference",
+  ref_colour = "#C04384"
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.flag(detailed), noNA(detailed),
-    is.flag(signed), noNA(signed)
+    is.flag(signed), noNA(signed), is.string(ref_label), is.string(ref_colour)
   )
   link <- match.arg(link)
   if (inherit) {
@@ -71,6 +76,8 @@ add_classification <- function(
       link, identity = ucl_1, log = log(ucl_1), logit = qlogis(ucl_1)
     )
   }
+  ref <- is.na(lcl_1) & is.na(ucl_1)
+  lcl_1[ref] <- ucl_1[ref] <- reference
   df$classification <- classification(
     lcl = lcl_1, ucl = ucl_1, threshold = threshold, reference = reference
   )
@@ -90,12 +97,16 @@ add_classification <- function(
     )
     text <- ~hoverinfo
     df$hoverinfo <- labels[as.character(df$classification)]
+    df$hoverinfo[ref] <- ref_label
   }
-  marker_color <- switch(
+  switch(
     paste0(detailed, signed),
     TRUETRUE = detailed_signed_palette, TRUEFALSE = detailed_unsigned_palette,
     FALSETRUE = coarse_signed_palette, FALSEFALSE = coarse_unsigned_palette
-  )
+  ) |>
+    c(R = ref_colour) -> marker_color
+  df$classification <- as.character(df$classification)
+  df$classification[ref] <- "R"
   for (i in sort(unique(df$classification))) {
     this_data <- df[df$classification == i, ]
     if (inherits(data, "SharedData")) {
