@@ -87,23 +87,31 @@ is_blank <- function(x) {
 error_ribbon <- function(
   data, y, sd, prob = 0.95, link = c("identity", "log", "logit")
 ) {
+  if (inherits(data, "SharedData")) {
+    df <- data$origData()
+  } else {
+    assert_that(inherits(data, "data.frame"))
+    df <- data
+  }
   assert_that(
-    inherits(data, "data.frame"), inherits(y, "formula"),
-    inherits(sd, "formula"), is.number(prob), 0 < prob, prob < 1,
-    has_name(data, as.character(c(y[[2]], sd[[2]])))
+    inherits(y, "formula"), inherits(sd, "formula"), is.number(prob), 0 < prob,
+    prob < 1, has_name(df, as.character(c(y[[2]], sd[[2]])))
   )
   stopifnot(
-    "`y` is not numeric" = is.numeric(data[[y[[2]]]]),
-    "`sd` is not numeric" = is.numeric(data[[sd[[2]]]])
+    "`y` is not numeric" = is.numeric(df[[y[[2]]]]),
+    "`sd` is not numeric" = is.numeric(df[[sd[[2]]]])
   )
   link <- match.arg(link)
-  y_1 <- data[[y[[2]]]]
-  sd_1 <- data[[sd[[2]]]]
+  y_1 <- df[[y[[2]]]]
+  sd_1 <- df[[sd[[2]]]]
   y_1 <- switch(link, identity = y_1, log = log(y_1), logit = qlogis(y_1))
   lcl <- qnorm(0.5 - prob / 2, mean = y_1, sd = sd_1)
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
-  data$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
-  data$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
-  data$hoverinfo <- format_ci(data[[y[[2]]]], lcl = data$lcl, ucl = data$ucl)
-  return(data)
+  df$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
+  df$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
+  df$hoverinfo <- format_ci(df[[y[[2]]]], lcl = df$lcl, ucl = df$ucl)
+  if (!inherits(data, "SharedData")) {
+    return(df)
+  }
+  SharedData$new(data = df, group = data$groupName(), key = data$key())
 }
