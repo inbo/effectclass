@@ -40,23 +40,27 @@ add_classification <- function(
     "Please provide `x`, `y` and `data`" =
       !is.null(x) && !is.null(y) && !is.null(data)
   )
-  assert_that(
-    inherits(data, "data.frame"), has_name(data, as.character(x[[2]]))
-  )
+  if (inherits(data, "SharedData")) {
+    df <- data$origData()
+  } else {
+    assert_that(inherits(data, "data.frame"))
+    df <- data
+  }
+  assert_that(has_name(df, as.character(x[[2]])))
   if (is.null(lcl) || is.null(ucl)) {
     assert_that(
-      inherits(sd, "formula"), has_name(data, as.character(c(y[[2]], sd[[2]]))),
+      inherits(sd, "formula"), has_name(df, as.character(c(y[[2]], sd[[2]]))),
       is.number(prob), 0 < prob, prob < 1
     )
-    y_1 <- data[[y[[2]]]]
+    y_1 <- df[[y[[2]]]]
     y_1 <- switch(link, identity = y_1, log = log(y_1), logit = qlogis(y_1))
-    sd_1 <- data[[sd[[2]]]]
+    sd_1 <- df[[sd[[2]]]]
     lcl_1 <- qnorm(0.5 - prob / 2, mean = y_1, sd = sd_1)
     ucl_1 <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
   } else {
     assert_that(
       inherits(lcl, "formula"), inherits(ucl, "formula"),
-      has_name(data, as.character(c(lcl[[2]], ucl[[2]])))
+      has_name(df, as.character(c(lcl[[2]], ucl[[2]])))
     )
     lcl_1 <- data[[lcl[[2]]]]
     ucl_1 <- data[[ucl[[2]]]]
@@ -67,41 +71,47 @@ add_classification <- function(
       link, identity = ucl_1, log = log(ucl_1), logit = qlogis(ucl_1)
     )
   }
-  data$classification <- classification(
+  df$classification <- classification(
     lcl = lcl_1, ucl = ucl_1, threshold = threshold, reference = reference
   )
   if (!detailed) {
-    data$classification <- coarse_classification(data$classification)
+    df$classification <- coarse_classification(df$classification)
   }
   if (!signed) {
-    data$classification <- remove_sign(data$classification)
+    df$classification <- remove_sign(df$classification)
   }
   if (is.null(text)) {
     assert_that(
-      all(levels(data$classification) %in% names(labels)),
+      all(levels(df$classification) %in% names(labels)),
       msg = sprintf(
         "`label` must have each of these names: %s",
-        paste(levels(data$classification), sep = ", ")
+        paste(levels(df$classification), sep = ", ")
       )
     )
     text <- ~hoverinfo
-    data$hoverinfo <- labels[as.character(data$classification)]
+    df$hoverinfo <- labels[as.character(df$classification)]
   }
   marker_color <- switch(
     paste0(detailed, signed),
     TRUETRUE = detailed_signed_palette, TRUEFALSE = detailed_unsigned_palette,
     FALSETRUE = coarse_signed_palette, FALSEFALSE = coarse_unsigned_palette
   )
-  for (i in sort(unique(data$classification))) {
+  for (i in sort(unique(df$classification))) {
+    this_data <- df[df$classification == i, ]
+    if (inherits(data, "SharedData")) {
+      this_data <- SharedData$new(
+        data = this_data, group = data$groupName(),
+        key = data$key()[df$classification == i]
+      )
+    }
     p |>
       add_markers(
-        x = x, y = y, text = text, hoverinfo = hoverinfo,
-        data = data[data$classification == i, ],
+        x = x, y = y, text = text, hoverinfo = hoverinfo, data = this_data,
         inherit = TRUE, showlegend = FALSE,
         marker = list(size = size, color = marker_color[i]), ...
       ) |>
       add_text(
-        x = x, y = y, text = i, data = data[data$classification == i, ],
+        x = x, y = y, text = i, data = this_data,
         inherit = TRUE, showlegend = FALSE, hoverinfo = "none",
         textfont = list(size = 0.6 * size, color = "white"), ...
       ) -> p
