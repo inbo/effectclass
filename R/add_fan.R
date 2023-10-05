@@ -117,5 +117,8 @@ error_ribbon <- function(
   if (!inherits(data, "SharedData")) {
     return(df)
   }
-  SharedData$new(data = df, group = data$groupName(), key = data$key())
+  stopifnot(requireNamespace("crosstalk", quietly = TRUE))
+  crosstalk::SharedData$new(
+    data = df, group = data$groupName(), key = data$key()
+  )
 }

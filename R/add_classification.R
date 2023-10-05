@@ -46,6 +46,7 @@ add_classification <- function(
       !is.null(x) && !is.null(y) && !is.null(data)
   )
   if (inherits(data, "SharedData")) {
+    stopifnot(requireNamespace("crosstalk", quietly = TRUE))
     df <- data$origData()
   } else {
     assert_that(inherits(data, "data.frame"))
@@ -110,7 +111,7 @@ add_classification <- function(
   for (i in sort(unique(df$classification))) {
     this_data <- df[df$classification == i, ]
     if (inherits(data, "SharedData")) {
-      this_data <- SharedData$new(
+      this_data <- crosstalk::SharedData$new(
         data = this_data, group = data$groupName(),
         key = data$key()[df$classification == i]
       )
