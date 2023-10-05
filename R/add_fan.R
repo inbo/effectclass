@@ -109,7 +109,11 @@ error_ribbon <- function(
   ucl <- qnorm(0.5 + prob / 2, mean = y_1, sd = sd_1)
   df$lcl <- switch(link, identity = lcl, log = exp(lcl), logit = plogis(lcl))
   df$ucl <- switch(link, identity = ucl, log = exp(ucl), logit = plogis(ucl))
+  ref <- is.na(sd_1)
+  df$lcl[ref] <- y_1[ref]
+  df$ucl[ref] <- y_1[ref]
   df$hoverinfo <- format_ci(df[[y[[2]]]], lcl = df$lcl, ucl = df$ucl)
+  df$hoverinfo[ref] <- ""
   if (!inherits(data, "SharedData")) {
     return(df)
   }
