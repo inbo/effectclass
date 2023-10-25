@@ -17,7 +17,8 @@ add_fan(
   data = NULL,
   inherit = TRUE,
   text = NULL,
-  hoverinfo = "text"
+  hoverinfo = "text",
+  name
 )
 }
 \arguments{
@@ -59,6 +60,8 @@ Defaults to a greyish blue.}
 Defaults to \code{"text"}.
 When no \code{"text"} variable is specified, the function displays a formatted
 confidence interval.}
+
+\item{name}{Optional name of the trace for the legend.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a

@@ -21,6 +21,7 @@
 #' Defaults to `"text"`.
 #' When no `"text"` variable is specified, the function displays a formatted
 #' confidence interval.
+#' @param name Optional name of the trace for the legend.
 #' @template example_effect_data
 #' @template example_effect_plotly
 #' @family plotly add-ons
@@ -30,7 +31,8 @@
 add_fan <- function(
   p, x = NULL, y = NULL, ..., sd, link = c("identity", "log", "logit"),
   max_prob = 0.9, step = 0.05, fillcolor = coarse_unsigned_palette[2],
-  data = NULL, inherit = TRUE, text = NULL, hoverinfo = "text"
+  data = NULL, inherit = TRUE, text = NULL, hoverinfo = "text",
+  name
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.string(fillcolor), noNA(fillcolor),
@@ -68,7 +70,14 @@ add_fan <- function(
     )
     p <- do.call(add_ribbons, dots)
   }
-  p
+  if (missing(name)) {
+    return(p)
+  }
+  p |>
+    add_ribbons(
+      data = data, x = x, ymin = y, ymax = y, opacity = 1, showlegend = TRUE,
+      line = list(width = 0), fillcolor = fillcolor, name = name
+    )
 }
 
 coalesce <- function(x, y) {
