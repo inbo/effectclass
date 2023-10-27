@@ -1,0 +1,39 @@
+{
+  "title": "effectclass: Classification and Visualisation of Effects",
+  "version": "0.1.4",
+  "license": "GPL-3.0",
+  "upload_type": "software",
+  "description": "<p>Classify effects by comparing the confidence intervals with\nthresholds.<\/p>",
+  "keywords": [
+    "classification",
+    "effect size",
+    "uncertainty",
+    "visualisation"
+  ],
+  "access_right": "open",
+  "language": "eng",
+  "contributors": [
+    {
+      "name": "Onkelinx, Thierry",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0001-8804-4216",
+      "type": "ContactPerson"
+    },
+    {
+      "name": "Research Institute for Nature and Forest (INBO)",
+      "type": "RightsHolder"
+    }
+  ],
+  "creators": [
+    {
+      "name": "Onkelinx, Thierry",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0001-8804-4216"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "inbo"
+    }
+  ]
+}

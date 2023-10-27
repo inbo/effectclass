@@ -13,94 +13,112 @@ vignette: >
 library(knitr)
 opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ggplot2)
-inbo_colours <- c("#959B38", "#729BB7", "#E87837", "#BDDDD7", "#E4E517", 
+inbo_colours <- c("#959B38", "#729BB7", "#E87837", "#BDDDD7", "#E4E517",
                   "#843860", "#C04384", "#C2C444", "#685457")
 theme_inbo <- function(base_size = 12, base_family = "Helvetica") {
-  rect.bg <- "white"
-  legend.bg <- "white"
-  panel.bg <- "#F3F3F3"
-  panel.grid <- "white"
-  plot.bg <- "white"
+  rect_bg <- "white"
+  legend_bg <- "white"
+  panel_bg <- "#F3F3F3"
+  panel_grid <- "white"
+  plot_bg <- "white"
   half_line <- base_size / 2
-  theme(
-    line = element_line(colour = "black", size = 0.5, linetype = 1, 
+  ggplot2::theme(
+    line = ggplot2::element_line(colour = "black", size = 0.5, linetype = 1,
                         lineend = "butt"),
-    rect = element_rect(fill = rect.bg, colour = "black", size = 0.5, 
+    rect = ggplot2::element_rect(fill = rect_bg, colour = "black", size = 0.5,
                         linetype = 1),
-    text = element_text(family = base_family, face = "plain", 
-                        colour = "#843860", size = base_size, hjust = 0.5, 
-                        vjust = 0.5, angle = 0, lineheight = 0.9, 
-                        margin = margin(), debug = FALSE),
-    axis.line = element_blank(),
-    axis.line.x = element_blank(),
-    axis.line.y = element_blank(),
-    axis.text = element_text(size = rel(0.8)),
-    axis.text.x = element_text(margin = margin(t = 0.8 * half_line / 2), 
-                               vjust = 1),
+    text = ggplot2::element_text(
+      family = base_family, face = "plain", colour = "#843860",
+      size = base_size, hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9,
+      margin = ggplot2::margin(), debug = FALSE
+    ),
+    axis.line = ggplot2::element_blank(),
+    axis.line.x = ggplot2::element_blank(),
+    axis.line.y = ggplot2::element_blank(),
+    axis.text = ggplot2::element_text(size = ggplot2::rel(0.8)),
+    axis.text.x = ggplot2::element_text(
+      margin = ggplot2::margin(t = 0.8 * half_line / 2), vjust = 1
+    ),
     axis.text.x.top = NULL,
-    axis.text.y = element_text(margin = margin(r = 0.8 * half_line / 2), 
-                               hjust = 1),
+    axis.text.y = ggplot2::element_text(
+      margin = ggplot2::margin(r = 0.8 * half_line / 2), hjust = 1
+    ),
     axis.text.y.right = NULL,
-    axis.ticks = element_line(),
-    axis.ticks.length = unit(0.15, "cm"),
-    axis.title = element_text(colour = "black"),
-    axis.title.x = element_text(
-      margin = margin(t = 0.8 * half_line, b = 0.8 * half_line / 2)
+    axis.ticks = ggplot2::element_line(),
+    axis.ticks.length = grid::unit(0.15, "cm"),
+    axis.title = ggplot2::element_text(colour = "black"),
+    axis.title.x = ggplot2::element_text(
+      margin = ggplot2::margin(t = 0.8 * half_line, b = 0.8 * half_line / 2)
     ),
     axis.title.x.top = NULL,
-    axis.title.y = element_text(
-      margin = margin(r = 0.8 * half_line, l = 0.8 * half_line / 2),
+    axis.title.y = ggplot2::element_text(
+      margin = ggplot2::margin(r = 0.8 * half_line, l = 0.8 * half_line / 2),
       angle = 90
     ),
     axis.title.y.right = NULL,
-    legend.background = element_rect(colour = NA, fill = legend.bg),
-    legend.key = element_rect(fill = panel.bg, colour = NA),
-    legend.key.size = unit(1.2, "lines"),
+    legend.background = ggplot2::element_rect(colour = NA, fill = legend_bg),
+    legend.key = ggplot2::element_rect(fill = panel_bg, colour = NA),
+    legend.key.size = grid::unit(1.2, "lines"),
     legend.key.height = NULL,
     legend.key.width = NULL,
     legend.margin = NULL,
-    legend.spacing = unit(0.2, "cm"),
+    legend.spacing = grid::unit(0.2, "cm"),
     legend.spacing.x = NULL,
     legend.spacing.y = NULL,
-    legend.text = element_text(size = rel(0.8)),
+    legend.text = ggplot2::element_text(size = ggplot2::rel(0.8)),
     legend.text.align = NULL,
-    legend.title = element_text(size = rel(0.8), face = "bold", hjust = 0, 
-                                colour = "black"),
+    legend.title = ggplot2::element_text(
+      size = ggplot2::rel(0.8), face = "bold", hjust = 0, colour = "black"
+    ),
     legend.title.align = NULL,
     legend.position = "right",
     legend.direction = NULL,
     legend.justification = "center",
     legend.box = NULL,
-    legend.box.margin = margin(t = half_line, r = half_line, b = half_line, 
-                               l = half_line),
-    legend.box.background = element_rect(colour = NA, fill = legend.bg),
-    legend.box.spacing = unit(0.2, "cm"),
-    panel.background = element_rect(fill = panel.bg, colour = NA),
-    panel.border = element_blank(),
-    panel.grid = element_line(colour = panel.grid),
-    panel.grid.minor = element_line(colour = panel.grid, size = 0.25),
-    panel.spacing = unit(half_line, "pt"),
+    legend.box.margin = ggplot2::margin(
+      t = half_line, r = half_line, b = half_line, l = half_line
+    ),
+    legend.box.background = ggplot2::element_rect(
+      colour = NA, fill = legend_bg
+    ),
+    legend.box.spacing = grid::unit(0.2, "cm"),
+    panel.background = ggplot2::element_rect(fill = panel_bg, colour = NA),
+    panel.border = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_line(colour = panel_grid),
+    panel.grid.minor = ggplot2::element_line(colour = panel_grid, size = 0.25),
+    panel.spacing = grid::unit(half_line, "pt"),
     panel.spacing.x = NULL,
     panel.spacing.y = NULL,
     panel.ontop = FALSE,
-    strip.background = element_rect(fill = "#8E9DA7", colour = NA),
-    strip.text = element_text(size = rel(0.8), colour = "#F3F3F3"),
-    strip.text.x = element_text(margin = margin(t = half_line, b = half_line)),
-    strip.text.y = element_text(margin = margin(r = half_line, l = half_line),
-                                angle = -90),
-    strip.switch.pad.grid = unit(0.1, "cm"),
-    strip.switch.pad.wrap = unit(0.1, "cm"),
+    strip.background = ggplot2::element_rect(fill = "#8E9DA7", colour = NA),
+    strip.text = ggplot2::element_text(
+      size = ggplot2::rel(0.8), colour = "#F3F3F3"
+    ),
+    strip.text.x = ggplot2::element_text(
+      margin = ggplot2::margin(t = half_line, b = half_line)
+    ),
+    strip.text.y = ggplot2::element_text(
+      margin = ggplot2::margin(r = half_line, l = half_line), angle = -90
+    ),
+    strip.switch.pad.grid = grid::unit(0.1, "cm"),
+    strip.switch.pad.wrap = grid::unit(0.1, "cm"),
     strip.placement = "outside",
-    plot.background = element_rect(colour = NA, fill = plot.bg),
-    plot.title = element_text(size = rel(1.2), 
-                              margin = margin(0, 0, half_line, 0)),
-    plot.subtitle = element_text(size = rel(1),
-                                 margin = margin(0, 0, half_line, 0)),
-    plot.caption = element_text(size = rel(0.6),
-                                margin = margin(0, 0, half_line, 0)),
-    plot.margin = margin(t = half_line, r = half_line, b = half_line, 
-                         l = half_line),
-    plot.tag = element_text(size = rel(1.2), hjust = 0.5, vjust = 0.5),
+    plot.background = ggplot2::element_rect(colour = NA, fill = plot_bg),
+    plot.title = ggplot2::element_text(
+      size = ggplot2::rel(1.2), margin = ggplot2::margin(0, 0, half_line, 0)
+    ),
+    plot.subtitle = ggplot2::element_text(
+      size = ggplot2::rel(1), margin = ggplot2::margin(0, 0, half_line, 0)
+    ),
+    plot.caption = ggplot2::element_text(
+      size = ggplot2::rel(0.6), margin = ggplot2::margin(0, 0, half_line, 0)
+    ),
+    plot.margin = ggplot2::margin(
+      t = half_line, r = half_line, b = half_line, l = half_line
+    ),
+    plot.tag = ggplot2::element_text(
+      size = ggplot2::rel(1.2), hjust = 0.5, vjust = 0.5
+    ),
     plot.tag.position = "topleft",
     complete = TRUE
   )
@@ -117,7 +135,7 @@ update_geom_defaults("point", list(colour = "#356196", size = 2))
 
 The `vignette("classification", package = "effectclass")` explains how we can classify effects based on their confidence intervals.
 This vignette focusses on visualising effect and their uncertainty.
-The packages provides two `ggplot()` layers (`stat_fan()` and `stat_effect()`) and a scale (`scale_effect()`). 
+The packages provides two `ggplot()` layers (`stat_fan()` and `stat_effect()`) and a scale (`scale_effect()`).
 
 ## `stat_fan()`
 
@@ -155,17 +173,17 @@ library(effectclass)
 library(ggplot2)
 set.seed(20191216)
 timeserie <- data.frame(
-  year = 1990:2019, 
-  dx = rnorm(30, sd = 0.2), 
+  year = 1990:2019,
+  dx = rnorm(30, sd = 0.2),
   s = rnorm(30, 1, 0.05)
 )
 timeserie$index <- exp(cumsum(timeserie$dx))
 ggplot(timeserie, aes(x = year, y = index, link_sd = s)) + stat_fan()
 ```
 
-```{r stat-fan-fine, fig.cap = "Fan plot with nine intervals and line."}
-ggplot(timeserie, aes(x = year, y = index, link_sd = s)) + 
-  stat_fan(fine = TRUE) + geom_line()
+```{r stat-fan-fine, fig.cap = "Fan plot with three intervals and line."}
+ggplot(timeserie, aes(x = year, y = index, link_sd = s)) +
+  stat_fan(step = 0.3) + geom_line()
 ```
 
 Some statistical analyses require a different distribution, e.g. Poisson or binomial.
@@ -174,15 +192,15 @@ Poisson uses a log link, binomial a logit link.
 The uncertainty around the predictions of the linear predictor (in the link scale) still follows a Gaussian distribution.
 However, we want to display the predictions and their uncertainty in the original scale.
 The `link` argument `stat_fan()` allows the user to specify the required link function.
-`stat_fan()` then assumes that `y` specifies the median in the original scale. 
+`stat_fan()` then assumes that `y` specifies the median in the original scale.
 Hence the confidence intervals in the link-scale use $link(y)$ as their mean.
 You need to specify the standard error in the link scale, that why we named the argument `link_sd`.
 `stat_fan()` calculates the intervals based on $\mathcal{N}(\mu = link(y), \sigma = link\_sd)$ and back transforms them to the original scale.
-Having `y` in the original scale in combination with a link function has the benefit that it is easy to reuse the `y` in other geoms.
+Having `y` in the original scale in combination with a link function has the benefit that it is easy to reuse the `y` in other `geoms`.
 
 ```{r stat-fan-log, fig.cap = "Plot using stat_fan() with log-link. Note the asymmetric intervals due to the link function."}
-ggplot(timeserie, aes(x = year, y = index, link_sd = s)) + 
-  stat_fan(link = "log") + 
+ggplot(timeserie, aes(x = year, y = index, link_sd = s)) +
+  stat_fan(link = "log") +
   geom_line()
 ```
 
@@ -197,12 +215,12 @@ timeseries$s <- rnorm(60, rep(c(0.5, 1), each = 30), 0.05)
 
 
 ```{r stat-fan-colour1, echo = TRUE, eval = FALSE}
-ggplot(timeseries, aes(x = year, y = index, link_sd = s)) + 
+ggplot(timeseries, aes(x = year, y = index, link_sd = s)) +
   stat_fan(aes(fill = category)) + geom_line(aes(colour = category))
 ```
 
 ```{r stat-fan-colour2, echo = FALSE, fig.cap = "stat_fan() with different colours."}
-ggplot(timeseries, aes(x = year, y = index, link_sd = s)) + 
+ggplot(timeseries, aes(x = year, y = index, link_sd = s)) +
   stat_fan(aes(fill = category)) + geom_line(aes(colour = category)) +
   scale_fill_manual(values = inbo_colours[1:2]) +
   scale_colour_manual(values = inbo_colours[1:2])
@@ -228,11 +246,8 @@ timeserie$lcl <- qnorm(0.05, timeserie$index, timeserie$s)
 timeserie$ucl <- qnorm(0.95, timeserie$index, timeserie$s)
 reference <- 1
 thresholds <- reference + c(-1, 1) * 0.3
-ggplot(timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl)) + 
-  geom_errorbar() + 
-  stat_effect(reference = reference, threshold = thresholds) +
-  geom_hline(yintercept = c(reference, thresholds), linetype = c(2, 3, 3)) +
-  scale_effect()
+ggplot(timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl)) +
+  stat_effect(reference = reference, threshold = thresholds)
 ```
 
 It is possible to combine `stat_fan()` and `stat_effect()`.
@@ -240,66 +255,67 @@ If you do so, we recommend to use the same confidence interval for both the clas
 The widest interval of the three interval version `stat_fan` shows a 90% interval, whereas the nine interval version shows a 95% interval.
 Adding the thresholds helps the interpretations.
 
-```{r stat-effect-fan, fig.cap = "Combination of stat_effect and stat_fan with custom title and subset of classes."}
-ggplot(timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl, link_sd = s)) + 
-  stat_fan() + 
-  stat_effect(reference = reference, threshold = thresholds) +
-  geom_hline(yintercept = c(reference, thresholds), linetype = c(2, 3, 3)) +
-  scale_effect("my title", drop = TRUE)
+```{r stat-effect-fan, fig.cap = "Combination of stat_effect and stat_fan with custom title."}
+ggplot(
+  timeserie, aes(x = year, y = index, ymin = lcl, ymax = ucl, link_sd = s)
+) +
+  stat_fan() +
+  stat_effect(
+    name = "my title", reference = reference, threshold = thresholds,
+    errorbar = FALSE
+  )
 ```
 
 When the `x` value is a discrete variable (e.g. model parameters), we cannot use `stat_fan()` as-is.
-In such case we recommend to add `geom = "rect"` or `geom = "linerange"` to `stat_fan` over using errorbars.
+In such case we recommend to add `geom = "rect"` or `geom = "linerange"` to `stat_fan` over using error bars.
 
 ```{r lm-effect}
 ## Example taken from help("lm")
 ## Annette Dobson (1990) "An Introduction to Generalized Linear Models".
 ## Page 9: Plant Weight Data.
-ctl <- c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
-trt <- c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
-group <- gl(2, 10, 20, labels = c("Control","Treatment"))
+ctl <- c(4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14)
+trt <- c(4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69)
+group <- gl(2, 10, 20, labels = c("Control", "Treatment"))
 weight <- c(ctl, trt)
-lm_D90 <- lm(weight ~ 0 + group) # omitting intercept
+lm_d90 <- lm(weight ~ 0 + group) # omitting intercept
 ```
 
 ```{r effect-stat, fig.cap = "Model parameters of model with stat_fan and geom rect."}
-effect_D90 <- coef(summary(lm_D90))
-effect_D90 <- as.data.frame(effect_D90[, 1:2])
-colnames(effect_D90)[2] <- "SE" 
-effect_D90$parameter <- rownames(effect_D90)
-effect_D90$parameter <- gsub("group", "", effect_D90$parameter)
-effect_D90$LCL <- qnorm(0.05, effect_D90$Estimate, effect_D90$SE)
-effect_D90$UCL <- qnorm(0.95, effect_D90$Estimate, effect_D90$SE)
+effect_d90 <- coef(summary(lm_d90))
+effect_d90 <- as.data.frame(effect_d90[, 1:2])
+colnames(effect_d90)[2] <- "SE"
+effect_d90$parameter <- rownames(effect_d90)
+effect_d90$parameter <- gsub("group", "", effect_d90$parameter)
+effect_d90$LCL <- qnorm(0.05, effect_d90$Estimate, effect_d90$SE)
+effect_d90$UCL <- qnorm(0.95, effect_d90$Estimate, effect_d90$SE)
 ggplot(
-  effect_D90, 
+  effect_d90,
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
   stat_fan(geom = "rect") +
-  stat_effect(threshold = c(4.5, 5.5), reference = 5) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3)) +
-  scale_effect("class")
+  stat_effect(
+    name = "class", threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE
+  )
 ```
 
 ```{r effect-errorbar, fig.cap = "Model parameters with single errorbars."}
 ggplot(
-  effect_D90, 
+  effect_d90,
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
-  geom_errorbar() +
-  stat_effect(threshold = c(4.5, 5.5), reference = 5) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3)) +
-  scale_effect("class")
+  stat_effect(threshold = c(4.5, 5.5), reference = 5)
 ```
 
 ```{r effect-fan-errorbar, fig.cap = "Model parameters with multiple lineranges."}
 ggplot(
-  effect_D90, 
+  effect_d90,
   aes(x = parameter, y = Estimate, ymin = LCL, ymax = UCL, link_sd = SE)
 ) +
   stat_fan(geom = "linerange") +
-  stat_effect(threshold = c(4.5, 5.5), reference = 5) +
-  geom_hline(yintercept = c(5, 4.5, 5.5), linetype = c(2, 3, 3)) +
-  scale_effect("class")
+  stat_effect(
+    threshold = c(4.5, 5.5), reference = 5, errorbar = FALSE,
+    labels = class_labels(type = "effect")
+  )
 ```
 
 ```{r effect-detailed-signed, fig.cap = "Symbols for a detailed and signed classification."}
@@ -309,40 +325,24 @@ ds <- data.frame(
 )
 ds$lcl <- qnorm(0.05, ds$mean, ds$sd)
 ds$ucl <- qnorm(0.95, ds$mean, ds$sd)
-ds$effect <- classification(ds$lcl, ds$ucl, 1) 
+ds$effect <- classification(ds$lcl, ds$ucl, 1)
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  stat_fan(geom = "rect") +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
-  stat_effect(threshold = 1) +
-  scale_effect()
+  stat_effect(threshold = 1)
 ```
 
 ```{r effect-detailed-unsigned, fig.cap = "Symbols for a detailed and unsigned classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  stat_fan(geom = "rect") +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
-  stat_effect(threshold = 1, signed = FALSE) +
-  scale_effect(signed = FALSE)
+  stat_effect(threshold = 1, signed = FALSE)
 ```
 
 ```{r effect-coarse-signed, fig.cap = "Symbols for a coarse and signed classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  stat_fan(geom = "rect") +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
-  stat_effect(threshold = 1, detailed = FALSE) +
-  scale_effect(detailed = FALSE)
+  stat_effect(threshold = 1, detailed = FALSE)
 ```
 
 ```{r effect-coarse-unsigned, fig.cap = "Symbols for a coarse and unsigned classification."}
 ggplot(ds, aes(x = effect, y = mean, ymin = lcl, ymax = ucl, link_sd = sd)) +
-  stat_fan(geom = "rect") +
-  geom_hline(yintercept = 0, linetype = 2) +
-  geom_hline(yintercept = c(-1, 1), linetype = 3) +
-  stat_effect(threshold = 1, detailed = FALSE, signed = FALSE) +
-  scale_effect(detailed = FALSE, signed = FALSE)
+  stat_effect(threshold = 1, detailed = FALSE, signed = FALSE)
 ```
 
 ## `format_ci()` and `classification()`
@@ -372,7 +372,7 @@ ds <- ds[order(ds$classifcation, ds$estimate, ds$ucl), ]
 ds$classifcation <- format(ds$classifcation, type = "markdown")
 ds$formatted <- format_ci(ds$estimate, lcl = ds$lcl, ucl = ds$ucl)
 kable(
-  ds[, -2], 
+  ds[, -2],
   caption = "Different effects, their classification and formatted text",
   align = "lllcc",
   row.names = FALSE

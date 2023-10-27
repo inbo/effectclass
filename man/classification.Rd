@@ -21,27 +21,28 @@ Defaults to 0.}
 }
 \description{
 \itemize{
-\item \code{++} \strong{strong positive effect}: \code{max(threshold) < lcl}
-\item \code{+} \strong{positive effect}: \code{reference < lcl < max(threshold)} and
+\item \verb{++} \strong{strong positive effect}: \code{max(threshold) < lcl}
+\item \code{+} \strong{positive effect}: \verb{reference < lcl < max(threshold)} and
 \code{max(threshold) < ucl}
-\item \code{+~} \strong{moderate positive effect}: \code{reference < lcl} and
+\item \verb{+~} \strong{moderate positive effect}: \code{reference < lcl} and
 \code{ucl < max(threshold)}
-\item \code{~} \strong{no effect}: \code{min(threshold) < lcl < reference} and
-\code{reference < ucl < max(threshold)}
-\item \code{-~} \strong{moderate negative effect}: \code{min(threshold) < lcl} and
+\item \code{~} \strong{no effect}: \verb{min(threshold) < lcl < reference} and
+\verb{reference < ucl < max(threshold)}
+\item \verb{-~} \strong{moderate negative effect}: \code{min(threshold) < lcl} and
 \code{ucl < reference}
 \item \code{-} \strong{negative effect}: \code{lcl < min(threshold)} and
-\code{min(threshold) < ucl < reference}
-\item \code{--} \strong{strong negative effect}: \code{ucl < min(threshold)}
-\item \code{?+} \strong{potential positive effect}: \code{min(threshold) < lcl < reference} and
+\verb{min(threshold) < ucl < reference}
+\item \verb{--} \strong{strong negative effect}: \code{ucl < min(threshold)}
+\item \verb{?+} \strong{potential positive effect}: \verb{min(threshold) < lcl < reference} and
 \code{max(threshold) < ucl}
-\item \code{?-} \strong{potential negative effect}: \code{lcl < min(threshold)} and
-\code{reference < ucl < max(threshold)}
-\item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} and \code{max(threshold) < ucl}
+\item \verb{?-} \strong{potential negative effect}: \code{lcl < min(threshold)} and
+\verb{reference < ucl < max(threshold)}
+\item \verb{?} \strong{unknown effect}: \code{lcl < min(threshold)} and \code{max(threshold) < ucl}
 }
 }
 \seealso{
-Other classification: \code{\link{coarse_classification}},
-  \code{\link{remove_sign}}
+Other classification functions: 
+\code{\link{coarse_classification}()},
+\code{\link{remove_sign}()}
 }
-\concept{classification}
+\concept{classification functions}

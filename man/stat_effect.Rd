@@ -4,33 +4,51 @@
 \alias{stat_effect}
 \title{Display points with classified effect}
 \usage{
-stat_effect(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...,
-  threshold, reference = 0, detailed = TRUE, signed = TRUE)
+stat_effect(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...,
+  threshold,
+  reference = 0,
+  detailed = TRUE,
+  signed = TRUE,
+  shape_colour = TRUE,
+  errorbar = TRUE,
+  error_colour = TRUE,
+  size = 6,
+  labels = class_labels(lang = "en", detailed = detailed, signed = signed),
+  ref_line = c("all", "ref", "none")
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
-default), it is combined with the default mapping at the top level of the
-plot. You must supply \code{mapping} if there is no plot mapping.}
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}}. If specified and
+\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+at the top level of the plot. You must supply \code{mapping} if there is no plot
+mapping.}
 
 \item{data}{The data to be displayed in this layer. There are three
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data. All objects will be fortified to produce a data frame. See
-\code{\link[=fortify]{fortify()}} for which variables will be created.
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
-\item{position}{Position adjustment, either as a string, or the result of
-a call to a position adjustment function.}
+\item{position}{Position adjustment, either as a string naming the adjustment
+(e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
@@ -44,9 +62,9 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
@@ -58,76 +76,95 @@ A single threshold will be transformed into
 \item{reference}{The null hypothesis.
 Defaults to 0.}
 
-\item{detailed}{\code{TRUE} indicates a detailed \code{\link{classification}};
-\code{FALSE} a \code{\link{coarse_classification}}.
+\item{detailed}{\code{TRUE} indicates a detailed \code{\link[=classification]{classification()}};
+\code{FALSE} a \code{\link[=coarse_classification]{coarse_classification()}}.
 Defaults to \code{TRUE}.}
 
 \item{signed}{\code{TRUE} indicates a signed classification;
-\code{FALSE} a classification with \code{\link{remove_sign}}.
+\code{FALSE} a classification with \code{\link[=remove_sign]{remove_sign()}}.
 Defaults to \code{TRUE}.}
+
+\item{shape_colour}{Colour the background of the labels according to the
+classification.
+Defaults to \code{TRUE}.}
+
+\item{errorbar}{Display the uncertainty as error bars.
+Defaults to \code{TRUE}.}
+
+\item{error_colour}{Colour the error bars according to the classification.
+Defaults to \code{TRUE}.}
+
+\item{size}{Size of the symbols.}
+
+\item{labels}{the labels for the legend.}
+
+\item{ref_line}{Which reference lines to display.
+\code{"all"} displays a dashed horizontal line at the \code{reference} and a dotted
+horizontal line at the \code{threshold}.
+\code{"ref"} displays a dashed horizontal line at the \code{reference}.
+\code{"none"} displays no horizontal lines.}
 }
 \description{
 Display points with classified effect
 }
 \examples{
+# All possible classes
 z <- data.frame(
-  effect = factor(
-    1:10,
-    labels = c("unknown\\neffect", "potential\\npositive\\neffect",
-             "potential\\nnegative\\neffect", "no effect", "positive\\neffect",
-             "negative\\neffect", "moderate\\npositive\\neffect",
-             "moderate\\nnegative\\neffect", "strong\\npositive\\neffect",
-             "strong\\nnegative\\neffect")
-  ),
-  estimate = c( 0,  0,    0,   0,   1,   -1,   0.5, -0.5, 1.5, -1.5),
-  lcl =      c(-2, -0.9, -2,  -0.9, 0.1, -2,   0.1, -0.9, 1.1, -2),
-  ucl =      c( 2,  2,    0.9, 0.9, 2,   -0.1, 0.9, -0.1, 2,   -1.1)
+  estimate = c(-0.5, 0, 0.5, 1.5, 1, 0.5, 0, -0.5, -1, -1.5),
+  sd = c(rep(0.8, 3), rep(0.3, 7))
 )
+z$lcl <- qnorm(0.05, z$estimate, z$sd)
+z$ucl <- qnorm(0.95, z$estimate, z$sd)
+classification(z$lcl, z$ucl, threshold = 1) -> z$effect
+c(
+  "?" = "unknown\neffect", "?+" = "potential\npositive\neffect",
+  "?-" = "potential\nnegative\neffect", "~" = "no effect",
+  "+" = "positive\neffect", "-" = "negative\neffect",
+  "+~" = "moderate\npositive\neffect", "-~" = "moderate\nnegative\neffect",
+  "++" = "strong\npositive\neffect", "--" = "strong\nnegative\neffect"
+)[as.character(z$effect)] -> z$x
+z$x <- factor(z$x, z$x)
+z$display <- paste(
+  "estimate:", format_ci(z$estimate, lcl = z$lcl, ucl = z$ucl)
+)
+
+# Simulated trend
+set.seed(20190521)
+base_year <- 2000
+n_year <- 20
+trend <- data.frame(
+  dt = seq_len(n_year),
+  change = rnorm(n_year, sd = 0.2),
+  sd = rnorm(n_year, mean = 0.1, sd = 0.01)
+)
+trend$index <- cumsum(trend$change)
+trend$lcl <- qnorm(0.025, trend$index, trend$sd)
+trend$ucl <- qnorm(0.975, trend$index, trend$sd)
+trend$year <- base_year + trend$dt
+trend$display <- paste(
+  "index:", format_ci(trend$index, lcl = trend$lcl, ucl = trend$ucl)
+)
+th <- 0.25
+ref <- 0
 oldw <- getOption("warn")
 options(warn = -1)
 library(ggplot2)
 theme_set(theme_grey(base_family = "Helvetica"))
 update_geom_defaults("point", list(size = 5))
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
   stat_effect(threshold = 1) +
-  scale_effect() +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = 1) +
-  scale_effect() +
+  stat_effect(threshold = 1, ref_line = "none") +
   coord_flip()
 ggplot(z[3:5, ], aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = 1) +
-  scale_effect(drop = TRUE) +
+  stat_effect(threshold = 1, errorbar = FALSE) +
   coord_flip()
 
 # plot indices
-set.seed(20190521)
-base_year <- 2000
-n_year <- 10
-z <- data.frame(
-  dt = seq_len(n_year),
-  change = rnorm(n_year, sd = 0.2),
-  sd = rnorm(n_year, mean = 0.1, sd = 0.01)
-)
-z$index <- cumsum(z$change)
-z$lcl <- qnorm(0.025, z$index, z$sd)
-z$ucl <- qnorm(0.975, z$index, z$sd)
-z$year <- base_year + z$dt
-th <- 0.25
-ref <- 0
-ggplot(z, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
-  geom_hline(yintercept = c(ref, -th, th), linetype = c(2, 3, 3)) +
-  geom_errorbar() +
+ggplot(trend, aes(x = year, y = index, ymin = lcl, ymax = ucl, sd = sd)) +
   geom_line() +
-  stat_effect(threshold = th, reference = ref) +
-  scale_effect()
+  stat_effect(threshold = th, reference = ref)
 
 # plot pairwise differences
 change_set <- function(z, base_year) {
@@ -141,10 +178,8 @@ change_set <- function(z, base_year) {
         y <- z
       }
       data.frame(
-        from = base_year + i,
-        to = base_year + y$dt,
-        total = cumsum(y$change),
-        sd = sqrt(cumsum(y$sd ^ 2))
+        from = base_year + i, to = base_year + y$dt,
+        total = cumsum(y$change), sd = sqrt(cumsum(y$sd ^ 2))
       )
     }
   )
@@ -152,27 +187,35 @@ change_set <- function(z, base_year) {
   total_change <- rbind(
     total_change,
     data.frame(
-      from = total_change$to,
-      to = total_change$from,
-      total = -total_change$total,
-      sd = total_change$sd
+      from = total_change$to, to = total_change$from,
+      total = -total_change$total, sd = total_change$sd
     )
   )
   total_change$lcl <- qnorm(0.025, total_change$total, total_change$sd)
   total_change$ucl <- qnorm(0.975, total_change$total, total_change$sd)
   return(total_change)
 }
-ggplot(change_set(z, base_year),
-       aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
-  stat_effect(threshold = th, reference = ref, aes(colour = total)) +
-  scale_colour_gradient2() +
-  scale_effect()
+head(trend, 10) |>
+  change_set(base_year) |>
+  ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+  stat_effect(
+    threshold = th, reference = ref, aes(colour = total), ref_line = "none",
+    errorbar = FALSE, shape_colour = FALSE
+  ) +
+  scale_colour_gradient2()
+head(trend, 10) |>
+  change_set(base_year) |>
+  ggplot(aes(x = from, y = to, ymin = lcl, ymax = ucl)) +
+  stat_effect(
+    threshold = th, reference = ref, ref_line = "none", errorbar = FALSE
+  )
 options(warn = oldw)
 }
 \seealso{
 \code{\link{classification}}
 
-Other ggplot2: \code{\link{scale_effect}},
-  \code{\link{stat_fan}}
+Other ggplot2 add-ons: 
+\code{\link{scale_effect}()},
+\code{\link{stat_fan}()}
 }
-\concept{ggplot2}
+\concept{ggplot2 add-ons}

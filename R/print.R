@@ -1,18 +1,11 @@
 #' @export
-#' @family display
-format.effectclass <- function(x, ..., type = c("ascii", "markdown", "plot")) {
+#' @family display functions
+format.effectclass <- function(x, ..., type = c("ascii", "markdown")) {
   type <- match.arg(type)
   is_effectclass(x, message = "error")
-  if (type == "plot") {
-    type <- paste0(type, attr(x, "signed"), attr(x, "detailed"))
-  }
   levels(x) <- switch(
     type,
     markdown = sprintf("`%s`", levels(x)),
-    plotTRUETRUE = detailed_signed_palette,
-    plotTRUEFALSE = coarse_signed_palette,
-    plotFALSETRUE = detailed_unsigned_palette,
-    plotFALSEFALSE = coarse_unsigned_palette,
     levels(x)
   )
   iconv(as.character(x), from = "UTF8", to = "UTF8")
@@ -53,12 +46,34 @@ unlist <- function(x, recursive = TRUE, use.names = TRUE) { # nolint
 #' @export
 #' @inheritParams base::unlist
 unlist.default <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
-  base::unlist(x = x, recursive = recursive, use.names = use.names)
+  is_list <- vapply(x, is.list, TRUE)
+  if (recursive && any(is_list)) {
+    for (i in which(is_list)) {
+      x[[i]] <- unlist(x[[i]], recursive = recursive, use.names = use.names)
+    }
+  }
+  effect_ok <- vapply(x, is_effectclass, TRUE, message = "none")
+  if (all(!effect_ok)) {
+    return(base::unlist(x = x, recursive = recursive, use.names = use.names))
+  }
+  if (!all(effect_ok)) {
+    stop("all elements or no elements should be `effectclass`")
+  }
+  unlist.effectclass(x = x, recursive = recursive, use.names = use.names)
 }
 
 #' @export
 #' @inheritParams base::unlist
 unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
+  if (!is.list(x)) {
+    is_effectclass(x, message = "error")
+    return(x)
+  }
+  vapply(x, is.list, TRUE) |>
+    which() -> is_list
+  for (i in is_list) {
+    x[[i]] <- unlist(x[[i]], recursive = recursive, use.names = use.names)
+  }
   vapply(x, is_effectclass, TRUE, message = "error")
   signed <- unique(vapply(x, attr, TRUE, which = "signed"))
   detailed <- unique(vapply(x, attr, TRUE, which = "detailed"))
@@ -70,10 +85,22 @@ unlist.effectclass <- function(x, recursive = TRUE, use.names = TRUE) { #nolint
     length(detailed) == 1,
     msg = "all elements should be either detailed or coarse"
   )
-  structure(
-    factor(vapply(x, as.character, NA_character_), levels = levels(x[[1]])),
-    signed = signed,
-    detailed = detailed,
-    class = c("effectclass", "factor")
-  )
+  vapply(
+    x, FUN.VALUE = vector("list", 1L),
+    FUN = function(z) {
+      list(as.character(z))
+    }
+  ) |>
+    do.call(what = c) |>
+    factor(levels = levels(x[[1]])) |>
+    structure(
+      signed = signed, detailed = detailed, class = c("effectclass", "factor")
+    )
+}
+
+#' @export
+#' @inheritDotParams base::c
+c.effectclass <- function(...) {
+  dots <- list(...)
+  unlist(dots)
 }

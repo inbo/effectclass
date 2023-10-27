@@ -14,17 +14,18 @@ coarse_classification(classification)
 \code{y <- classification(x)} to the 4 scales below.
 \itemize{
 \item \code{+} \strong{positive effect}: \code{reference < lcl}
-\item \code{~} \strong{no effect}: \code{min(threshold) < lcl < reference} and
-\code{reference < ucl < max(threshold)}
+\item \code{~} \strong{no effect}: \verb{min(threshold) < lcl < reference} and
+\verb{reference < ucl < max(threshold)}
 \item \code{-} \strong{negative effect}: \code{ucl < reference}
-\item \code{?} \strong{unknown effect}: \code{lcl < min(threshold)} or \code{max(threshold) < ucl}
+\item \verb{?} \strong{unknown effect}: \code{lcl < min(threshold)} or \code{max(threshold) < ucl}
 }
 
 \code{coarse_classification(y)} reduces the 6 scales from
 \code{y <- remove_sign(classification(x))} into 3 scales.
 }
 \seealso{
-Other classification: \code{\link{classification}},
-  \code{\link{remove_sign}}
+Other classification functions: 
+\code{\link{classification}()},
+\code{\link{remove_sign}()}
 }
-\concept{classification}
+\concept{classification functions}

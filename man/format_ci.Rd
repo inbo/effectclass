@@ -4,8 +4,18 @@
 \alias{format_ci}
 \title{Format an Estimate and Confidence Interval as Text}
 \usage{
-format_ci(estimate, se, lcl, ucl, interval = 0.95, link = c("identity",
-  "log", "logit"), max_digit = 4, percent = FALSE, sign = FALSE)
+format_ci(
+  estimate,
+  se,
+  lcl,
+  ucl,
+  interval = 0.95,
+  link = c("identity", "log", "logit"),
+  max_digit = 4,
+  percent = FALSE,
+  sign = FALSE,
+  change = FALSE
+)
 }
 \arguments{
 \item{estimate}{The estimate in the \code{link} scale.}
@@ -21,20 +31,26 @@ Ignored when \code{se} is given.}
 
 \item{interval}{The coverage of the confidence interval.
 Only used when \code{se} is given.
-Defaults to \code{0.95} (\code{95\%}).}
+Defaults to \code{0.95} (\verb{95\%}).}
 
 \item{link}{The transformation of \code{estimate}, \code{se}, \code{lcl} and \code{ucl}.
-The appropriate backtransformation is applied before formatting.}
+The appropriate back transformation is applied before formatting.}
 
 \item{max_digit}{The maximum number of significant digits to display.
 Defaults to \code{4}.}
 
 \item{percent}{Display the interval as a percentage
-(= muliply by 100 and append \code{\%}).
+(= multiply by 100 and append \verb{\%}).
 Defaults to \code{FALSE}.}
 
 \item{sign}{Always add the sign to the text. (e.g. \code{+1} instead of \code{1}).
 Defaults to \code{FALSE}.}
+
+\item{change}{Display interval as a change.
+Subtract \code{1} after applying the \code{link} and before applying \code{percent}.
+Use it to display \verb{0.9 (0.85; 0.95)} as \verb{-10\% (-15\%; -5\%)}.
+Defaults to \code{FALSE}.
+Implies \code{sign == TRUE}.}
 }
 \description{
 The function rounds the estimate, lower and upper confidence interval to the
@@ -59,9 +75,18 @@ format_ci(-0.1, lcl = -0.1999, ucl = 0.1234)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, percent = TRUE)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, sign = TRUE)
 format_ci(-0.1, lcl = -0.1999, ucl = 0.1234, percent = TRUE, sign = TRUE)
+format_ci(-0.1, lcl = -0.1999, ucl = 0.1234)
 format_ci(0.512345e-6, 1e-6)
 format_ci(0.512345e-7, 1e-7)
 format_ci(0.512345e-7, 1e-8)
 format_ci(0.512345e-7, 1e-9)
+format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = FALSE)
+format_ci(0.512345, 0.1, link = "log", percent = TRUE, change = TRUE)
+format_ci(0, lcl = 0, ucl = 0)
+format_ci(1, lcl = 1, ucl = 1)
 }
-\concept{display}
+\seealso{
+Other display functions: 
+\code{\link{class_labels}()}
+}
+\concept{display functions}

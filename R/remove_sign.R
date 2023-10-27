@@ -1,4 +1,4 @@
-#' Remove the sign of a classifaction
+#' Remove the sign of a classification
 #' @param classification The classification
 #' @description
 #' - `**` **strong effect**: `++` or `--`
@@ -9,7 +9,7 @@
 #' - `?` **unknown effect**: `?`
 #' @export
 #' @importFrom assertthat assert_that
-#' @family classification
+#' @family classification functions
 remove_sign <- function(classification) {
   is_effectclass(classification, message = "error")
   if (!attr(classification, "signed")) {

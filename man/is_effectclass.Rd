@@ -21,6 +21,9 @@ A single \code{TRUE} or \code{FALSE} value.
 Check If an Object Is a Valid Effectclass Object
 }
 \seealso{
-Other utils: \code{\link{unlist}}
+Other utils: 
+\code{\link{change_breaks}()},
+\code{\link{change_labels}()},
+\code{\link{unlist}()}
 }
 \concept{utils}

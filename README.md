@@ -1,30 +1,34 @@
 # effectclass
 
 <!-- badges: start -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
-[![Travis-CI Build Status](https://travis-ci.org/inbo/effectclass.svg?branch=master)](https://travis-ci.org/inbo/effectclass)
-[![Build status](https://ci.appveyor.com/api/projects/status/p6uin0vl1kaedm22/branch/master?svg=true)](https://ci.appveyor.com/project/ThierryO/effectclass/branch/master)
-[![codecov](https://codecov.io/gh/inbo/effectclass/branch/master/graph/badge.svg)](https://codecov.io/gh/inbo/effectclass)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c39c9cb6-57ce-482a-9f51-b0187226e8b5/deploy-status)](https://app.netlify.com/sites/effectclass/deploys)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle: stable](https://lifecycle.r-lib.org/articles/figures/lifecycle-stable.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+![GitHub](https://img.shields.io/github/license/inbo/effectclass)
+[![License](https://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Release](https://img.shields.io/github/release/inbo/effectclass.svg)](https://github.com/inbo/effectclass/releases)
+[![R build status](https://github.com/inbo/effectclass/workflows/check%20package%20on%20main/badge.svg)](https://github.com/inbo/effectclass/actions)
+![r-universe name](https://inbo.r-universe.dev/badges/:name?color=c04384)
+![r-universe package](https://inbo.r-universe.dev/badges/effectclass)
+[![Codecov test coverage](https://codecov.io/gh/inbo/effectclass/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/effectclass?branch=main)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/inbo/effectclass.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/inbo/effectclass.svg)
 <!-- badges: end -->
 
 The `effectclass` package helps interpreting effects and visualising uncertainty. 
 
 It classifies the effects by comparing a coverage interval with a reference, lower and upper threshold. The result is a 10 scale classification of the effect. You can reduced it to a 4 scale classification. `effectclass` provides `stat_effect()` and `scale_effect()` to visualise the effects as points with different shapes.
 
-The Bank of England visualises uncertainty by using a fan plot^[Britton, E.; Fisher, P. & J. Whitley (1998). The Inflation Report Projections: Understanding the Fan Chart. Bank of England Quarterly Bulletin. https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1998/the-inflation-report-projections-understanding-the-fan-chart Retrieved 2019-05-22.]. Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
+The Bank of England visualises uncertainty by using a fan plot^[Britton, E.; Fisher, P. & J. Whitley (1998). [The Inflation Report Projections: Understanding the Fan Chart](https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1998/the-inflation-report-projections-understanding-the-fan-chart). Bank of England Quarterly Bulletin. Retrieved 2019-05-22.]. Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
 
 ## Installation
 
-You can install the released version of effectclass from [GitHub](https://github.com/inbo/effectclass) with:
+You can install the released version of `effectclass` from [GitHub](https://github.com/inbo/effectclass) with:
 
 ``` r
 # installation requires the "remotes" package
 # install.package("remotes")
 
-remotes::install_github("inbo/effectclass"))
+remotes::install_github("inbo/effectclass")
 ```
 
 ## Example
@@ -51,10 +55,7 @@ Adding a classification to a plot
 ``` r
 library(ggplot2)
 ggplot(z, aes(x = effect, y = estimate, ymin = lcl, ymax = ucl)) +
-  geom_hline(yintercept = c(-1, 1, 0), linetype = c(3, 3, 2)) +
-  geom_errorbar() +
-  stat_effect(threshold = c(-1, 1), reference = 0, size = 3) +
-  scale_effect()
+  stat_effect(threshold = c(-1, 1), reference = 0, size = 3)
 ```
 
 Creating a fan plot

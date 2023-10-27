@@ -38,7 +38,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   geom_errorbar() +
   geom_hline(yintercept = 0, linetype = 2) +
   scale_y_continuous(
-    breaks = 0, 
+    breaks = 0,
     labels = "reference"
   ) +
   theme(
@@ -69,7 +69,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   geom_errorbar() +
   geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
   scale_y_continuous(
-    breaks = c(-0.25, 0, 0.25), 
+    breaks = c(-0.25, 0, 0.25),
     labels = c("lower\nthreshold", "reference", "upper\nthreshold")
   ) +
   theme(
@@ -103,9 +103,9 @@ We keep the term `positive effect` when the confidence interval is above the ref
 ```{r detailed-effect, fig.cap = "Comparing confidence intervals to the reference and thresholds for positive effects.", echo = FALSE}
 ds <- data.frame(
   effect = factor(
-    1:3, 
+    1:3,
     labels = c(
-      "positive\neffect", "moderate\npositive\neffect", 
+      "positive\neffect", "moderate\npositive\neffect",
       "strong\npositive\neffect"
     )
   ),
@@ -116,7 +116,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   geom_errorbar() +
   geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
   scale_y_continuous(
-    breaks = c(-0.25, 0, 0.25), 
+    breaks = c(-0.25, 0, 0.25),
     labels = c("lower\nthreshold", "reference", "upper\nthreshold")
   ) +
   theme(
@@ -136,9 +136,9 @@ If the confidence interval contains both the lower and upper threshold, we call 
 ```{r detailed-effect2, fig.cap = "Comparing confidence intervals to the reference and thresholds for unknown effects.", echo = FALSE}
 ds <- data.frame(
   effect = factor(
-    1:3, 
+    1:3,
     labels = c(
-      "potential positive\neffect", "potential\nnegative\neffect", 
+      "potential positive\neffect", "potential\nnegative\neffect",
       "unknown\neffect"
     )
   ),
@@ -149,7 +149,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   geom_errorbar() +
   geom_hline(yintercept = c(0, -0.25, 0.25), linetype = c(2, 3, 3)) +
   scale_y_continuous(
-    breaks = c(-0.25, 0, 0.25), 
+    breaks = c(-0.25, 0, 0.25),
     labels = c("lower\nthreshold", "reference", "upper\nthreshold")
   ) +
   theme(
@@ -185,9 +185,9 @@ Table: Summary of the simple classification into ten categories.
 ```{r detailed-effect3, fig.cap = "Graphical overview of the ten class classification split by the number of thresholds in the confidence interval.", echo = FALSE}
 library(effectclass, warn.conflicts = FALSE)
 ds <- data.frame(
-  thresholds = c( 3,  2,  1,  0,  2,  1,  0, 1, 0, 0),
+  thresholds =  c(3,  2,  1,  0,  2,  1,  0, 1, 0, 0),
   lcl =        c(-5, -5, -5, -5, -2, -2, -2, 1, 1, 3),
-  ucl =        c( 5,  2, -1, -3,  5,  2, -1, 5, 2, 5)
+  ucl =         c(5,  2, -1, -3,  5,  2, -1, 5, 2, 5)
 )
 ds$effect <- classification(ds$lcl, ds$ucl, threshold = 2.5)
 ds$coarse <- coarse_classification(ds$effect)
@@ -198,7 +198,7 @@ ggplot(ds, aes(ymin = lcl, ymax = ucl, x = effect)) +
   geom_hline(yintercept = c(-2.5, 2.5), linetype = 3) +
   facet_wrap(~thresholds, scales = "free_x") +
   scale_y_continuous(
-    breaks = c(-2.5, 0, 2.5), 
+    breaks = c(-2.5, 0, 2.5),
     labels = c("lower\nthreshold", "reference", "upper\nthreshold")
   ) +
   theme(
@@ -220,7 +220,7 @@ The `potential` and `unknown` levels end the row.
 ```{r}
 ds <- data.frame(
   lcl =        c(-5, -5, -5, -5, -2, -2, -2, 1, 1, 4),
-  ucl =        c( 5,  2, -1, -4,  5,  2, -1, 5, 2, 5)
+  ucl =         c(5,  2, -1, -4,  5,  2, -1, 5, 2, 5)
 )
 library(effectclass)
 ds$effect <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 3)
@@ -255,8 +255,7 @@ The example below displays the effect in decreasing order with uncertain effects
 Note that we first sort on the classification and then on the point estimate.
 We added a `format()` function for your convenience.
 A double hyphen `--` is rendered in Markdown as a so-called em-dash '--'.
-Use the `type = "markdown"` argument of `format()` to convert the classifaction as verbatim text, which preserves the double hyphen when rendering the document.
-The `type = "plot"` argument displays the symbols used on the plots.
+Use the `type = "markdown"` argument of `format()` to convert the classification as verbatim text, which preserves the double hyphen when rendering the document.
 
 ```{r}
 set.seed(20191126)
@@ -276,11 +275,10 @@ ds$estimate <- sprintf("%.2f (%.2f; %.2f)", ds$point_estimate, ds$lcl, ds$ucl)
 ds$class <- classification(lcl = ds$lcl, ucl = ds$ucl, threshold = 1)
 tab <- ds[order(ds$class, -ds$point_estimate), c("effect", "estimate", "class")]
 tab$markdown <- format(tab$class, type = "markdown")
-tab$plot <- format(tab$class, type = "plot")
 kable(
-  tab, 
-  caption = "Example table with effects, their confidences interval and 
-  classification using different formatting styles.", 
+  tab,
+  caption = "Example table with effects, their confidences interval and
+  classification using different formatting styles.",
   row.names = FALSE,
   align = "c"
 )
