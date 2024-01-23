@@ -2,12 +2,12 @@ citHeader("To cite `effectclass` in publications please use:")
 # begin checklist entry
 bibentry(
   bibtype = "Manual",
-  title = "effectclass: Classification and Visualisation of Effects. Version 0.1.4",
+  title = "effectclass: Classification and Visualisation of Effects. Version 0.1.5",
   author = c( author = c(person(given = "Thierry", family = "Onkelinx"))),
-  year = 2023,
+  year = 2024,
   url = "https://inbo.github.io/effectclass/",
   abstract = "Classify effects by comparing the confidence intervals with thresholds.",
-  textVersion = "Onkelinx, Thierry (2023) effectclass: Classification and Visualisation of Effects. Version 0.1.4. https://inbo.github.io/effectclass/",
+  textVersion = "Onkelinx, Thierry (2024) effectclass: Classification and Visualisation of Effects. Version 0.1.5. https://inbo.github.io/effectclass/",
   keywords = "classification; effect size; uncertainty; visualisation",
 )
 # end checklist entry
