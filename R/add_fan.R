@@ -57,7 +57,7 @@ add_fan <- function(
     dots$legendgroup <- name
   }
   for (prob in seq(max_prob, 1e-6, by = -step)) {
-    dots$hoverinfo <- ifelse(prob < max_prob, "none", hoverinfo)
+    dots$hoverinfo <- hoverinfo
     dots$x <- x
     dots$text <- text
     dots$ymin <- ~lcl
@@ -67,6 +67,7 @@ add_fan <- function(
     dots$inherit <- TRUE
     dots$line <- list(width = 0)
     dots$fillcolor <- fillcolor
+    dots$color <- I(fillcolor)
     dots$p <- p
     dots$data <- error_ribbon(
       data = data, y = y, sd = sd, prob = prob, link = link
