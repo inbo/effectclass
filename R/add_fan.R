@@ -53,8 +53,11 @@ add_fan <- function(
   if (is.null(text)) {
     text <- ~hoverinfo
   }
+  if (!missing(name)) {
+    dots$legendgroup <- name
+  }
   for (prob in seq(max_prob, 1e-6, by = -step)) {
-    dots$hoverinfo <- ifelse(prob < max_prob, "none", hoverinfo)
+    dots$hoverinfo <- hoverinfo
     dots$x <- x
     dots$text <- text
     dots$ymin <- ~lcl
@@ -64,6 +67,7 @@ add_fan <- function(
     dots$inherit <- TRUE
     dots$line <- list(width = 0)
     dots$fillcolor <- fillcolor
+    dots$color <- I(fillcolor)
     dots$p <- p
     dots$data <- error_ribbon(
       data = data, y = y, sd = sd, prob = prob, link = link
@@ -76,7 +80,8 @@ add_fan <- function(
   p |>
     add_ribbons(
       data = data, x = x, ymin = y, ymax = y, opacity = 1, showlegend = TRUE,
-      line = list(width = 0), fillcolor = fillcolor, name = name
+      line = list(width = 0), fillcolor = fillcolor, name = name,
+      legendgroup = name
     )
 }
 

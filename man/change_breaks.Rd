@@ -4,10 +4,15 @@
 \alias{change_breaks}
 \title{Logarithmic breaks for changes}
 \usage{
-change_breaks(n = 2)
+change_breaks(n = 2, extra = NULL)
 }
 \arguments{
 \item{n}{the number of breaks on either side of the reference}
+
+\item{extra}{An optional vector of additional breaks.
+The function always appends these breaks.
+Use this option when you want to force this values to be a part of the
+breaks.}
 }
 \description{
 Breaks a set of pretty breaks for changes.

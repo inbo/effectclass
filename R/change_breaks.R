@@ -2,17 +2,23 @@
 #'
 #' Breaks a set of pretty breaks for changes.
 #' @param n the number of breaks on either side of the reference
+#' @param extra An optional vector of additional breaks.
+#' The function always appends these breaks.
+#' Use this option when you want to force this values to be a part of the
+#' breaks.
 #' @export
 #' @importFrom assertthat assert_that is.count
 #' @importFrom utils head tail
 #' @family utils
-change_breaks <- function(n = 2) {
+change_breaks <- function(n = 2, extra = NULL) {
   assert_that(is.count(n))
   n_default <- n
-  function(x, n = n_default) {
+  extra_default <- extra
+  function(x, n = n_default, extra = extra_default) {
     if (length(x) == 0) {
       return(numeric(0))
     }
+    stopifnot(is.numeric(x))
     abs(x) |>
       max() |>
       exp() -> extreme
@@ -32,11 +38,22 @@ change_breaks <- function(n = 2) {
     rel_position <- log(candidate) / max(log(candidate))
     seq(0, 1, length = n + 1) |>
       outer(rel_position, "-") -> delta
-    selected <- candidate[apply(delta ^ 2, 1, which.min)]
+    selected <- candidate[unique(apply(delta ^ 2, 1, which.min))]
     rev(1 / selected) |>
       head(-1) |>
       c(selected) |>
-      log()
+      log() -> breaks
+    if (is.null(extra)) {
+      return(breaks)
+    }
+    stopifnot(is.numeric(extra))
+    outer(breaks, extra, "-") |>
+      abs() -> delta
+    to_replace <- which(delta < min(diff(breaks)) / 10, arr.ind = TRUE)
+    breaks[to_replace[, "row"]] <- extra[to_replace[, "col"]]
+    c(breaks, extra) |>
+      sort() |>
+      unique()
   }
 }
 
