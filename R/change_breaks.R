@@ -49,7 +49,7 @@ change_breaks <- function(n = 2, extra = NULL) {
     stopifnot(is.numeric(extra))
     outer(breaks, extra, "-") |>
       abs() -> delta
-    to_replace <- which(delta < min(diff(breaks)) / 10, arr.ind = TRUE)
+    to_replace <- which(delta < min(diff(breaks)) / 5, arr.ind = TRUE)
     breaks[to_replace[, "row"]] <- extra[to_replace[, "col"]]
     c(breaks, extra) |>
       sort() |>
