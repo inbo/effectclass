@@ -3,7 +3,7 @@
   "version": "0.1.5",
   "license": "GPL-3.0",
   "upload_type": "software",
-  "description": "<p>Classify effects by comparing the confidence intervals with\nthresholds.<\/p>",
+  "description": "<p>Classify effects by comparing the confidence intervals with thresholds.<\/p>",
   "keywords": [
     "classification",
     "effect size",
@@ -17,11 +17,11 @@
       "name": "Onkelinx, Thierry",
       "affiliation": "Research Institute for Nature and Forest (INBO)",
       "orcid": "0000-0001-8804-4216",
-      "type": "ContactPerson"
+      "type": "contactperson"
     },
     {
       "name": "Research Institute for Nature and Forest (INBO)",
-      "type": "RightsHolder"
+      "type": "rightsholder"
     }
   ],
   "creators": [
