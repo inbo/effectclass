@@ -24,4 +24,4 @@ abstract: "Classify effects by comparing the confidence intervals with threshold
 identifiers:
 - type: url
   value: https://inbo.github.io/effectclass/
-version: 0.1.4
+version: 0.1.5

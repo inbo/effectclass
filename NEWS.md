@@ -1,3 +1,7 @@
+# effectclass 0.1.5
+
+* `add_fan()` groups the traces when setting `name`.
+
 # effectclass 0.1.4
 
 * `add_fan()`, `add_classification()`, `reference_shape()` and
