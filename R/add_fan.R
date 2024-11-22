@@ -31,8 +31,7 @@
 add_fan <- function(
   p, x = NULL, y = NULL, ..., sd, link = c("identity", "log", "logit"),
   max_prob = 0.9, step = 0.05, fillcolor = coarse_unsigned_palette[2],
-  data = NULL, inherit = TRUE, text = NULL, hoverinfo = "text",
-  name
+  data = NULL, inherit = TRUE, text = NULL, name
 ) {
   assert_that(
     is.flag(inherit), noNA(inherit), is.string(fillcolor), noNA(fillcolor),
@@ -50,16 +49,13 @@ add_fan <- function(
       !is.null(x) && !is.null(y) && !is.null(data)
   )
   dots <- list(...)
-  if (is.null(text)) {
-    text <- ~hoverinfo
-  }
   if (!missing(name)) {
     dots$legendgroup <- name
   }
   for (prob in seq(max_prob, 1e-6, by = -step)) {
-    dots$hoverinfo <- hoverinfo
     dots$x <- x
-    dots$text <- text
+    dots$text <- NULL
+    dots$hoverinfo <- "none"
     dots$ymin <- ~lcl
     dots$ymax <- ~ucl
     dots$showlegend <- FALSE
@@ -81,7 +77,7 @@ add_fan <- function(
     add_ribbons(
       data = data, x = x, ymin = y, ymax = y, opacity = 1, showlegend = TRUE,
       line = list(width = 0), fillcolor = fillcolor, name = name,
-      legendgroup = name
+      legendgroup = name, text = text, hoverinfo = "text"
     )
 }
 
