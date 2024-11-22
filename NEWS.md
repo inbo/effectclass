@@ -1,5 +1,9 @@
 # effectclass 0.1.5
 
+* `add_fan()` produces cleaner hover info.
+
+# effectclass 0.1.5
+
 * `add_fan()` groups the traces when setting `name`.
 
 # effectclass 0.1.4
