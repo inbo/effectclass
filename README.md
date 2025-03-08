@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/inbo/effectclass)
 [![License](https://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Release](https://img.shields.io/github/release/inbo/effectclass.svg)](https://github.com/inbo/effectclass/releases)
-[![R build status](https://github.com/inbo/effectclass/workflows/check%20package%20on%20main/badge.svg)](https://github.com/inbo/effectclass/actions)
+[![R build status](https://github.com/inbo/effectclass/actions/workflows/check_on_main.yml/badge.svg)](https://github.com/inbo/effectclass/actions)
 ![r-universe name](https://inbo.r-universe.dev/badges/:name?color=c04384)
 ![r-universe package](https://inbo.r-universe.dev/badges/effectclass)
 [![Codecov test coverage](https://codecov.io/gh/inbo/effectclass/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/effectclass?branch=main)
