@@ -180,6 +180,7 @@ plot_ly(data = trend, x = ~year, y = ~index) |>
 \seealso{
 Other plotly add-ons: 
 \code{\link{add_fan}()},
+\code{\link{add_vert_norm}()},
 \code{\link{reference_shape}()},
 \code{\link{reference_text}()}
 }

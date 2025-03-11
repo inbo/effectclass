@@ -121,6 +121,7 @@ plot_ly(data = trend, x = ~year, y = ~index) |>
 Other plotly add-ons: 
 \code{\link{add_classification}()},
 \code{\link{add_fan}()},
+\code{\link{add_vert_norm}()},
 \code{\link{reference_shape}()}
 }
 \concept{plotly add-ons}

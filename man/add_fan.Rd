@@ -17,7 +17,6 @@ add_fan(
   data = NULL,
   inherit = TRUE,
   text = NULL,
-  hoverinfo = "text",
   name
 )
 }
@@ -56,12 +55,12 @@ Defaults to a greyish blue.}
 
 \item{text}{textual labels.}
 
+\item{name}{Optional name of the trace for the legend.}
+
 \item{hoverinfo}{Which hover information to display.
 Defaults to \code{"text"}.
 When no \code{"text"} variable is specified, the function displays a formatted
 confidence interval.}
-
-\item{name}{Optional name of the trace for the legend.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a
@@ -155,6 +154,7 @@ plot_ly(data = trend, x = ~year, y = ~index) |>
 \seealso{
 Other plotly add-ons: 
 \code{\link{add_classification}()},
+\code{\link{add_vert_norm}()},
 \code{\link{reference_shape}()},
 \code{\link{reference_text}()}
 }
