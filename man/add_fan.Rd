@@ -56,11 +56,6 @@ Defaults to a greyish blue.}
 \item{text}{textual labels.}
 
 \item{name}{Optional name of the trace for the legend.}
-
-\item{hoverinfo}{Which hover information to display.
-Defaults to \code{"text"}.
-When no \code{"text"} variable is specified, the function displays a formatted
-confidence interval.}
 }
 \description{
 A fan plot consist of a set of transparent ribbons each representing a

@@ -18,7 +18,8 @@ Imports:
     assertthat,
     dplyr,
     ggplot2,
-    plotly
+    plotly,
+    rlang
 Suggests: 
     crosstalk,
     knitr,

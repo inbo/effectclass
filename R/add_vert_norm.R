@@ -6,11 +6,14 @@
 #' on `prop`.
 #' Except that we remove the rectangle in the centre of the shape.
 #' Hence the extreme values of the shape will be a point instead of a line.
+#' @param prob The coverage of the confidence interval when calculated from the
+#' mean `y` and standard error `sd`.
 #' @param delta The maximal half width of the shape.
 #' Defaults to the half minimal difference between two consecutive `x` values.
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom plotly add_polygons
+#' @importFrom stats dnorm plogis qlogis qnorm
 #' @family plotly add-ons
 add_vert_norm <- function(
   p, x = NULL, y = NULL, ..., sd, link = c("identity", "log", "logit"), delta,
@@ -48,6 +51,7 @@ add_vert_norm <- function(
 
 #' @importFrom assertthat assert_that has_name is.number
 #' @importFrom dplyr group_by
+#' @importFrom rlang sym
 #' @importFrom stats plogis qlogis qnorm
 error_vert_norm <- function(
   data, x, y, sd, max_prob = 0.95, step = 0.01, hash, truncated = TRUE,
@@ -113,7 +117,7 @@ error_vert_norm <- function(
     link, identity = ds[[y0]], log = exp(ds[[y0]]), logit = plogis(ds[[y0]])
   )
   ds[[y0]] <- NULL
-  ds <- group_by(ds, !!rlang::sym(id), .add = TRUE)
+  ds <- group_by(ds, !!sym(id), .add = TRUE)
 
   if (!inherits(data, "SharedData")) {
     return(ds)

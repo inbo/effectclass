@@ -47,6 +47,9 @@ Defaults to the half minimal difference between two consecutive \code{x} values.
 
 \item{name}{Optional name of the trace for the legend.}
 
+\item{prob}{The coverage of the confidence interval when calculated from the
+mean \code{y} and standard error \code{sd}.}
+
 \item{step}{the step size between consecutive bands.
 The function adds all bands with coverage \code{max_prob - i * step} for all
 positive integer values \code{i} resulting in a positive coverage.

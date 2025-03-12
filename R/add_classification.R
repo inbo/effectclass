@@ -15,6 +15,10 @@
 #' Will be used for the points where `is.na(sd)` or both `is.na(lcl)` and
 #' `is.na(ucl)`.
 #' @param ref_colour The colour for the reference point.
+#' @param hoverinfo Which hover information to display.
+#' Defaults to `"text"`.
+#' When no `"text"` variable is specified, the function displays a formatted
+#' confidence interval.
 #' @family plotly add-ons
 #' @template example_effect_data
 #' @template example_effect_plotly

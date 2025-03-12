@@ -83,7 +83,7 @@ The shape is based on a Gaussian distribution with mean defined by the `y` aesth
 We symmetrically truncate the distribution so the total probability is equal to `prob`, which is set to `0.95` by default.
 We display this distribution vertically and mirrored, so the mean becomes the widest part of the element.
 The top and bottom of the element are the extreme percentiles matching the `prob` argument.
-When `prob = 0.95`, the top and bottom are the 2.5th and 97.5th percentiles.
+When `prob = 0.95`, the top and bottom are the 2.5% and 97.5% percentiles.
 Hence, the height of the element can be interpreted as a 95% confidence interval.
 Due to the truncation and mirroring, the top and bottom of the element become horizontal lines.
 
