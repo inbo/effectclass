@@ -89,13 +89,19 @@ error_vert_norm <- function(
   x0 <- paste0("x_", hash)
   y0 <- paste0("y_", hash)
   ds[[sd[[2]]]][ds[[sd[[2]]]] <= 0] <- NA
+  ds[[y[[2]]]] <- switch(
+    link, identity = ds[[y[[2]]]], log = log(ds[[y[[2]]]]),
+    logit = qlogis(ds[[y[[2]]]])
+  )
   ds[[y0]] <- qnorm(ds[[prob]], mean = ds[[y[[2]]]], sd = ds[[sd[[2]]]])
   ds[[x0]] <- dnorm(ds[[y0]], mean = ds[[y[[2]]]], sd = ds[[sd[[2]]]])
   ds[[x0]] <- ds[[x[[2]]]] +
     ds[[x0]] * ds[[dir]] * delta / max(ds[[x0]], na.rm = TRUE)
   ds[[x[[2]]]] <- ds[[x0]]
   ds[[x0]] <- NULL
-  ds[[y[[2]]]] <- ds[[y0]]
+  ds[[y[[2]]]] <- switch(
+    link, identity = ds[[y0]], log = exp(ds[[y0]]), logit = plogis(ds[[y0]])
+  )
   ds[[y0]] <- NULL
   ds <- group_by(ds, !!rlang::sym(id), .add = TRUE)
 
