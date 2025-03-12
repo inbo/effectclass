@@ -1,31 +1,32 @@
+template:
+  bootstrap: 5
+  light-switch: false
+url: https://inbo.github.io/effectclass/
 navbar:
   title: ~
   type: default
-  left:
-  - text: Tutorials
-    href: articles/index.html
-    menu:
-    - text: Classification
-      href: articles/classification.html
-    - text: Visualisation
-      href: articles/visualisation.html
-  - text: NEWS
-    href: news/index.html
-  - text: Functions
-    href: reference/index.html
-  - text: Contributing
-    href: CONTRIBUTING.html
-  right:
-  - icon: "fa fa-github"
-    href: https://github.com/inbo/effectclass
-  - icon: "fa fa-brands fa-mastodon"
-    href: https://fosstodon.org/@thierryo
-    rel: me
-  - icon: "fa fa-twitter"
-    href: https://twitter.com/INBOVlaanderen
-  - icon: "fa fa-facebook"
-    href: https://www.facebook.com/pg/INBOVlaanderen
-
+  structure:
+    left:  [intro, reference, tutorials, news, contributing]
+    right: [search, github]
+  components:
+    news:
+      text: Changelog
+      href: news/index.html
+    contributing:
+      text: Contributing
+      menu:
+      - text: Contributing
+        href: CONTRIBUTING.html
+      - text: Code of conduct
+        href: CODE_OF_CONDUCT.html
+    tutorials:
+      text: Tutorials
+      href: articles/index.html
+      menu:
+      - text: Classification
+        href: articles/classification.html
+      - text: Visualisation
+        href: articles/visualisation.html
 reference:
 - title: Classification of Effects
   contents:
@@ -48,7 +49,7 @@ authors:
     href: "https://www.muscardinus.be"
   Research Institute for Nature and Forest (INBO):
     href: "https://www.vlaanderen.be/inbo/en-gb"
-    html: "<img src='https://inbo.github.io/checklist/reference/figures/logo-en.png' height=24>"
+    html: "<img src='https://inbo.github.io/checklist/reference/figures/logo-en.png' height=24 alt='logo of the Research Institute for Nature and Forest (INBO)'>"
 
 figures:
   fig.width: 7
