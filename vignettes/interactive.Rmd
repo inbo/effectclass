@@ -1,0 +1,167 @@
+---
+title: "Visualising Effects with `plotly`"
+author: Thierry Onkelinx
+bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualising Effects with `plotly`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(collapse = TRUE, comment = "#>")
+inbo_colours <- c("#282A72", "#EF972C")
+```
+
+## `add_fan()`
+
+The Bank of England visualises uncertainty by using a fan plot [@britton.fisher.ea1998InflationReportProjections].
+Instead of displaying a single coverage interval, they recommend to display a bunch of coverage intervals with different levels of transparency.
+`add_fan()` creates the intervals based on a Gaussian distribution.
+It uses the `y` aesthetic for the mean and the `sd` as the standard error.
+The default setting in `add_fan()` adds intervals in 5% increments.
+
+```{r add-fan-default, fig.cap = "Default plot using `add_fan()`."}
+library(effectclass)
+library(plotly)
+set.seed(20191216)
+timeserie <- data.frame(
+  year = 1990:2019, dx = rnorm(30, sd = 0.2), s = rnorm(30, 1, 0.05)
+)
+timeserie$index <- exp(cumsum(timeserie$dx))
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_fan(sd = ~s)
+```
+
+You can change the number of intervals by setting the `step` argument.
+
+```{r add-fan-interval, fig.cap = "Fan plot with three intervals and line."}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_fan(sd = ~s, step = 0.3) |>
+  add_lines(color = I(inbo_colours[1]))
+```
+
+You can change the width of the interval by setting the `max_prob` argument.
+
+```{r add-fan-max-prob, fig.cap = "Fan plot with a maximum probability of 0.5."}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_fan(sd = ~s, max_prob = 0.5)
+```
+
+You can use the `link` argument to apply a link function.
+This assumes that the standard error is on the link scale and the y values in on the natural scale.
+
+```{r add-fan-log, fig.cap = "Fan plot with log link. Note the asymmetric intervals due to the link function."}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_fan(sd = ~s, link = "log")
+```
+
+The next example shows how to add multiple fans to a plot.
+
+```{r add-fan-category, fig.cap = "add_fan() with different colours."}
+timeseries <- expand.grid(year = 1990:2019, category = c("A", "B"))
+timeseries$dx <- rnorm(60, sd = 0.1)
+timeseries$index <- rep(c(0, 2), each = 30) + cumsum(timeseries$dx)
+timeseries$s <- rnorm(60, rep(c(0.5, 1), each = 30), 0.05)
+plot_ly(x = ~year, y = ~index) |>
+  add_fan(
+    data = timeseries[timeseries$category == "A", ], sd = ~s,
+    fillcolor = inbo_colours[1], name = "A"
+  ) |>
+  add_fan(
+    data = timeseries[timeseries$category == "B", ], sd = ~s,
+    fillcolor = inbo_colours[2], name = "B"
+  )
+```
+
+## `add_vert_norm()`
+
+`add_vert_norm()` adds violin style elements to the plot.
+The shape is based on a Gaussian distribution with mean defined by the `y` aesthetic and sigma defined by the `sd` aesthetic.
+We symmetrically truncate the distribution so the total probability is equal to `prob`, which is set to `0.95` by default.
+We display this distribution vertically and mirrored, so the mean becomes the widest part of the element.
+The top and bottom of the element are the extreme percentiles matching the `prob` argument.
+When `prob = 0.95`, the top and bottom are the 2.5th and 97.5th percentiles.
+Hence, the height of the element can be interpreted as a 95% confidence interval.
+Due to the truncation and mirroring, the top and bottom of the element become horizontal lines.
+
+```{r add-vert-norm}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s)
+```
+
+Increasing `prob` will increase the height of the element.
+As `prob` approaches 1, there is less truncation and the shape is more recognisable as a Gaussian distribution.
+However, you lose the interpretation of the height as a confidence interval in case you want a 90% or 95% confidence interval.
+
+```{r add-vert-norm-9999}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, prob = 0.9999)
+```
+
+If you want a smaller confidence interval, you can set `prob` to a lower value.
+
+```{r add-vert-norm-80}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, prob = 0.8)
+```
+
+Setting `truncated = FALSE` will remove the rectangle in the centre of the shape.
+The top and bottom of the element now becomes a point instead of a horizontal line.
+
+```{r add-vert-norm-80-t}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, prob = 0.8, truncated = FALSE)
+```
+
+Setting the `step` argument defines steps in probability at which we approximate the Gaussian distribution.
+`prob = 0.9` and `step = 0.45` will create a shape based on the 5%, 50% and 95% percentiles.
+
+```{r add-vert-norm-step}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, prob = 0.9, step = 0.45)
+```
+
+The `delta` argument defines the half width of the element.
+The default value is half of the smallest distance between two consecutive `x` values.
+
+```{r add-vert-norm-delta1}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, delta = 1)
+```
+
+```{r add-vert-norm-delta02}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, delta = 0.2)
+```
+
+The `link` argument applies a link function to the `sd` aesthetic.
+
+```{r add-vert-norm-log}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s, link = "log")
+```
+
+## Reference
+
+The `reference_shape()` and `reference_text()` functions can be used to add a reference lines and text to the plot.
+
+```{r reference-fan}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_fan(sd = ~s) |>
+  layout(
+    shapes = reference_shape(threshold = 1),
+    annotations = reference_text(threshold = 1)
+  )
+```
+
+```{r reference-vert-norm}
+plot_ly(timeserie, x = ~year, y = ~index) |>
+  add_vert_norm(sd = ~s) |>
+  layout(
+    shapes = reference_shape(threshold = 1),
+    annotations = reference_text(threshold = 1)
+  )
+```

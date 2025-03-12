@@ -1,10 +1,10 @@
 ---
-title: "Visualising Effects"
+title: "Visualising Effects with `ggplot2`"
 author: Thierry Onkelinx
 bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Visualising Effects}
+  %\VignetteIndexEntry{Visualising Effects with `ggplot2`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
