@@ -1,6 +1,8 @@
-# effectclass 0.1.5
+# effectclass 0.1.6
 
 * `add_fan()` produces cleaner hover info.
+* Create new `add_vert_norm()` function.
+* Add example document on how to use `effectclass` with `plotly`.
 
 # effectclass 0.1.5
 
