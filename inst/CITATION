@@ -4,10 +4,10 @@ bibentry(
   bibtype = "Manual",
   title = "effectclass: Classification and Visualisation of Effects. Version 0.1.6",
   author = c( author = c(person(given = "Thierry", family = "Onkelinx"))),
-  year = 2024,
+  year = 2025,
   url = "https://inbo.github.io/effectclass/",
   abstract = "Classify effects by comparing the confidence intervals with thresholds.",
-  textVersion = "Onkelinx, Thierry (2024) effectclass: Classification and Visualisation of Effects. Version 0.1.6. https://inbo.github.io/effectclass/",
+  textVersion = "Onkelinx, Thierry (2025) effectclass: Classification and Visualisation of Effects. Version 0.1.6. https://inbo.github.io/effectclass/",
   keywords = "classification; effect size; uncertainty; visualisation",
 )
 # end checklist entry
