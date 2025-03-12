@@ -1,18 +1,25 @@
 #' Add violin style elements to a `plotly` object
 #' @inheritParams add_fan
+#' @param truncated If `TRUE` (default), the shape is a mirrored normal
+#' distribution truncated depending on `prop`.
+#' If `FALSE`, the shape also a mirrored normal distribution truncated depending
+#' on `prop`.
+#' Except that we remove the rectangle in the centre of the shape.
+#' Hence the extreme values of the shape will be a point instead of a line.
+#' @param delta The maximal half width of the shape.
+#' Defaults to the half minimal difference between two consecutive `x` values.
 #' @export
 #' @importFrom assertthat assert_that is.flag noNA
 #' @importFrom plotly add_polygons
 #' @family plotly add-ons
 add_vert_norm <- function(
   p, x = NULL, y = NULL, ..., sd, link = c("identity", "log", "logit"), delta,
-  data = NULL, inherit = TRUE, name, prob = 0.95, step = 0.01
+  data = NULL, inherit = TRUE, name, prob = 0.95, step = 0.01, truncated = TRUE
 ) {
   assert_that(is.flag(inherit), noNA(inherit))
   if (inherit) {
     x <- coalesce(x, p$x$attrs[[1]][["x"]])
     y <- coalesce(y, p$x$attrs[[1]][["y"]])
-    text <- coalesce(text, p$x$attrs[[1]][["text"]])
     data <- coalesce(data, p$x$visdat[[1]]())
   }
   stopifnot(
@@ -33,7 +40,7 @@ add_vert_norm <- function(
   dots$p <- p
   dots$data <- error_vert_norm(
     data = data, x = x, y = y, sd = sd, max_prob = (1 + prob) / 2, step = step,
-    hash = hash, link = link, delta = delta
+    hash = hash, link = link, delta = delta, truncated = truncated
   )
 
   do.call(add_polygons, dots)
@@ -43,7 +50,7 @@ add_vert_norm <- function(
 #' @importFrom dplyr group_by
 #' @importFrom stats plogis qlogis qnorm
 error_vert_norm <- function(
-  data, x, y, sd, max_prob = 0.95, step = 0.01, hash,
+  data, x, y, sd, max_prob = 0.95, step = 0.01, hash, truncated = TRUE,
   delta, link = c("identity", "log", "logit")
 ) {
   if (inherits(data, "SharedData")) {
@@ -95,6 +102,9 @@ error_vert_norm <- function(
   )
   ds[[y0]] <- qnorm(ds[[prob]], mean = ds[[y[[2]]]], sd = ds[[sd[[2]]]])
   ds[[x0]] <- dnorm(ds[[y0]], mean = ds[[y[[2]]]], sd = ds[[sd[[2]]]])
+  if (!truncated) {
+    ds[[x0]] <- ds[[x0]] - min(ds[[x0]], na.rm = TRUE)
+  }
   ds[[x0]] <- ds[[x[[2]]]] +
     ds[[x0]] * ds[[dir]] * delta / max(ds[[x0]], na.rm = TRUE)
   ds[[x[[2]]]] <- ds[[x0]]

@@ -16,7 +16,8 @@ add_vert_norm(
   inherit = TRUE,
   name,
   prob = 0.95,
-  step = 0.01
+  step = 0.01,
+  truncated = TRUE
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ provided at this level may override other arguments
 \item{link}{the link between the natural scale and the link scale.
 Defaults to \code{"identity"}.}
 
+\item{delta}{The maximal half width of the shape.
+Defaults to the half minimal difference between two consecutive \code{x} values.}
+
 \item{data}{A data frame (optional) or \link[crosstalk:SharedData]{crosstalk::SharedData} object.}
 
 \item{inherit}{inherit attributes from \code{\link[plotly:plot_ly]{plot_ly()}}?}
@@ -47,6 +51,13 @@ Defaults to \code{"identity"}.}
 The function adds all bands with coverage \code{max_prob - i * step} for all
 positive integer values \code{i} resulting in a positive coverage.
 Defaults to \code{0.05}.}
+
+\item{truncated}{If \code{TRUE} (default), the shape is a mirrored normal
+distribution truncated depending on \code{prop}.
+If \code{FALSE}, the shape also a mirrored normal distribution truncated depending
+on \code{prop}.
+Except that we remove the rectangle in the centre of the shape.
+Hence the extreme values of the shape will be a point instead of a line.}
 }
 \description{
 Add violin style elements to a \code{plotly} object
