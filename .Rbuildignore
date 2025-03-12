@@ -13,6 +13,7 @@
 ^codecov\.yml$
 ^data-raw$
 ^docs$
+^inst/*\.html$
 ^man-roxygen$
 ^organisation.yml$
 ^pkgdown$

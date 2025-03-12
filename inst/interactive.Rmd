@@ -11,7 +11,7 @@ vignette: >
 
 ```{r setup, include = FALSE}
 library(knitr)
-opts_chunk$set(collapse = TRUE, comment = "#>")
+opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 6)
 inbo_colours <- c("#282A72", "#EF972C")
 ```
 
@@ -142,6 +142,31 @@ The `link` argument applies a link function to the `sd` aesthetic.
 ```{r add-vert-norm-log}
 plot_ly(timeserie, x = ~year, y = ~index) |>
   add_vert_norm(sd = ~s, link = "log")
+```
+
+## `add_classifiction()`
+
+```{r add-classification}
+z <- data.frame(
+  estimate = c(-0.5, 0, 0.5, 1.5, 1, 0.5, 0, -0.5, -1, -1.5),
+ sd = c(rep(0.8, 3), rep(0.3, 7))
+)
+z$lcl <- qnorm(0.05, z$estimate, z$sd)
+z$ucl <- qnorm(0.95, z$estimate, z$sd)
+classification(z$lcl, z$ucl, threshold = 1) -> z$effect
+z$x <- class_labels(type = "effect")[z$effect]
+z$x <- factor(z$x, z$x)
+z$display <- paste(
+ "estimate:", format_ci(z$estimate, lcl = z$lcl, ucl = z$ucl)
+)
+plot_ly(z, x = ~x, y = ~estimate) |>
+ add_fan(sd = ~sd, text = ~display) |>
+ add_classification(lcl = ~lcl, ucl = ~ucl, threshold = 1) |>
+ layout(
+   hovermode = "x unified",
+   shapes = reference_shape(threshold = 1),
+   annotations = reference_text(threshold = 1)
+ )
 ```
 
 ## Reference

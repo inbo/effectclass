@@ -27,8 +27,6 @@ navbar:
         href: articles/classification.html
       - text: Visualising Effects with `ggplot2`
         href: articles/visualisation.html
-      - text: Visualising Effects with `plotly`
-        href: articles/interactive.html
 reference:
 - title: Classification of Effects
   contents:

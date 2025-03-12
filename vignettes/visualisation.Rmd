@@ -1,7 +1,7 @@
 ---
 title: "Visualising Effects with `ggplot2`"
 author: Thierry Onkelinx
-bibliography: references.bib
+bibliography: '`r system.file("references.bib", package = "effectclass")`'
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Visualising Effects with `ggplot2`}
@@ -136,6 +136,9 @@ update_geom_defaults("point", list(colour = "#356196", size = 2))
 The `vignette("classification", package = "effectclass")` explains how we can classify effects based on their confidence intervals.
 This vignette focusses on visualising effect and their uncertainty.
 The packages provides two `ggplot()` layers (`stat_fan()` and `stat_effect()`) and a scale (`scale_effect()`).
+
+Note that this package also supports `plotly`.
+Run `rmarkdown::render(system.file("interactive.Rmd", package = "effectclass"))` to generate this document.
 
 ## `stat_fan()`
 
