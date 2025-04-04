@@ -28,6 +28,9 @@
 #' Use it to display `0.9 (0.85; 0.95)` as `-10% (-15%; -5%)`.
 #' Defaults to `FALSE`.
 #' Implies `sign == TRUE`.
+#' @param si Use SI prefixes for the estimate, lower and upper confidence limit.
+#' Defaults to `FALSE`.
+#' Ignored when `percent == TRUE`.
 #' @export
 #' @importFrom assertthat assert_that is.flag is.number noNA
 #' @importFrom stats plogis qnorm
@@ -60,13 +63,13 @@
 #' format_ci(1, lcl = 1, ucl = 1)
 format_ci <- function(
   estimate, se, lcl, ucl, interval = 0.95, link = c("identity", "log", "logit"),
-  max_digit = 4, percent = FALSE, sign = FALSE, change = FALSE
+  max_digit = 4, percent = FALSE, sign = FALSE, change = FALSE, si = FALSE
 ) {
   link <- match.arg(link)
   assert_that(
-    is.numeric(estimate), noNA(estimate), is.number(max_digit),
+    is.numeric(estimate), noNA(estimate), is.number(max_digit), is.flag(si),
     is.flag(percent), noNA(percent), is.flag(sign), noNA(sign), is.flag(change),
-    noNA(change)
+    noNA(change), noNA(si), noNA(change)
   )
   if (missing(se)) {
     assert_that(
@@ -104,6 +107,18 @@ format_ci <- function(
     estimate <- 100 * estimate
     lcl <- 100 * lcl
     ucl <- 100 * ucl
+    prefix <- rep("", length(estimate))
+  } else if (si) {
+    magnitude <- log10(estimate) %/% 3
+    prefix <- c(
+      "q", "r", "y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T",
+      "P", "E", "Z", "Y", "R", "Q"
+    )[magnitude + 11]
+    lcl <- lcl / 10 ^ (3 * magnitude)
+    ucl <- ucl / 10 ^ (3 * magnitude)
+    estimate <- estimate / 10 ^ (3 * magnitude)
+  } else {
+    prefix <- rep("", length(estimate))
   }
 
   ci_magnitude <- floor(log10(ucl - lcl)) - 2
@@ -119,8 +134,8 @@ format_ci <- function(
   )
   magnitude <- pmax(magnitude, ci_range)
   fmt <- ifelse(
-    magnitude >= -7, sprintf("%%.%if", pmax(0, -magnitude)),
-    sprintf("%%.%ig", signif_digit)
+    magnitude >= -7, sprintf("%%.%if%%4$s", pmax(0, -magnitude)),
+    sprintf("%%.%ig%%4$s", signif_digit)
   )
   if (change || sign) {
     fmt <- gsub("%", "%+", fmt)
@@ -132,6 +147,6 @@ format_ci <- function(
     sprintf("%1$s (%1$s; %1$s)", fmt),
     round(estimate / 10 ^ magnitude) * 10 ^ magnitude,
     round(lcl / 10 ^ magnitude) * 10 ^ magnitude,
-    round(ucl / 10 ^ magnitude) * 10 ^ magnitude
+    round(ucl / 10 ^ magnitude) * 10 ^ magnitude, prefix
   )
 }

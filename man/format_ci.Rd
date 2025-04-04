@@ -14,7 +14,8 @@ format_ci(
   max_digit = 4,
   percent = FALSE,
   sign = FALSE,
-  change = FALSE
+  change = FALSE,
+  si = FALSE
 )
 }
 \arguments{
@@ -51,6 +52,10 @@ Subtract \code{1} after applying the \code{link} and before applying \code{perce
 Use it to display \verb{0.9 (0.85; 0.95)} as \verb{-10\% (-15\%; -5\%)}.
 Defaults to \code{FALSE}.
 Implies \code{sign == TRUE}.}
+
+\item{si}{Use SI prefixes for the estimate, lower and upper confidence limit.
+Defaults to \code{FALSE}.
+Ignored when \code{percent == TRUE}.}
 }
 \description{
 The function rounds the estimate, lower and upper confidence interval to the
